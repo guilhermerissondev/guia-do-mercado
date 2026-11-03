@@ -38,6 +38,18 @@ Implementada em `supabase/migrations/20261103000000_geo.sql`: tabelas normalizad
 - **Base:** P10/P50/P90 por item canônico e região imediata, calculados a partir de `preco_base`.
 - **Fator:** `log(preço digitado / preço base mostrado)` por edição espontânea; item marcado sem edição conta como 1,0 com peso baixo (inicial 0,3). Suavização em direção ao nível acima: `fator = (n·média_local + k·fator_pai) / (n + k)`. Limites iniciais 0,75 a 1,25 e mínimo de 3 usuários distintos.
 
+## Catálogo e casamento (M2)
+
+- **Catálogo canônico** em `collector/catalogo/itens.toml`: itens genéricos com tamanho fixo ("Leite integral 1 L"), regras `termos` / `algum` / `excluir` e `conteudo` ou `granel`. É a fonte; o seed SQL é gerado dele.
+- **Casamento** (`collector/gm/casamento.py`): EAN já conhecido → regras do catálogo (termos, exclusões, tamanho, pacote múltiplo) → desempate por similaridade (`rapidfuzz`). Ambíguo vai para `revisao_casamento`; o passo de LLM entra nesse ponto.
+- **Adaptadores** (`collector/gm/fontes/`): `vtex.py` (região por CEP + busca inteligente) e `osuper.py` (sitemap + GraphQL por loja), com um cliente HTTP comum que identifica o robô e espaça as requisições.
+- **Amostra de validação** (`collector/gm/ferramentas/amostra.py`): coleta real num CEP, grava fixture e gera `docs/revisao-casamentos-m2.md` (cobertura por rede, faixas por item, suspeitos, 50 casamentos para revisão).
+
 ## Modelo de dados
 
-Ver [`plano.md`](plano.md), seção "Modelo de dados". As tabelas de geografia já existem; as demais entram nas etapas M2 a M6.
+Ver [`plano.md`](plano.md), seção "Modelo de dados", com estes ajustes da M2:
+- `produto_rede(rede_id, codigo, nome, marca, ean?, item_canonico_id, casamento_*)` no lugar de `produto(ean, …)`, porque o Condor (OSuper) não informa EAN.
+- `ean_item` guarda EANs confirmados, válidos para todas as redes.
+- `rede(id, nome, plataforma, config)`: rede nova é configuração.
+
+Migrações: `20261103000000_geo.sql` (geografia) e `20261103010000_catalogo.sql` (catálogo, redes, produtos, revisão).

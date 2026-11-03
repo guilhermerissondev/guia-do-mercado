@@ -1,0 +1,19 @@
+[project]
+name = "guia-do-mercado-collector"
+version = "0.1.0"
+description = "Coleta, normalização e casamento de preços do Guia do Mercado"
+requires-python = ">=3.12"
+dependencies = [
+  "httpx>=0.28",
+  "rapidfuzz>=3.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools]
+packages = ["gm"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

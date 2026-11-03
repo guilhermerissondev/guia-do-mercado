@@ -32,3 +32,17 @@ jobs:
             echo "== $f"
             psql -v ON_ERROR_STOP=1 -q -f "$f"
           done
+
+  collector:
+    name: Coletor (Python)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: collector
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: pytest -q

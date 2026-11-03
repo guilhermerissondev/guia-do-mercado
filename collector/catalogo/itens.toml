@@ -1,0 +1,887 @@
+# Catálogo canônico nacional do Guia do Mercado.
+#
+# Cada item é genérico (sem marca) e tem tamanho de embalagem fixo: é o que o
+# usuário põe na lista ("leite integral 1 L"). As faixas econômico/típico/premium
+# saem das marcas diferentes que casam com o mesmo item.
+#
+# Regras de casamento (aplicadas ao nome normalizado: minúsculas, sem acento):
+#   termos   : todos precisam aparecer (palavra ou expressão inteira)
+#   algum    : pelo menos um precisa aparecer (opcional)
+#   excluir  : nenhum pode aparecer
+#   comeca_com : o nome do produto precisa começar por uma destas expressões (evita
+#                "salgadinho sabor cebola" casar com cebola); obrigatório para granel
+#   conteudo : tamanho da embalagem ("1l", "500g", "12un"); omitido com granel = true
+#   granel   : vendido por kg; o preço é normalizado para 1 kg. Aceita produto sem tamanho
+#              ou com tamanho em kg (caixa de atacado de 19 kg vira preço por kg)
+#   permite_unidades : aceita "c/10" junto do tamanho (ex.: saco de lixo 50 L com 10 un);
+#                      sem isso, tamanho + contagem > 1 é tratado como pacote múltiplo e rejeitado
+#
+# Para incluir um item, copie um parecido e ajuste. Rode os testes do coletor depois.
+
+# ---------------------------------------------------------------- categorias
+
+[[categoria]]
+id = "graos"
+nome = "Grãos e cereais"
+
+[[categoria]]
+id = "massas"
+nome = "Massas"
+
+[[categoria]]
+id = "oleos"
+nome = "Óleos e azeites"
+
+[[categoria]]
+id = "acucar-cafe"
+nome = "Açúcar, café e achocolatados"
+
+[[categoria]]
+id = "farinhas"
+nome = "Farinhas e fermentos"
+
+[[categoria]]
+id = "molhos-conservas"
+nome = "Molhos, temperos e conservas"
+
+[[categoria]]
+id = "laticinios"
+nome = "Leite e laticínios"
+
+[[categoria]]
+id = "frios"
+nome = "Frios e embutidos"
+
+[[categoria]]
+id = "padaria-matinais"
+nome = "Padaria e matinais"
+
+[[categoria]]
+id = "bebidas"
+nome = "Bebidas"
+
+[[categoria]]
+id = "carnes"
+nome = "Carnes e ovos"
+
+[[categoria]]
+id = "hortifruti"
+nome = "Hortifrúti"
+
+[[categoria]]
+id = "limpeza"
+nome = "Limpeza"
+
+[[categoria]]
+id = "higiene"
+nome = "Higiene pessoal"
+
+# ---------------------------------------------------------------- grãos
+
+[[item]]
+id = "arroz-branco-5kg"
+nome = "Arroz branco tipo 1 5 kg"
+categoria = "graos"
+conteudo = "5kg"
+termos = ["arroz"]
+excluir = ["parboilizado", "integral", "arboreo", "japones", "cateto", "negro", "vermelho", "basmati", "jasmine", "risoto", "pronto", "instantaneo", "biscoito", "farinha", "oriental", "sushi"]
+
+[[item]]
+id = "arroz-branco-1kg"
+nome = "Arroz branco tipo 1 1 kg"
+categoria = "graos"
+conteudo = "1kg"
+termos = ["arroz"]
+excluir = ["parboilizado", "integral", "arboreo", "japones", "cateto", "negro", "vermelho", "basmati", "jasmine", "risoto", "pronto", "instantaneo", "biscoito", "farinha", "oriental", "sushi"]
+
+[[item]]
+id = "arroz-parboilizado-5kg"
+nome = "Arroz parboilizado 5 kg"
+categoria = "graos"
+conteudo = "5kg"
+termos = ["arroz", "parboilizado"]
+excluir = ["integral"]
+
+[[item]]
+id = "feijao-carioca-1kg"
+nome = "Feijão carioca 1 kg"
+categoria = "graos"
+conteudo = "1kg"
+termos = ["feijao", "carioca"]
+excluir = ["pronto", "cozido", "lata", "caldo", "tempero"]
+
+[[item]]
+id = "feijao-preto-1kg"
+nome = "Feijão preto 1 kg"
+categoria = "graos"
+conteudo = "1kg"
+termos = ["feijao", "preto"]
+excluir = ["pronto", "cozido", "lata", "feijoada", "caldo", "tempero"]
+
+[[item]]
+id = "lentilha-500g"
+nome = "Lentilha 500 g"
+categoria = "graos"
+conteudo = "500g"
+termos = ["lentilha"]
+excluir = ["pronta", "lata", "salada"]
+
+[[item]]
+id = "aveia-flocos-500g"
+nome = "Aveia em flocos 500 g"
+categoria = "graos"
+conteudo = "500g"
+termos = ["aveia"]
+algum = ["flocos", "floco"]
+excluir = ["barra", "biscoito", "bebida", "mingau"]
+
+# ---------------------------------------------------------------- massas
+
+[[item]]
+id = "macarrao-espaguete-500g"
+nome = "Macarrão espaguete 500 g"
+categoria = "massas"
+conteudo = "500g"
+termos = []
+algum = ["espaguete", "spaghetti", "espagueti"]
+excluir = ["integral", "instantaneo", "lamen", "arroz", "sem gluten", "molho"]
+
+[[item]]
+id = "macarrao-parafuso-500g"
+nome = "Macarrão parafuso 500 g"
+categoria = "massas"
+conteudo = "500g"
+termos = []
+algum = ["parafuso", "fusilli"]
+excluir = ["integral", "sem gluten"]
+
+[[item]]
+id = "macarrao-penne-500g"
+nome = "Macarrão penne 500 g"
+categoria = "massas"
+conteudo = "500g"
+termos = ["penne"]
+excluir = ["integral", "sem gluten"]
+
+[[item]]
+id = "macarrao-instantaneo-85g"
+nome = "Macarrão instantâneo 85 g"
+categoria = "massas"
+conteudo = "85g"
+termos = []
+algum = ["instantaneo", "lamen", "miojo"]
+excluir = ["copo", "cup"]
+
+# ---------------------------------------------------------------- óleos
+
+[[item]]
+id = "oleo-soja-900ml"
+nome = "Óleo de soja 900 ml"
+categoria = "oleos"
+conteudo = "900ml"
+termos = ["oleo", "soja"]
+excluir = ["girassol", "milho", "canola", "algodao", "composto", "misto", "coco", "gergelim"]
+
+[[item]]
+id = "azeite-extra-virgem-500ml"
+nome = "Azeite de oliva extra virgem 500 ml"
+categoria = "oleos"
+conteudo = "500ml"
+termos = ["azeite", "extra virgem"]
+excluir = ["composto", "tempero", "trufado", "spray"]
+
+[[item]]
+id = "azeite-extra-virgem-250ml"
+nome = "Azeite de oliva extra virgem 250 ml"
+categoria = "oleos"
+conteudo = "250ml"
+termos = ["azeite", "extra virgem"]
+excluir = ["composto", "tempero", "trufado", "spray"]
+
+# ---------------------------------------------------------------- açúcar, café
+
+[[item]]
+id = "acucar-refinado-1kg"
+nome = "Açúcar refinado 1 kg"
+categoria = "acucar-cafe"
+conteudo = "1kg"
+termos = ["acucar", "refinado"]
+excluir = ["confeiteiro", "light", "organico", "mascavo", "demerara"]
+
+[[item]]
+id = "acucar-cristal-5kg"
+nome = "Açúcar cristal 5 kg"
+categoria = "acucar-cafe"
+conteudo = "5kg"
+termos = ["acucar", "cristal"]
+excluir = ["organico"]
+
+[[item]]
+id = "acucar-cristal-1kg"
+nome = "Açúcar cristal 1 kg"
+categoria = "acucar-cafe"
+conteudo = "1kg"
+termos = ["acucar", "cristal"]
+excluir = ["organico"]
+
+[[item]]
+id = "cafe-torrado-moido-500g"
+nome = "Café torrado e moído 500 g"
+categoria = "acucar-cafe"
+conteudo = "500g"
+comeca_com = ["cafe"]
+termos = ["cafe"]
+excluir = ["capsula", "capsulas", "graos", "grao", "soluvel", "descafeinado", "cappuccino", "filtro de papel", "filtro papel", "biscoito", "achocolatado", "bebida", "pronto"]
+
+[[item]]
+id = "cafe-torrado-moido-250g"
+nome = "Café torrado e moído 250 g"
+categoria = "acucar-cafe"
+conteudo = "250g"
+comeca_com = ["cafe"]
+termos = ["cafe"]
+excluir = ["capsula", "capsulas", "graos", "grao", "soluvel", "descafeinado", "cappuccino", "filtro de papel", "filtro papel", "biscoito", "achocolatado", "bebida", "pronto"]
+
+[[item]]
+id = "achocolatado-po-400g"
+nome = "Achocolatado em pó 400 g"
+categoria = "acucar-cafe"
+conteudo = "400g"
+termos = ["achocolatado"]
+excluir = ["liquido", "pronto", "bebida", "caixinha", "zero", "diet"]
+
+[[item]]
+id = "filtro-cafe-103-30un"
+nome = "Filtro de papel para café 103 (30 un)"
+categoria = "acucar-cafe"
+conteudo = "30un"
+termos = ["filtro", "103"]
+
+# ---------------------------------------------------------------- farinhas
+
+[[item]]
+id = "farinha-trigo-1kg"
+nome = "Farinha de trigo 1 kg"
+categoria = "farinhas"
+conteudo = "1kg"
+termos = ["farinha", "trigo"]
+excluir = ["integral", "pastel", "pizza", "bolo", "mistura", "temperada", "empanar", "com fermento"]
+
+[[item]]
+id = "farinha-mandioca-500g"
+nome = "Farinha de mandioca 500 g"
+categoria = "farinhas"
+conteudo = "500g"
+termos = ["farinha", "mandioca"]
+excluir = ["farofa", "temperada", "pronta"]
+
+[[item]]
+id = "fuba-1kg"
+nome = "Fubá 1 kg"
+categoria = "farinhas"
+conteudo = "1kg"
+termos = ["fuba"]
+excluir = ["bolo", "mistura"]
+
+[[item]]
+id = "fermento-quimico-100g"
+nome = "Fermento químico em pó 100 g"
+categoria = "farinhas"
+conteudo = "100g"
+termos = ["fermento"]
+excluir = ["biologico", "seco", "fresco"]
+
+# ---------------------------------------------------------------- molhos e conservas
+
+[[item]]
+id = "molho-tomate-300g"
+nome = "Molho de tomate sachê 300 g"
+categoria = "molhos-conservas"
+conteudo = "300g"
+termos = ["molho", "tomate"]
+excluir = ["ketchup", "pizza pronta"]
+
+[[item]]
+id = "extrato-tomate-300g"
+nome = "Extrato de tomate 300 g"
+categoria = "molhos-conservas"
+conteudo = "300g"
+termos = ["extrato", "tomate"]
+
+[[item]]
+id = "sal-refinado-1kg"
+nome = "Sal refinado 1 kg"
+categoria = "molhos-conservas"
+conteudo = "1kg"
+comeca_com = ["sal"]
+termos = ["sal"]
+excluir = ["grosso", "rosa", "marinho", "light", "temperado", "parrilla", "biscoito", "salgadinho", "salsicha", "salame", "salada"]
+
+[[item]]
+id = "milho-verde-lata-170g"
+nome = "Milho verde em conserva 170 g"
+categoria = "molhos-conservas"
+conteudo = "170g"
+termos = ["milho", "verde"]
+excluir = ["creme", "pipoca", "farinha", "cuscuz"]
+
+[[item]]
+id = "ervilha-lata-170g"
+nome = "Ervilha em conserva 170 g"
+categoria = "molhos-conservas"
+conteudo = "170g"
+termos = ["ervilha"]
+excluir = ["seca", "partida", "proteina"]
+
+[[item]]
+id = "atum-lata-170g"
+nome = "Atum em lata 170 g"
+categoria = "molhos-conservas"
+conteudo = "170g"
+termos = ["atum"]
+excluir = ["pate", "patê", "racao", "gato"]
+
+[[item]]
+id = "sardinha-lata-125g"
+nome = "Sardinha em lata 125 g"
+categoria = "molhos-conservas"
+conteudo = "125g"
+termos = ["sardinha"]
+excluir = ["racao", "gato"]
+
+[[item]]
+id = "maionese-500g"
+nome = "Maionese 500 g"
+categoria = "molhos-conservas"
+conteudo = "500g"
+termos = ["maionese"]
+excluir = ["vegana", "temperada", "light"]
+
+[[item]]
+id = "ketchup-400g"
+nome = "Ketchup 400 g"
+categoria = "molhos-conservas"
+conteudo = "400g"
+termos = ["ketchup"]
+
+# ---------------------------------------------------------------- laticínios
+
+[[item]]
+id = "leite-integral-1l"
+nome = "Leite integral 1 L"
+categoria = "laticinios"
+conteudo = "1l"
+termos = ["leite", "integral"]
+excluir = ["condensado", "po", "fermentado", "zero lactose", "sem lactose", "desnatado", "semidesnatado", "achocolatado", "coco", "vegetal", "amendoas", "aveia", "soja", "creme", "doce de leite", "biscoito", "chocolate", "a2", "cabra", "organico"]
+
+[[item]]
+id = "leite-desnatado-1l"
+nome = "Leite desnatado 1 L"
+categoria = "laticinios"
+conteudo = "1l"
+termos = ["leite", "desnatado"]
+excluir = ["semidesnatado", "condensado", "po", "fermentado", "zero lactose", "sem lactose"]
+
+[[item]]
+id = "leite-semidesnatado-1l"
+nome = "Leite semidesnatado 1 L"
+categoria = "laticinios"
+conteudo = "1l"
+termos = ["leite", "semidesnatado"]
+excluir = ["condensado", "po", "fermentado", "zero lactose", "sem lactose"]
+
+[[item]]
+id = "leite-zero-lactose-1l"
+nome = "Leite zero lactose 1 L"
+categoria = "laticinios"
+conteudo = "1l"
+termos = ["leite"]
+algum = ["zero lactose", "sem lactose"]
+excluir = ["condensado", "po", "fermentado", "creme"]
+
+[[item]]
+id = "leite-condensado-395g"
+nome = "Leite condensado 395 g"
+categoria = "laticinios"
+conteudo = "395g"
+termos = ["leite", "condensado"]
+excluir = ["cozido", "zero lactose"]
+
+[[item]]
+id = "creme-leite-200g"
+nome = "Creme de leite 200 g"
+categoria = "laticinios"
+conteudo = "200g"
+termos = ["creme de leite"]
+excluir = ["fresco", "zero lactose", "culinario vegetal"]
+
+[[item]]
+id = "manteiga-200g"
+nome = "Manteiga 200 g"
+categoria = "laticinios"
+conteudo = "200g"
+termos = ["manteiga"]
+excluir = ["amendoim", "cacau", "garrafa", "ghee", "biscoito"]
+
+[[item]]
+id = "margarina-500g"
+nome = "Margarina 500 g"
+categoria = "laticinios"
+conteudo = "500g"
+termos = ["margarina"]
+
+[[item]]
+id = "requeijao-200g"
+nome = "Requeijão cremoso 200 g"
+categoria = "laticinios"
+conteudo = "200g"
+termos = ["requeijao"]
+excluir = ["zero lactose", "light", "bisnaga", "culinario"]
+
+[[item]]
+id = "iogurte-natural-170g"
+nome = "Iogurte natural 170 g"
+categoria = "laticinios"
+conteudo = "170g"
+termos = ["iogurte", "natural"]
+excluir = ["grego", "zero lactose", "desnatado"]
+
+[[item]]
+id = "queijo-mussarela-fatiado-150g"
+nome = "Queijo muçarela fatiado 150 g"
+categoria = "laticinios"
+conteudo = "150g"
+termos = ["queijo"]
+algum = ["mussarela", "mucarela", "muzzarela", "mozzarella"]
+excluir = ["ralado", "bufala", "zero lactose", "palito"]
+
+[[item]]
+id = "queijo-parmesao-ralado-50g"
+nome = "Queijo parmesão ralado 50 g"
+categoria = "laticinios"
+conteudo = "50g"
+termos = ["queijo", "ralado"]
+algum = ["parmesao", "parmesano"]
+
+# ---------------------------------------------------------------- frios
+
+[[item]]
+id = "presunto-fatiado-200g"
+nome = "Presunto fatiado 200 g"
+categoria = "frios"
+conteudo = "200g"
+termos = ["presunto"]
+excluir = ["parma", "cru", "peru", "tender"]
+
+[[item]]
+id = "salsicha-500g"
+nome = "Salsicha 500 g"
+categoria = "frios"
+conteudo = "500g"
+termos = ["salsicha"]
+excluir = ["vegana", "lata", "conserva"]
+
+[[item]]
+id = "linguica-toscana-1kg"
+nome = "Linguiça toscana 1 kg"
+categoria = "frios"
+conteudo = "1kg"
+termos = ["linguica", "toscana"]
+
+[[item]]
+id = "mortadela-fatiada-200g"
+nome = "Mortadela fatiada 200 g"
+categoria = "frios"
+conteudo = "200g"
+termos = ["mortadela"]
+
+# ---------------------------------------------------------------- padaria e matinais
+
+[[item]]
+id = "pao-forma-tradicional-500g"
+nome = "Pão de forma tradicional 500 g"
+categoria = "padaria-matinais"
+conteudo = "500g"
+termos = ["pao", "forma"]
+excluir = ["integral", "sem gluten", "zero", "multigraos", "graos", "brioche", "australiano", "castanha", "aveia", "sem casca"]
+
+[[item]]
+id = "biscoito-cream-cracker-200g"
+nome = "Biscoito cream cracker 200 g"
+categoria = "padaria-matinais"
+conteudo = "200g"
+termos = []
+algum = ["cream cracker", "agua e sal"]
+excluir = ["integral", "gergelim"]
+
+[[item]]
+id = "biscoito-maizena-200g"
+nome = "Biscoito maisena 200 g"
+categoria = "padaria-matinais"
+conteudo = "200g"
+termos = []
+algum = ["maizena", "maisena"]
+
+[[item]]
+id = "biscoito-recheado-chocolate-130g"
+nome = "Biscoito recheado de chocolate 130 g"
+categoria = "padaria-matinais"
+conteudo = "130g"
+termos = ["biscoito", "recheado", "chocolate"]
+excluir = ["morango", "baunilha", "limao", "coco"]
+
+[[item]]
+id = "torrada-tradicional-160g"
+nome = "Torrada tradicional 160 g"
+categoria = "padaria-matinais"
+conteudo = "160g"
+termos = ["torrada"]
+excluir = ["integral", "light", "alho"]
+
+[[item]]
+id = "cereal-matinal-flocos-milho-300g"
+nome = "Cereal matinal flocos de milho 300 g"
+categoria = "padaria-matinais"
+conteudo = "300g"
+termos = ["cereal"]
+algum = ["flocos de milho", "corn flakes", "sucrilhos"]
+excluir = ["barra"]
+
+# ---------------------------------------------------------------- bebidas
+
+[[item]]
+id = "refrigerante-cola-2l"
+nome = "Refrigerante de cola 2 L"
+categoria = "bebidas"
+conteudo = "2l"
+termos = ["refrigerante"]
+algum = ["coca cola", "cola", "pepsi"]
+excluir = ["zero", "sem acucar", "light", "diet", "cherry", "vanilla", "stevia", "fanta", "guarana", "laranja"]
+
+[[item]]
+id = "refrigerante-guarana-2l"
+nome = "Refrigerante guaraná 2 L"
+categoria = "bebidas"
+conteudo = "2l"
+termos = ["guarana"]
+excluir = ["zero", "sem acucar", "diet", "po", "xarope"]
+
+[[item]]
+id = "agua-mineral-sem-gas-1-5l"
+nome = "Água mineral sem gás 1,5 L"
+categoria = "bebidas"
+conteudo = "1.5l"
+termos = ["agua", "mineral"]
+excluir = ["com gas", "gaseificada", "saborizada", "sabor", "coco", "tonica"]
+
+[[item]]
+id = "suco-uva-integral-1l"
+nome = "Suco de uva integral 1 L"
+categoria = "bebidas"
+conteudo = "1l"
+termos = ["suco", "uva", "integral"]
+excluir = ["po", "nectar"]
+
+[[item]]
+id = "suco-po-25g"
+nome = "Suco em pó 25 g"
+categoria = "bebidas"
+conteudo = "25g"
+termos = ["po"]
+algum = ["refresco", "suco"]
+
+[[item]]
+id = "cerveja-lata-350ml"
+nome = "Cerveja lata 350 ml"
+categoria = "bebidas"
+conteudo = "350ml"
+termos = ["cerveja"]
+excluir = ["sem alcool", "zero alcool", "0.0", "copo", "kit"]
+
+# ---------------------------------------------------------------- carnes e ovos
+
+[[item]]
+id = "ovos-brancos-12un"
+nome = "Ovos brancos (dúzia)"
+categoria = "carnes"
+conteudo = "12un"
+termos = []
+algum = ["ovo", "ovos"]
+excluir = ["codorna", "chocolate", "pascoa", "caipira", "vermelho", "vermelhos", "liquido", "po", "massa"]
+
+[[item]]
+id = "peito-frango-kg"
+nome = "Peito de frango (kg)"
+categoria = "carnes"
+granel = true
+comeca_com = ["peito"]
+termos = ["peito", "frango"]
+excluir = ["empanado", "defumado", "temperado", "file", "fatiado", "desfiado", "lata"]
+
+[[item]]
+id = "coxa-sobrecoxa-frango-kg"
+nome = "Coxa e sobrecoxa de frango (kg)"
+categoria = "carnes"
+granel = true
+comeca_com = ["coxa e sobrecoxa", "coxa sobrecoxa", "sobrecoxa", "coxa"]
+termos = ["frango", "sobrecoxa"]
+excluir = ["empanado", "temperado", "desossada", "assada"]
+
+[[item]]
+id = "carne-moida-kg"
+nome = "Carne moída bovina (kg)"
+categoria = "carnes"
+granel = true
+comeca_com = ["carne moida", "carne bovina moida", "patinho moido", "acem moido", "moida"]
+termos = ["moida"]
+algum = ["carne", "patinho", "acem", "bovina"]
+excluir = ["frango", "suina", "soja", "vegetal"]
+
+[[item]]
+id = "alcatra-kg"
+nome = "Alcatra bovina (kg)"
+categoria = "carnes"
+granel = true
+comeca_com = ["alcatra", "bife de alcatra", "carne bovina alcatra"]
+termos = ["alcatra"]
+excluir = ["temperada", "espeto", "picanha"]
+
+[[item]]
+id = "acem-kg"
+nome = "Acém bovino (kg)"
+categoria = "carnes"
+granel = true
+comeca_com = ["acem", "carne bovina acem"]
+termos = ["acem"]
+excluir = ["moido", "moida", "temperado"]
+
+[[item]]
+id = "costela-bovina-kg"
+nome = "Costela bovina (kg)"
+categoria = "carnes"
+granel = true
+comeca_com = ["costela", "carne bovina costela"]
+termos = ["costela"]
+algum = ["bovina", "boi", "minga", "janela"]
+excluir = ["suina", "temperada", "barbecue", "linguica"]
+
+[[item]]
+id = "bisteca-suina-kg"
+nome = "Bisteca suína (kg)"
+categoria = "carnes"
+granel = true
+comeca_com = ["bisteca"]
+termos = ["bisteca"]
+excluir = ["temperada"]
+
+# ---------------------------------------------------------------- hortifrúti
+
+[[item]]
+id = "banana-prata-kg"
+nome = "Banana prata (kg)"
+categoria = "hortifruti"
+granel = true
+comeca_com = ["banana"]
+termos = ["banana", "prata"]
+excluir = ["chips", "passa", "doce", "desidratada"]
+
+[[item]]
+id = "maca-gala-kg"
+nome = "Maçã gala (kg)"
+categoria = "hortifruti"
+granel = true
+comeca_com = ["maca"]
+termos = ["maca", "gala"]
+excluir = ["suco", "desidratada", "chips"]
+
+[[item]]
+id = "laranja-pera-kg"
+nome = "Laranja pera (kg)"
+categoria = "hortifruti"
+granel = true
+comeca_com = ["laranja"]
+termos = ["laranja", "pera"]
+excluir = ["suco", "geleia"]
+
+[[item]]
+id = "tomate-kg"
+nome = "Tomate (kg)"
+categoria = "hortifruti"
+granel = true
+comeca_com = ["tomate"]
+termos = ["tomate"]
+excluir = ["molho", "extrato", "seco", "pelado", "cereja", "sweet", "grape", "ketchup", "sache", "lata"]
+
+[[item]]
+id = "cebola-kg"
+nome = "Cebola (kg)"
+categoria = "hortifruti"
+granel = true
+comeca_com = ["cebola"]
+termos = ["cebola"]
+excluir = ["roxa", "frita", "creme", "sopa", "desidratada", "conserva", "po"]
+
+[[item]]
+id = "batata-kg"
+nome = "Batata (kg)"
+categoria = "hortifruti"
+granel = true
+comeca_com = ["batata"]
+termos = ["batata"]
+excluir = ["doce", "palha", "chips", "frita", "congelada", "pre frita", "baroa", "salsa", "smiles", "lata"]
+
+[[item]]
+id = "alho-kg"
+nome = "Alho (kg)"
+categoria = "hortifruti"
+granel = true
+comeca_com = ["alho"]
+termos = ["alho"]
+excluir = ["frito", "pasta", "triturado", "po", "desidratado", "torrada", "pao", "tempero", "sal", "poro"]
+
+[[item]]
+id = "cenoura-kg"
+nome = "Cenoura (kg)"
+categoria = "hortifruti"
+granel = true
+comeca_com = ["cenoura"]
+termos = ["cenoura"]
+excluir = ["ralada", "baby", "bolo", "suco", "sopa"]
+
+# ---------------------------------------------------------------- limpeza
+
+[[item]]
+id = "detergente-liquido-500ml"
+nome = "Detergente líquido 500 ml"
+categoria = "limpeza"
+conteudo = "500ml"
+termos = ["detergente"]
+excluir = ["maquina", "lava loucas", "lava-loucas", "po", "roupa", "pastilha", "refil"]
+
+[[item]]
+id = "sabao-po-1-6kg"
+nome = "Sabão em pó 1,6 kg"
+categoria = "limpeza"
+conteudo = "1.6kg"
+termos = ["po"]
+algum = ["sabao", "lava roupas", "lava-roupas"]
+excluir = ["liquido", "barra", "coco"]
+
+[[item]]
+id = "sabao-liquido-roupas-3l"
+nome = "Sabão líquido para roupas 3 L"
+categoria = "limpeza"
+conteudo = "3l"
+termos = ["liquido"]
+algum = ["sabao", "lava roupas", "lava-roupas"]
+excluir = ["louca", "loucas", "maos", "intimo"]
+
+[[item]]
+id = "amaciante-2l"
+nome = "Amaciante de roupas 2 L"
+categoria = "limpeza"
+conteudo = "2l"
+termos = ["amaciante"]
+excluir = ["concentrado", "refil"]
+
+[[item]]
+id = "agua-sanitaria-2l"
+nome = "Água sanitária 2 L"
+categoria = "limpeza"
+conteudo = "2l"
+termos = ["sanitaria"]
+excluir = ["gel"]
+
+[[item]]
+id = "desinfetante-2l"
+nome = "Desinfetante 2 L"
+categoria = "limpeza"
+conteudo = "2l"
+termos = ["desinfetante"]
+excluir = ["refil", "spray", "aerosol", "lenco"]
+
+[[item]]
+id = "esponja-multiuso-3un"
+nome = "Esponja de louça multiuso (3 un)"
+categoria = "limpeza"
+conteudo = "3un"
+termos = ["esponja"]
+excluir = ["aco", "banho", "maquiagem", "inox"]
+
+[[item]]
+id = "papel-toalha-2un"
+nome = "Papel toalha (2 rolos)"
+categoria = "limpeza"
+conteudo = "2un"
+termos = ["papel", "toalha"]
+excluir = ["umedecido", "maos interfolha", "interfolhado"]
+
+[[item]]
+id = "saco-lixo-50l"
+nome = "Saco de lixo 50 L"
+categoria = "limpeza"
+conteudo = "50l"
+permite_unidades = true
+termos = ["saco"]
+algum = ["lixo"]
+excluir = ["pet", "fralda"]
+
+# ---------------------------------------------------------------- higiene
+
+[[item]]
+id = "papel-higienico-12un"
+nome = "Papel higiênico folha dupla (12 rolos)"
+categoria = "higiene"
+conteudo = "12un"
+termos = ["papel", "higienico"]
+excluir = ["umedecido", "folha simples", "folha tripla", "lenco"]
+
+[[item]]
+id = "creme-dental-90g"
+nome = "Creme dental 90 g"
+categoria = "higiene"
+conteudo = "90g"
+termos = []
+algum = ["creme dental", "pasta de dente", "gel dental"]
+excluir = ["infantil", "kids", "escova", "kit"]
+
+[[item]]
+id = "sabonete-barra-85g"
+nome = "Sabonete em barra 85 g"
+categoria = "higiene"
+conteudo = "85g"
+termos = ["sabonete"]
+excluir = ["liquido", "intimo", "infantil", "refil", "facial"]
+
+[[item]]
+id = "shampoo-350ml"
+nome = "Shampoo 350 ml"
+categoria = "higiene"
+conteudo = "350ml"
+termos = ["shampoo"]
+excluir = ["condicionador", "kit", "infantil", "seco", "pet", "cachorro"]
+
+[[item]]
+id = "condicionador-350ml"
+nome = "Condicionador 350 ml"
+categoria = "higiene"
+conteudo = "350ml"
+termos = ["condicionador"]
+excluir = ["shampoo", "kit", "infantil", "leave"]
+
+[[item]]
+id = "desodorante-aerosol-150ml"
+nome = "Desodorante aerossol 150 ml"
+categoria = "higiene"
+conteudo = "150ml"
+termos = ["desodorante"]
+algum = ["aerosol", "aerossol", "aero"]
+excluir = ["roll", "creme", "bastao", "pes", "kit"]
+
+[[item]]
+id = "absorvente-8un"
+nome = "Absorvente com abas (8 un)"
+categoria = "higiene"
+conteudo = "8un"
+termos = ["absorvente"]
+excluir = ["interno", "protetor diario", "noturno"]

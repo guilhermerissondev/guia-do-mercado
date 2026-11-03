@@ -27,7 +27,9 @@ A cada checkpoint, preencher a seção da etapa: o que foi conferido, o resultad
 
 ### M2. Catálogo e casamentos
 
-- [ ] Revisão de 50 casamentos produto → item canônico.
+- [x] Amostra real coletada no CEP 87013-000 (Atacadão, Angeloni, Condor loja Av. Paraná): 2.253 produtos, ~1.180 casados com o catálogo.
+- [x] Tester revisou os 50 casamentos em `revisao-casamentos-m2.md`: **50 de 50 corretos** (2026-11-03).
+- [ ] Tester confere se as faixas (econômico / típico / premium) de 10 itens que compra fazem sentido.
 
 ### M3. Preço base
 

@@ -8,3 +8,5 @@ __pycache__/
 .supabase/
 supabase/.temp/
 .DS_Store
+*.egg-info/
+build/
