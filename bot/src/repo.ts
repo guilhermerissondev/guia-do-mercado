@@ -128,6 +128,7 @@ export class Repo {
       p10: Number(e.p10), p50: Number(e.p50), p90: Number(e.p90), nivel: e.nivel,
       nomeLocal: NOME_NIVEL[e.nivel as keyof typeof NOME_NIVEL](e.nome_local),
       atualizadoEm: new Date(e.atualizado_em),
+      fator: Number(e.fator ?? 1),
     };
   }
 
@@ -172,7 +173,8 @@ export class Repo {
       linha = {
         ...base, item_canonico_id: n.item.id, nome_exibicao: n.item.nome, incerto: n.incerto,
         faixa_p10: n.faixa?.p10 ?? null, faixa_p50: n.faixa?.p50 ?? null, faixa_p90: n.faixa?.p90 ?? null,
-        perfil: n.faixa ? "tipico" : null, preco_estimado: n.faixa?.p50 ?? null, etapa: "pronto",
+        perfil: n.faixa ? "tipico" : null, preco_estimado: n.faixa?.p50 ?? null, fator_aplicado: n.faixa?.fator ?? 1,
+        etapa: "pronto",
       };
     } else if (n.tipo === "livre") {
       linha = { ...base, nome_exibicao: n.texto, etapa: "pronto" };
@@ -197,6 +199,7 @@ export class Repo {
         faixa_p90 = ${catalogo ? n.faixa?.p90 ?? null : null},
         perfil = ${catalogo && n.faixa ? "tipico" : null},
         preco_estimado = ${catalogo ? n.faixa?.p50 ?? null : null},
+        fator_aplicado = ${catalogo ? n.faixa?.fator ?? 1 : 1},
         correcao = ${n.tipo === "correcao" ? n.correcao : null},
         etapa = ${n.tipo === "correcao" ? "confirmar_correcao" : "pronto"}
         from lista l
@@ -311,6 +314,19 @@ export class Repo {
   /** Descarta correções ainda sem resposta. */
   async removerPendentes(listaId: number): Promise<void> {
     await this.sql`delete from lista_item where lista_id = ${listaId} and etapa <> 'pronto'`;
+  }
+
+  /**
+   * Compra finalizada: os itens pegos viram ajustes de preço da região (M5) e os fatores são recalculados.
+   * Devolve quantos preços corrigidos pelo usuário entraram.
+   */
+  async aprenderComCompra(listaId: number): Promise<number> {
+    await this.sql`select registrar_ajustes(${listaId})`;
+    await this.sql`select recalcular_fatores()`;
+    const [r] = await this.sql`
+      select count(*)::int as n from ajuste_usuario a join lista_item li on li.id = a.lista_item_id
+       where li.lista_id = ${listaId} and a.origem = 'edicao'`;
+    return Number(r!.n);
   }
 
   async apagarUsuario(telegramId: number): Promise<void> {

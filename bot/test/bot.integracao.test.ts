@@ -173,6 +173,19 @@ describe.skipIf(!URL_DB)("conversa com o bot", () => {
     expect(textos(r)[0]).toContain("Previsão final: *R$ 45,20*"); // + 11,50 do frango
   });
 
+  it("🧾 finalizar transforma os preços corrigidos em ajustes da região (M5)", async () => {
+    const i = await itens();
+    const r = await tocar("x:finalizar");
+    expect(textos(r)[0]).toContain("O preço que você corrigiu ajuda");
+    const aj = await sql`select origem, preco_referencia, preco_usuario from ajuste_usuario
+                          where telegram_id = ${USUARIO} order by origem`;
+    // arroz: econômico 19,20, pago 21,90 (corrigido); leite: marcado sem correção (confirmado)
+    expect(aj.map((a) => a.origem)).toEqual(["confirmado", "edicao"]);
+    expect(Number(aj[1]!.preco_referencia)).toBe(19.2);
+    expect(Number(aj[1]!.preco_usuario)).toBe(21.9);
+    void i;
+  });
+
   it("ignora atualização repetida do Telegram", async () => {
     const id = updateId++;
     expect((await enviar("feijão", id)).length).toBeGreaterThan(0);

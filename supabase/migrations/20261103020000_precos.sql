@@ -169,6 +169,7 @@ declare
 begin
   -- Vários workers de coleta terminam em paralelo: um recálculo por vez
   perform pg_advisory_xact_lock(hashtext('recalcular_estat_preco'));
+  drop table if exists _obs, _niveis;  -- pode rodar mais de uma vez na mesma transação
 
   create temp table _obs on commit drop as
   select distinct on (o.rede_id, o.codigo, o.regiao_imediata)

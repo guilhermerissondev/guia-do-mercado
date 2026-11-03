@@ -306,9 +306,13 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
     const lista = await repo.listaAberta(uid(ctx));
     const t = totais(await repo.itensDaLista(lista.id));
     await repo.finalizarLista(uid(ctx));
+    const corrigidos = await repo.aprenderComCompra(lista.id);
+    const obrigado = corrigidos
+      ? `\n\n💡 ${corrigidos === 1 ? "O preço que você corrigiu ajuda" : `Os ${corrigidos} preços que você corrigiu ajudam`} a deixar as estimativas da sua região mais certas\\.`
+      : "";
     await ctx.reply(
       `🧾 Compra finalizada\\.\n\nEstimado: ${esc(brl(t.estimado))}\nNo carrinho: *${esc(brl(t.carrinho))}*\n` +
-        `Itens pegos: ${t.marcados} de ${t.total}\n\nPara a próxima, é só me mandar os itens\\.`,
+        `Itens pegos: ${t.marcados} de ${t.total}${obrigado}\n\nPara a próxima, é só me mandar os itens\\.`,
       MD,
     );
   });

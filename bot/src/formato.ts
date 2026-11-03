@@ -26,6 +26,7 @@ export interface Faixa {
   nivel: "imediata" | "intermediaria" | "uf" | "brasil";
   nomeLocal: string; // ex.: "região de Maringá"
   atualizadoEm: Date;
+  fator: number; // ajuste aprendido com os preços dos usuários (1 = sem ajuste); já aplicado em p10/p50/p90
 }
 
 export function brl(v: number): string {

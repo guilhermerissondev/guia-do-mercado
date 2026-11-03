@@ -32,10 +32,8 @@ Requer Docker.
 
 ```bash
 tools/test-db.sh                       # Postgres descartável: migrações, seeds e testes SQL
-tools/dev-db.sh                        # Postgres de desenvolvimento persistente (porta 54329)
-export DATABASE_URL=postgresql://postgres:dev@localhost:54329/postgres
-(cd collector && .venv/bin/pytest -q)  # coletor (integração usa DATABASE_URL)
-(cd bot && npm test)                   # bot (integração usa DATABASE_URL)
+tools/dev-db.sh                        # Postgres de desenvolvimento persistente (porta 54329), com os preços reais
+tools/test-integracao.sh               # coletor e bot contra um Postgres descartável (nunca o de desenvolvimento)
 ```
 
 Para criar e rodar o bot: [`docs/criar-bot-telegram.md`](docs/criar-bot-telegram.md).
