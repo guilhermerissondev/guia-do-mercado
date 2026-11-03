@@ -24,15 +24,16 @@ export interface Lista {
   nome: string;
 }
 
-export interface ItemPendente {
-  id: number;
-  textoOriginal: string;
-  quantidade: number;
-  itemCanonicoId: string | null;
-  nomeExibicao: string;
-  granel: boolean;
-  etapa: "escolher_item" | "escolher_preco" | "pronto";
+export interface ItemDaLista extends ItemLista {
+  etapa: "confirmar_correcao" | "pronto";
+  correcao: string | null;
 }
+
+/** O que gravar para um item: casado com o catálogo (com a faixa da região), livre, ou aguardando correção. */
+export type NovoItem =
+  | { tipo: "catalogo"; texto: string; quantidade: number; item: { id: string; nome: string }; incerto: boolean; faixa: Faixa | null }
+  | { tipo: "livre"; texto: string; quantidade: number }
+  | { tipo: "correcao"; texto: string; quantidade: number; correcao: string };
 
 export type Aguardando = "cidade" | "preco_estimado" | "preco_real";
 
@@ -84,15 +85,16 @@ export class Repo {
 
   // ---------------------------------------------------------------- estado da conversa
 
-  async aguardar(telegramId: number, aguardando: Aguardando, referencia: number | null = null): Promise<void> {
+  async aguardar(telegramId: number, aguardando: Aguardando, referencia: number | null = null, texto: string | null = null): Promise<void> {
     await this.sql`
-      insert into estado_conversa (telegram_id, aguardando, referencia) values (${telegramId}, ${aguardando}, ${referencia})
-      on conflict (telegram_id) do update set aguardando = excluded.aguardando, referencia = excluded.referencia, criado_em = now()`;
+      insert into estado_conversa (telegram_id, aguardando, referencia, texto) values (${telegramId}, ${aguardando}, ${referencia}, ${texto})
+      on conflict (telegram_id) do update set aguardando = excluded.aguardando, referencia = excluded.referencia,
+        texto = coalesce(excluded.texto, estado_conversa.texto), criado_em = now()`;
   }
 
-  async estado(telegramId: number): Promise<{ aguardando: Aguardando; referencia: number | null } | null> {
-    const [e] = await this.sql`select aguardando, referencia from estado_conversa where telegram_id = ${telegramId}`;
-    return e ? { aguardando: e.aguardando, referencia: num(e.referencia) } : null;
+  async estado(telegramId: number): Promise<{ aguardando: Aguardando; referencia: number | null; texto: string | null } | null> {
+    const [e] = await this.sql`select aguardando, referencia, texto from estado_conversa where telegram_id = ${telegramId}`;
+    return e ? { aguardando: e.aguardando, referencia: num(e.referencia), texto: e.texto } : null;
   }
 
   async limparEstado(telegramId: number): Promise<void> {
@@ -158,60 +160,124 @@ export class Repo {
     return l ? Number(l.id) : null;
   }
 
-  async adicionarItens(listaId: number, entradas: { texto: string; quantidade: number }[]): Promise<void> {
-    if (entradas.length === 0) return;
-    const [{ prox }] = (await this.sql`select coalesce(max(ordem), 0) + 1 as prox from lista_item where lista_id = ${listaId}`) as unknown as [{ prox: number }];
-    const linhas = entradas.map((e, n) => ({
-      lista_id: listaId, texto_original: e.texto, quantidade: e.quantidade, nome_exibicao: e.texto, ordem: Number(prox) + n,
-    }));
-    await this.sql`insert into lista_item ${this.sql(linhas)}`;
+  async proximaOrdem(listaId: number): Promise<number> {
+    const [r] = await this.sql`select coalesce(max(ordem), 0) + 1 as prox from lista_item where lista_id = ${listaId}`;
+    return Number(r!.prox);
   }
 
-  async proximoPendente(listaId: number): Promise<ItemPendente | null> {
+  async inserirItem(listaId: number, ordem: number, n: NovoItem): Promise<void> {
+    const base = { lista_id: listaId, texto_original: n.texto, quantidade: n.quantidade, ordem };
+    let linha: Record<string, unknown>;
+    if (n.tipo === "catalogo") {
+      linha = {
+        ...base, item_canonico_id: n.item.id, nome_exibicao: n.item.nome, incerto: n.incerto,
+        faixa_p10: n.faixa?.p10 ?? null, faixa_p50: n.faixa?.p50 ?? null, faixa_p90: n.faixa?.p90 ?? null,
+        perfil: n.faixa ? "tipico" : null, preco_estimado: n.faixa?.p50 ?? null, etapa: "pronto",
+      };
+    } else if (n.tipo === "livre") {
+      linha = { ...base, nome_exibicao: n.texto, etapa: "pronto" };
+    } else {
+      linha = { ...base, nome_exibicao: n.texto, correcao: n.correcao, etapa: "confirmar_correcao" };
+    }
+    await this.sql`insert into lista_item ${this.sql(linha as Record<string, postgres.ParameterOrJSON<never>>)}`;
+  }
+
+  /** Substitui um item (correção aceita, troca pelo 🔄): grava o novo casamento e a faixa, com típico por padrão. */
+  async substituirItem(telegramId: number, itemId: number, n: NovoItem): Promise<boolean> {
+    const catalogo = n.tipo === "catalogo";
+    const r = await this.sql`
+      update lista_item li set
+        texto_original = ${n.texto},
+        quantidade = ${n.quantidade},
+        item_canonico_id = ${catalogo ? n.item.id : null},
+        nome_exibicao = ${catalogo ? n.item.nome : n.texto},
+        incerto = ${catalogo ? n.incerto : false},
+        faixa_p10 = ${catalogo ? n.faixa?.p10 ?? null : null},
+        faixa_p50 = ${catalogo ? n.faixa?.p50 ?? null : null},
+        faixa_p90 = ${catalogo ? n.faixa?.p90 ?? null : null},
+        perfil = ${catalogo && n.faixa ? "tipico" : null},
+        preco_estimado = ${catalogo ? n.faixa?.p50 ?? null : null},
+        correcao = ${n.tipo === "correcao" ? n.correcao : null},
+        etapa = ${n.tipo === "correcao" ? "confirmar_correcao" : "pronto"}
+        from lista l
+       where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId}
+      returning li.id`;
+    return r.length === 1;
+  }
+
+  async proximaCorrecao(listaId: number): Promise<ItemDaLista | null> {
     const [i] = await this.sql`
       select li.*, coalesce(ic.granel, false) as granel from lista_item li
         left join item_canonico ic on ic.id = li.item_canonico_id
-       where li.lista_id = ${listaId} and li.etapa <> 'pronto' order by li.ordem limit 1`;
-    return i ? this.pendente(i) : null;
+       where li.lista_id = ${listaId} and li.etapa = 'confirmar_correcao' order by li.ordem limit 1`;
+    return i ? this.converter(i) : null;
   }
 
-  async item(telegramId: number, itemId: number): Promise<ItemPendente | null> {
+  async item(telegramId: number, itemId: number): Promise<ItemDaLista | null> {
     const [i] = await this.sql`
       select li.*, coalesce(ic.granel, false) as granel from lista_item li
         join lista l on l.id = li.lista_id and l.dono_id = ${telegramId}
         left join item_canonico ic on ic.id = li.item_canonico_id
        where li.id = ${itemId}`;
-    return i ? this.pendente(i) : null;
+    return i ? this.converter(i) : null;
   }
 
-  private pendente(i: postgres.Row): ItemPendente {
+  private converter(i: postgres.Row): ItemDaLista {
     return {
-      id: Number(i.id), textoOriginal: i.texto_original, quantidade: Number(i.quantidade),
-      itemCanonicoId: i.item_canonico_id, nomeExibicao: i.nome_exibicao, granel: i.granel, etapa: i.etapa,
+      id: Number(i.id), textoOriginal: i.texto_original, itemCanonicoId: i.item_canonico_id,
+      nomeExibicao: i.nome_exibicao, quantidade: Number(i.quantidade), granel: i.granel, incerto: i.incerto,
+      faixa: i.faixa_p50 === null ? null : { p10: Number(i.faixa_p10), p50: Number(i.faixa_p50), p90: Number(i.faixa_p90) },
+      perfil: i.perfil, precoEstimado: num(i.preco_estimado), precoReal: num(i.preco_real), marcado: i.marcado,
+      etapa: i.etapa, correcao: i.correcao,
     };
   }
 
-  /** Associa o item da lista a um item do catálogo (ou a nenhum, com null). */
-  async definirItem(telegramId: number, itemId: number, canonico: { id: string; nome: string } | null, quantidade?: number): Promise<boolean> {
+  /** E/T/P: o preço vem da faixa gravada no item, então o botão sempre mostra o que aplica. */
+  async definirPerfil(telegramId: number, itemId: number, perfil: Exclude<Perfil, "manual">): Promise<boolean> {
     const r = await this.sql`
       update lista_item li set
-        item_canonico_id = ${canonico?.id ?? null},
-        nome_exibicao = coalesce(${canonico?.nome ?? null}, li.texto_original),
-        quantidade = coalesce(${quantidade ?? null}, li.quantidade),
-        etapa = 'escolher_preco'
+        perfil = ${perfil},
+        preco_estimado = case ${perfil} when 'economico' then li.faixa_p10 when 'premium' then li.faixa_p90 else li.faixa_p50 end
+        from lista l
+       where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId} and li.faixa_p50 is not null
+      returning li.id`;
+    return r.length === 1;
+  }
+
+  async definirPrecoManual(telegramId: number, itemId: number, preco: number): Promise<boolean> {
+    const r = await this.sql`
+      update lista_item li set perfil = 'manual', preco_estimado = ${preco}
         from lista l
        where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId}
       returning li.id`;
     return r.length === 1;
   }
 
-  async definirPreco(telegramId: number, itemId: number, perfil: Perfil | null, preco: number | null, precoBase: number | null): Promise<boolean> {
+  /** 🗑: tira o item da lista sem apagar, para poder voltar atrás. */
+  async removerItem(telegramId: number, itemId: number): Promise<boolean> {
     const r = await this.sql`
-      update lista_item li set perfil = ${perfil}, preco_estimado = ${preco}, preco_base = ${precoBase}, etapa = 'pronto'
+      update lista_item li set removido_em = now()
+        from lista l
+       where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId} and li.removido_em is null
+      returning li.id`;
+    return r.length === 1;
+  }
+
+  /** ↩️: devolve o item à lista com a faixa e o preço que tinha. */
+  async restaurarItem(telegramId: number, itemId: number): Promise<boolean> {
+    const r = await this.sql`
+      update lista_item li set removido_em = null
         from lista l
        where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId}
       returning li.id`;
     return r.length === 1;
+  }
+
+  async removidos(listaId: number, limite = 5): Promise<{ id: number; nome: string }[]> {
+    const r = await this.sql`
+      select id, nome_exibicao from lista_item
+       where lista_id = ${listaId} and removido_em is not null order by removido_em desc limit ${limite}`;
+    return r.map((i) => ({ id: Number(i.id), nome: i.nome_exibicao }));
   }
 
   /** Marca ou desmarca de forma atômica (duas pessoas tocando ao mesmo tempo não se anulam). */
@@ -234,17 +300,15 @@ export class Repo {
     return r.length === 1;
   }
 
-  async itensDaLista(listaId: number): Promise<ItemLista[]> {
+  async itensDaLista(listaId: number): Promise<ItemDaLista[]> {
     const r = await this.sql`
       select li.*, coalesce(ic.granel, false) as granel from lista_item li
         left join item_canonico ic on ic.id = li.item_canonico_id
-       where li.lista_id = ${listaId} and li.etapa = 'pronto' order by li.ordem`;
-    return r.map((i) => ({
-      id: Number(i.id), nomeExibicao: i.nome_exibicao, quantidade: Number(i.quantidade), granel: i.granel,
-      perfil: i.perfil, precoEstimado: num(i.preco_estimado), precoReal: num(i.preco_real), marcado: i.marcado,
-    }));
+       where li.lista_id = ${listaId} and li.etapa = 'pronto' and li.removido_em is null order by li.ordem`;
+    return r.map((i) => this.converter(i));
   }
 
+  /** Descarta correções ainda sem resposta. */
   async removerPendentes(listaId: number): Promise<void> {
     await this.sql`delete from lista_item where lista_id = ${listaId} and etapa <> 'pronto'`;
   }

@@ -1,15 +1,18 @@
-// Fluxos do bot. Montar a lista: texto livre -> item do catálogo -> faixa de preço.
+// Fluxos do bot.
+// Montar a lista: texto livre -> (só se houver erro de digitação: "você quis dizer?") -> uma mensagem
+// com todos os itens, típico marcado, e botões E/T/P por item.
 // No mercado: marcar itens e corrigir preços, com o total atualizado na mesma mensagem.
 
 import { Bot, type Context, InlineKeyboard } from "grammy";
 import type { UserFromGetMe } from "grammy/types";
 
 import {
-  esc, qtd, tecladoFaixa, tecladoLista, tecladoMercado, tecladoSugestoes, textoFaixa, textoLista, textoMercado,
-  totais, brl, type Perfil,
+  brl, esc, ITENS_POR_PAGINA, tecladoAlternativas, tecladoMercado, tecladoResumo, tecladoRevisao,
+  textoMercado, textoResumo, textoRevisao, totais, type ItemLista,
 } from "./formato.ts";
-import type { Repo } from "./repo.ts";
-import { quantidadeFinal, sugerir } from "./sugestao.ts";
+import { alternativas, classificar } from "./montagem.ts";
+import type { NovoItem, Repo, Usuario } from "./repo.ts";
+import { quantidadeFinal, sugerir, type ItemCatalogo } from "./sugestao.ts";
 import { lerLista, lerValor, normalizar } from "./texto.ts";
 
 const MD = { parse_mode: "MarkdownV2" as const };
@@ -20,15 +23,15 @@ export const AJUDA = [
   "Me mande os itens numa mensagem, separados por vírgula ou linha:",
   "_2 leite, arroz 5kg, café, tomate 1kg_",
   "",
-  "Para cada item eu mostro o preço *econômico*, *típico* e *premium* da sua região, e você escolhe quanto quer considerar\\.",
+  "Eu monto a lista com o preço *típico* da sua região\\. Em cada item você pode trocar para *E* \\(econômico\\) ou *P* \\(premium\\), e o total muda na hora\\.",
   "",
   "No mercado, use /mercado: toque no item para marcar ✅ e em ✏️ para corrigir o preço que você viu\\.",
   "",
-  "/lista — ver a lista e o total",
+  "/lista — ver e ajustar a lista",
   "/mercado — modo mercado",
   "/nova — começar outra lista",
   "/cidade — trocar a cidade",
-  "/cancelar — descartar itens ainda sem escolha",
+  "/cancelar — descartar perguntas pendentes",
   "/apagar\\_meus\\_dados — apagar tudo o que guardei sobre você",
 ].join("\n");
 
@@ -46,59 +49,60 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
 
   const uid = (ctx: Context) => ctx.from!.id;
 
-  // ------------------------------------------------------------------ avançar a montagem da lista
+  // ------------------------------------------------------------------ montagem
 
-  async function avancar(ctx: Context): Promise<void> {
-    const usuario = await repo.usuario(uid(ctx));
-    if (!usuario.municipio) return pedirCidade(ctx);
-    const lista = await repo.listaAberta(usuario.telegramId);
-    const catalogo = await repo.catalogo();
-
-    for (;;) {
-      const p = await repo.proximoPendente(lista.id);
-      if (!p) {
-        const itens = await repo.itensDaLista(lista.id);
-        await ctx.reply(textoLista(lista.nome, itens), { ...MD, reply_markup: itens.length ? tecladoLista() : undefined });
-        return;
-      }
-
-      if (p.etapa === "escolher_item") {
-        const r = sugerir(p.textoOriginal, catalogo);
-        const pref = await repo.preferencia(usuario.telegramId, normalizar(p.textoOriginal));
-        const escolhido = (pref && catalogo.find((c) => c.id === pref)) || r.unica;
-        if (escolhido) {
-          await repo.definirItem(usuario.telegramId, p.id, escolhido, quantidadeFinal(escolhido, p.quantidade, r.medida));
-          continue;
-        }
-        if (r.sugestoes.length === 0) {
-          await repo.definirItem(usuario.telegramId, p.id, null);
-          continue;
-        }
-        await ctx.reply(`Qual destes é *${esc(p.textoOriginal)}*?`, {
-          ...MD,
-          reply_markup: tecladoSugestoes(p.id, r.sugestoes.map((s) => s.item)),
-        });
-        return;
-      }
-
-      // escolher_preco
-      const faixa = p.itemCanonicoId ? await repo.faixa(p.itemCanonicoId, usuario.municipio) : null;
-      if (faixa) {
-        await ctx.reply(textoFaixa(p.nomeExibicao, qtd(p), faixa), { ...MD, reply_markup: tecladoFaixa(p.id, faixa) });
-        return;
-      }
-      await repo.aguardar(usuario.telegramId, "preco_estimado", p.id);
-      await ctx.reply(
-        `Ainda não tenho preço de *${esc(p.nomeExibicao)}* na sua região\\. Quanto você costuma pagar? ` +
-          `Digite o valor${p.granel ? " por kg" : ""}, por exemplo _6,50_\\.`,
-        { ...MD, reply_markup: new InlineKeyboard().text("Sem preço", `f:${p.id}:0`) },
-      );
-      return;
+  /** Classifica o texto e prepara o que gravar, já com a faixa da região quando houver. */
+  async function preparar(u: Usuario, texto: string, quantidade: number, catalogo: ItemCatalogo[], comCorrecao = true): Promise<NovoItem> {
+    const pref = await repo.preferencia(u.telegramId, normalizar(texto));
+    const c = classificar(texto, quantidade, catalogo, pref ? catalogo.find((i) => i.id === pref) ?? null : null);
+    if (c.tipo === "correcao") {
+      return comCorrecao ? { tipo: "correcao", texto, quantidade, correcao: c.texto } : { tipo: "livre", texto, quantidade };
     }
+    if (c.tipo === "livre") return { tipo: "livre", texto, quantidade };
+    const faixa = u.municipio ? await repo.faixa(c.item.id, u.municipio) : null;
+    return { tipo: "catalogo", texto, quantidade: c.quantidade, item: c.item, incerto: c.tipo === "incerto", faixa };
   }
 
-  async function pedirCidade(ctx: Context): Promise<void> {
-    await repo.aguardar(uid(ctx), "cidade");
+  async function adicionar(u: Usuario, mensagem: string): Promise<boolean> {
+    const entradas = lerLista(mensagem);
+    if (entradas.length === 0) return false;
+    const lista = await repo.listaAberta(u.telegramId);
+    const catalogo = await repo.catalogo();
+    let ordem = await repo.proximaOrdem(lista.id);
+    for (const e of entradas) await repo.inserirItem(lista.id, ordem++, await preparar(u, e.texto, e.quantidade, catalogo));
+    return true;
+  }
+
+  /** Pergunta a próxima correção pendente ou mostra a lista para ajuste. */
+  async function continuar(ctx: Context, pagina = 0, editar = false): Promise<void> {
+    const u = await repo.usuario(uid(ctx));
+    if (!u.municipio) return pedirCidade(ctx);
+    const lista = await repo.listaAberta(u.telegramId);
+    const c = await repo.proximaCorrecao(lista.id);
+    if (c && c.correcao) {
+      await ctx.reply(`Não encontrei *${esc(c.textoOriginal)}*\\. Você quis dizer *${esc(c.correcao)}*?`, {
+        ...MD,
+        reply_markup: new InlineKeyboard().text("✓ Sim", `k:${c.id}:s`).text("✗ Não, deixar como escrevi", `k:${c.id}:n`),
+      });
+      return;
+    }
+    await mostrarRevisao(ctx, pagina, editar);
+  }
+
+  async function mostrarRevisao(ctx: Context, pagina: number, editar: boolean): Promise<void> {
+    const lista = await repo.listaAberta(uid(ctx));
+    const itens = await repo.itensDaLista(lista.id);
+    const catalogo = await repo.catalogo();
+    const removidos = await repo.removidos(lista.id);
+    const temAlt = (i: ItemLista) => alternativas(i.textoOriginal, i.itemCanonicoId, catalogo).length > 0;
+    const texto = textoRevisao(lista.nome, itens, pagina, removidos.length > 0);
+    const teclado = itens.length || removidos.length ? tecladoRevisao(itens, pagina, temAlt, removidos) : undefined;
+    if (editar) await ctx.editMessageText(texto, { ...MD, reply_markup: teclado }).catch(ignorarSemMudanca);
+    else await ctx.reply(texto, { ...MD, reply_markup: teclado });
+  }
+
+  async function pedirCidade(ctx: Context, textoPendente: string | null = null): Promise<void> {
+    await repo.aguardar(uid(ctx), "cidade", null, textoPendente);
     await ctx.reply("Em qual cidade você faz suas compras? Digite o nome, por exemplo: Maringá");
   }
 
@@ -115,6 +119,12 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
     else await ctx.reply(texto, { ...MD, reply_markup: teclado });
   }
 
+  async function paginaDe(ctx: Context, itemId: number): Promise<number> {
+    const lista = await repo.listaAberta(uid(ctx));
+    const idx = (await repo.itensDaLista(lista.id)).findIndex((i) => i.id === itemId);
+    return idx < 0 ? 0 : Math.floor(idx / ITENS_POR_PAGINA);
+  }
+
   // ------------------------------------------------------------------ comandos
 
   bot.command("start", async (ctx) => {
@@ -128,8 +138,8 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
   });
 
   bot.command("ajuda", (ctx) => ctx.reply(AJUDA, MD));
-  bot.command("cidade", pedirCidade);
-  bot.command("lista", avancar);
+  bot.command("cidade", (ctx) => pedirCidade(ctx));
+  bot.command("lista", (ctx) => continuar(ctx));
   bot.command("mercado", (ctx) => mostrarMercado(ctx));
 
   bot.command("nova", async (ctx) => {
@@ -143,7 +153,7 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
     const lista = await repo.listaAberta(uid(ctx));
     await repo.removerPendentes(lista.id);
     await repo.limparEstado(uid(ctx));
-    await ctx.reply("Itens sem escolha descartados.");
+    await ctx.reply("Perguntas pendentes descartadas.");
   });
 
   bot.command("apagar_meus_dados", (ctx) =>
@@ -152,11 +162,12 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
     }),
   );
 
-  // ------------------------------------------------------------------ botões
+  // ------------------------------------------------------------------ cidade
 
   bot.callbackQuery(/^c:(\d+)$/, async (ctx) => {
-    await ctx.answerCallbackQuery();
+    await responder(ctx);
     await repo.usuario(uid(ctx));
+    const pendente = (await repo.estado(uid(ctx)))?.texto ?? null;
     const r = await repo.definirMunicipio(uid(ctx), Number(ctx.match[1]));
     await repo.limparEstado(uid(ctx));
     await ctx.editMessageText(`📍 Cidade: ${r.nome}-${r.uf}`);
@@ -166,71 +177,132 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
           "Até lá, uso preços do estado ou do Brasil quando houver, ou você me diz quanto costuma pagar.",
       );
     }
-    const lista = await repo.listaAberta(uid(ctx));
-    if (await repo.proximoPendente(lista.id)) return avancar(ctx);
+    if (pendente && (await adicionar(await repo.usuario(uid(ctx)), pendente))) return continuar(ctx);
     await ctx.reply(AJUDA, MD);
   });
 
-  bot.callbackQuery(/^i:(\d+):(.+)$/, async (ctx) => {
-    await ctx.answerCallbackQuery();
-    const p = await repo.item(uid(ctx), Number(ctx.match[1]));
-    if (!p || p.etapa !== "escolher_item") return;
+  // ------------------------------------------------------------------ correção de digitação
+
+  bot.callbackQuery(/^k:(\d+):([sn])$/, async (ctx) => {
+    await responder(ctx);
+    const item = await repo.item(uid(ctx), Number(ctx.match[1]));
+    if (!item || item.etapa !== "confirmar_correcao" || !item.correcao) return;
+    const u = await repo.usuario(uid(ctx));
+    const catalogo = await repo.catalogo();
+    if (ctx.match[2] === "s") {
+      // A quantidade digitada já foi separada; o texto corrigido pode trazer o tamanho ("1kg")
+      const novo = await preparar(u, item.correcao, item.quantidade, catalogo, false);
+      await repo.substituirItem(u.telegramId, item.id, { ...novo, texto: item.correcao });
+      await ctx.editMessageText(`✓ ${item.textoOriginal} → ${novo.tipo === "catalogo" ? novo.item.nome : item.correcao}`);
+    } else {
+      await repo.substituirItem(u.telegramId, item.id, { tipo: "livre", texto: item.textoOriginal, quantidade: item.quantidade });
+      await ctx.editMessageText(`✓ ${item.textoOriginal}: mantido como escrito (sem preço da região)`);
+    }
+    await continuar(ctx);
+  });
+
+  // ------------------------------------------------------------------ revisão da lista
+
+  bot.callbackQuery(/^t:(\d+):([etp]):(\d+)$/, async (ctx) => {
+    const perfil = ({ e: "economico", t: "tipico", p: "premium" } as const)[ctx.match[2] as "e" | "t" | "p"];
+    await repo.definirPerfil(uid(ctx), Number(ctx.match[1]), perfil);
+    await responder(ctx);
+    await mostrarRevisao(ctx, Number(ctx.match[3]), true);
+  });
+
+  bot.callbackQuery(/^a:(\d+):(\d+)$/, async (ctx) => {
+    const item = await repo.item(uid(ctx), Number(ctx.match[1]));
+    if (!item) return responder(ctx);
+    const opcoes = alternativas(item.textoOriginal, item.itemCanonicoId, await repo.catalogo());
+    if (opcoes.length === 0) return responder(ctx, { text: "Não tenho outras opções para este item." });
+    await responder(ctx);
+    await ctx.editMessageText(`Trocar *${esc(item.nomeExibicao)}* \\(você escreveu _${esc(item.textoOriginal)}_\\) por:`, {
+      ...MD,
+      reply_markup: tecladoAlternativas(item.id, Number(ctx.match[2]), opcoes),
+    });
+  });
+
+  bot.callbackQuery(/^s:(\d+):([^:]+):(\d+)$/, async (ctx) => {
+    await responder(ctx);
+    const item = await repo.item(uid(ctx), Number(ctx.match[1]));
+    if (!item) return;
+    const u = await repo.usuario(uid(ctx));
     const catalogo = await repo.catalogo();
     const escolhido = ctx.match[2] === "-" ? null : catalogo.find((c) => c.id === ctx.match[2]) ?? null;
-    const medida = sugerir(p.textoOriginal, catalogo).medida;
-    await repo.definirItem(uid(ctx), p.id, escolhido, escolhido ? quantidadeFinal(escolhido, p.quantidade, medida) : undefined);
-    if (escolhido) await repo.lembrarPreferencia(uid(ctx), normalizar(p.textoOriginal), escolhido.id);
-    await ctx.editMessageText(`✓ ${p.textoOriginal}: ${escolhido ? escolhido.nome : "item livre"}`);
-    await avancar(ctx);
+    if (escolhido) {
+      const medida = sugerir(item.textoOriginal, catalogo).medida;
+      const faixa = u.municipio ? await repo.faixa(escolhido.id, u.municipio) : null;
+      await repo.substituirItem(u.telegramId, item.id, {
+        tipo: "catalogo", texto: item.textoOriginal, quantidade: quantidadeFinal(escolhido, item.quantidade, medida),
+        item: escolhido, incerto: false, faixa,
+      });
+      await repo.lembrarPreferencia(u.telegramId, normalizar(item.textoOriginal), escolhido.id);
+    } else {
+      await repo.substituirItem(u.telegramId, item.id, { tipo: "livre", texto: item.textoOriginal, quantidade: item.quantidade });
+    }
+    await mostrarRevisao(ctx, Number(ctx.match[3]), true);
   });
 
-  bot.callbackQuery(/^f:(\d+):([etpm0])$/, async (ctx) => {
-    await ctx.answerCallbackQuery();
-    const p = await repo.item(uid(ctx), Number(ctx.match[1]));
-    if (!p || p.etapa !== "escolher_preco") return;
-    const opcao = ctx.match[2]!;
-    if (opcao === "m") {
-      await repo.aguardar(uid(ctx), "preco_estimado", p.id);
-      await ctx.editMessageText(`Digite quanto você quer considerar para ${p.nomeExibicao}${p.granel ? " (por kg)" : ""}, por exemplo 6,50.`);
-      return;
-    }
-    if (opcao === "0") {
-      await repo.definirPreco(uid(ctx), p.id, null, null, null);
-      await repo.limparEstado(uid(ctx));
-      await ctx.editMessageText(`✓ ${p.nomeExibicao}: sem preço`);
-      return avancar(ctx);
-    }
-    const usuario = await repo.usuario(uid(ctx));
-    const faixa = p.itemCanonicoId && usuario.municipio ? await repo.faixa(p.itemCanonicoId, usuario.municipio) : null;
-    if (!faixa) return avancar(ctx);
-    const perfil: Perfil = opcao === "e" ? "economico" : opcao === "p" ? "premium" : "tipico";
-    const valor = opcao === "e" ? faixa.p10 : opcao === "p" ? faixa.p90 : faixa.p50;
-    await repo.definirPreco(uid(ctx), p.id, perfil, valor, faixa.p50);
-    const nomePerfil = { economico: "econômico", tipico: "típico", premium: "premium", manual: "manual" }[perfil];
-    await ctx.editMessageText(`✓ ${p.nomeExibicao}: ${nomePerfil} ${brl(valor)}`);
-    await avancar(ctx);
+  bot.callbackQuery(/^d:(\d+):(\d+)$/, async (ctx) => {
+    await repo.removerItem(uid(ctx), Number(ctx.match[1]));
+    await responder(ctx, { text: "Item removido. Use ↩️ para desfazer." });
+    await mostrarRevisao(ctx, Number(ctx.match[2]), true);
   });
+
+  bot.callbackQuery(/^u:(\d+):(\d+)$/, async (ctx) => {
+    await repo.restaurarItem(uid(ctx), Number(ctx.match[1]));
+    await responder(ctx, { text: "Item de volta na lista" });
+    await mostrarRevisao(ctx, Number(ctx.match[2]), true);
+  });
+
+  bot.callbackQuery(/^w:(\d+):(\d+)$/, async (ctx) => {
+    await responder(ctx);
+    const item = await repo.item(uid(ctx), Number(ctx.match[1]));
+    if (!item) return;
+    await repo.aguardar(uid(ctx), "preco_estimado", item.id);
+    await ctx.reply(`Quanto você quer considerar para ${item.nomeExibicao}${item.granel ? " (por kg)" : ""}? Digite o valor, por exemplo 6,50.`);
+  });
+
+  bot.callbackQuery("add", async (ctx) => {
+    await responder(ctx);
+    await repo.limparEstado(uid(ctx)); // a próxima mensagem de texto entra como itens da lista
+    await ctx.reply("O que você quer adicionar? Pode mandar um ou vários, separados por vírgula. Ex.: sabão em pó, 2 iogurte");
+  });
+
+  bot.callbackQuery(/^g:(\d+)$/, async (ctx) => {
+    await responder(ctx);
+    await mostrarRevisao(ctx, Number(ctx.match[1]), true);
+  });
+
+  bot.callbackQuery("ok", async (ctx) => {
+    await responder(ctx);
+    const lista = await repo.listaAberta(uid(ctx));
+    const itens = await repo.itensDaLista(lista.id);
+    await ctx.editMessageText(textoResumo(lista.nome, itens), { ...MD, reply_markup: tecladoResumo() }).catch(ignorarSemMudanca);
+  });
+
+  // ------------------------------------------------------------------ mercado
 
   bot.callbackQuery(/^m:(\d+)$/, async (ctx) => {
-    await ctx.answerCallbackQuery();
+    await responder(ctx);
     if (await repo.alternarMarcado(uid(ctx), Number(ctx.match[1]))) await mostrarMercado(ctx, true);
   });
 
   bot.callbackQuery(/^r:(\d+)$/, async (ctx) => {
-    await ctx.answerCallbackQuery();
-    const p = await repo.item(uid(ctx), Number(ctx.match[1]));
-    if (!p) return;
-    await repo.aguardar(uid(ctx), "preco_real", p.id);
-    await ctx.reply(`Qual o preço de ${p.nomeExibicao} que você está vendo${p.granel ? " (por kg)" : ""}? Ex.: 6,20`);
+    await responder(ctx);
+    const item = await repo.item(uid(ctx), Number(ctx.match[1]));
+    if (!item) return;
+    await repo.aguardar(uid(ctx), "preco_real", item.id);
+    await ctx.reply(`Qual o preço de ${item.nomeExibicao} que você está vendo${item.granel ? " (por kg)" : ""}? Ex.: 6,20`);
   });
 
   bot.callbackQuery("v:mercado", async (ctx) => {
-    await ctx.answerCallbackQuery();
+    await responder(ctx);
     await mostrarMercado(ctx);
   });
 
   bot.callbackQuery("x:finalizar", async (ctx) => {
-    await ctx.answerCallbackQuery();
+    await responder(ctx);
     const lista = await repo.listaAberta(uid(ctx));
     const t = totais(await repo.itensDaLista(lista.id));
     await repo.finalizarLista(uid(ctx));
@@ -242,13 +314,13 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
   });
 
   bot.callbackQuery("x:apagar", async (ctx) => {
-    await ctx.answerCallbackQuery();
+    await responder(ctx);
     await repo.apagarUsuario(uid(ctx));
     await ctx.editMessageText("Pronto, apaguei seus dados. Se quiser voltar, é só mandar /start.");
   });
 
   bot.callbackQuery("x:manter", async (ctx) => {
-    await ctx.answerCallbackQuery();
+    await responder(ctx);
     await ctx.editMessageText("Nada foi apagado.");
   });
 
@@ -256,8 +328,8 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
 
   bot.on("message:text", async (ctx) => {
     const texto = ctx.message.text.trim();
-    const usuario = await repo.usuario(uid(ctx), ctx.from.first_name);
-    const estado = await repo.estado(usuario.telegramId);
+    const u = await repo.usuario(uid(ctx), ctx.from.first_name);
+    const estado = await repo.estado(u.telegramId);
 
     if (estado?.aguardando === "cidade") {
       const opcoes = await repo.buscarMunicipio(texto);
@@ -277,30 +349,37 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
         await ctx.reply("Não entendi o valor. Digite só o número, por exemplo 6,20 (ou /cancelar).");
         return;
       }
-      await repo.limparEstado(usuario.telegramId);
+      await repo.limparEstado(u.telegramId);
       if (estado.aguardando === "preco_real") {
-        await repo.definirPrecoReal(usuario.telegramId, estado.referencia, valor);
+        await repo.definirPrecoReal(u.telegramId, estado.referencia, valor);
         return mostrarMercado(ctx);
       }
-      const p = await repo.item(usuario.telegramId, estado.referencia);
-      const base = p?.itemCanonicoId && usuario.municipio ? (await repo.faixa(p.itemCanonicoId, usuario.municipio))?.p50 ?? null : null;
-      await repo.definirPreco(usuario.telegramId, estado.referencia, "manual", valor, base);
-      await ctx.reply(`✓ ${p?.nomeExibicao ?? "Item"}: ${brl(valor)}`);
-      return avancar(ctx);
+      await repo.definirPrecoManual(u.telegramId, estado.referencia, valor);
+      return mostrarRevisao(ctx, await paginaDe(ctx, estado.referencia), false);
     }
 
-    const entradas = lerLista(texto);
-    if (entradas.length === 0) {
+    if (!u.municipio) {
+      if (lerLista(texto).length > 0) await ctx.reply("Antes de montar a lista, preciso saber sua cidade para buscar os preços.");
+      return pedirCidade(ctx, texto);
+    }
+
+    if (!(await adicionar(u, texto))) {
       await ctx.reply("Me mande os itens da lista, por exemplo: 2 leite, arroz 5kg, café");
       return;
     }
-    const lista = await repo.listaAberta(usuario.telegramId);
-    await repo.adicionarItens(lista.id, entradas);
-    await avancar(ctx);
+    await continuar(ctx);
   });
 
   bot.catch((err) => console.error("erro no bot:", err.error));
   return bot;
+}
+
+/**
+ * Responde ao toque no botão. Se o toque é antigo (o bot estava parado), o Telegram recusa a
+ * resposta; isso não pode impedir a ação.
+ */
+async function responder(ctx: Context, opcoes?: { text?: string }): Promise<void> {
+  await ctx.answerCallbackQuery(opcoes).catch(() => undefined);
 }
 
 function ignorarSemMudanca(e: unknown): void {

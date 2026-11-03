@@ -21,6 +21,7 @@ create table estado_conversa (
   telegram_id bigint primary key references usuario (telegram_id) on delete cascade,
   aguardando  text not null check (aguardando in ('cidade', 'preco_estimado', 'preco_real')),
   referencia  bigint,                 -- lista_item.id quando aguardando preço
+  texto       text,                   -- lista mandada antes de cadastrar a cidade
   criado_em   timestamptz not null default now()
 );
 
@@ -41,16 +42,21 @@ create table lista_item (
   id               bigint generated always as identity primary key,
   lista_id         bigint not null references lista (id) on delete cascade,
   texto_original   text not null,
+  correcao         text,              -- texto corrigido sugerido ("file de frango"), aguardando o usuário
   quantidade       numeric(10, 3) not null default 1 check (quantidade > 0),
   item_canonico_id text references item_canonico (id),
   nome_exibicao    text not null,
+  incerto          boolean not null default false, -- casou só parte do texto: mostrar com ❓
+  -- Faixa da região no momento em que o item entrou (os botões E/T/P usam estes valores)
+  faixa_p10        numeric(10, 2),
+  faixa_p50        numeric(10, 2),
+  faixa_p90        numeric(10, 2),
   perfil           text check (perfil in ('economico', 'tipico', 'premium', 'manual')),
   preco_estimado   numeric(10, 2) check (preco_estimado >= 0),  -- preço unitário escolhido
-  preco_base       numeric(10, 2),                               -- típico da região na hora (para o aprendizado da M5)
   preco_real       numeric(10, 2) check (preco_real >= 0),       -- preço unitário visto no mercado
   marcado          boolean not null default false,
-  etapa            text not null default 'escolher_item'
-                   check (etapa in ('escolher_item', 'escolher_preco', 'pronto')),
+  removido_em      timestamptz,       -- 🗑 é reversível: o item fica guardado até a lista fechar
+  etapa            text not null default 'pronto' check (etapa in ('confirmar_correcao', 'pronto')),
   ordem            integer not null,
   criado_em        timestamptz not null default now()
 );

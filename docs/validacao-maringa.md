@@ -42,12 +42,13 @@ A cada checkpoint, preencher a seção da etapa: o que foi conferido, o resultad
 
 ### M4. Bot núcleo
 
-- [ ] Bot criado no @BotFather e rodando (ver `criar-bot-telegram.md`).
-- [ ] Cadastro: `/start`, digitar "maringa", escolher Maringá-PR.
+- [x] Bot criado no @BotFather e rodando (@GuiaDoMercadoBot).
+- [x] Cadastro: `/start`, digitar "maringa", escolher Maringá-PR.
 - [ ] Lista real da semana mandada numa mensagem; anotar itens que o bot entendeu errado ou não achou.
 - [ ] Escolha de faixas (econômico/típico/premium) em todos os itens; total estimado faz sentido?
 - [ ] No mercado: `/mercado`, marcar itens, corrigir pelo menos 3 preços com ✏️; total final bate com o caixa?
-- [ ] Atritos anotados (o que demorou, o que confundiu, o que faltou).
+- [x] Primeiros atritos anotados e resolvidos: pergunta item por item (virou lista numa mensagem só, D23), erro de digitação ("frando", virou "Você quis dizer…?", D24), falta de "adicionar item" e de desfazer remoção.
+- [ ] Atritos de uma compra completa no mercado.
 
 ### M5. Ajuste do usuário
 

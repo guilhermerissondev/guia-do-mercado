@@ -32,9 +32,10 @@ DATABASE_URL=postgresql://postgres:dev@localhost:54329/postgres
 ```bash
 tools/dev-db.sh                      # banco local com preços de Maringá
 cd bot
-set -a; . ./.env; set +a
-npm start                            # "bot iniciado"
+npm start                            # lê o bot/.env sozinho; mostra "bot iniciado"
 ```
+
+Para parar: `Ctrl+C`. Só pode haver **um** bot rodando por vez (o Telegram recusa dois ao mesmo tempo).
 
 Com o processo rodando, abra `t.me/<usuário do bot>` no celular e mande `/start`. O bot responde enquanto o processo estiver ligado. Na produção ele roda na VPS (`deploy/guia-do-mercado-bot.service`).
 

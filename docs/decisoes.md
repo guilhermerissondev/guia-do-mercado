@@ -25,6 +25,8 @@
 | D20 | Bot roda como processo Node na VPS (long polling), não em Supabase Edge Functions | A VPS já é obrigatória para o coletor (IP brasileiro); um só lugar para implantar; dispensa URL pública e webhook; o código separa lógica, banco e entrada, então trocar para webhook depois é um arquivo |
 | D21 | Coleta semanal: domingo às 12h (horário de Brasília); faixas usam janela de 15 dias | Decisão do dono do produto; a janela cobre uma coleta perdida |
 | D22 | CEP de referência automático por região imediata: cidade-polo + ViaCEP, preferindo o Centro, validado pelo código IBGE | Ativar uma região vira só escolher a cidade; o bot ativa a região quando o usuário se cadastra |
+| D23 | Montagem da lista numa mensagem só: cada item com botões E/T/P, típico marcado por padrão; sem perfil de preço salvo | Responder item por item cansa; perfil fixo distorceria a análise, porque os gastos mudam de mês para mês (dono do produto) |
+| D24 | Erro de digitação: o bot pergunta "Você quis dizer …?" antes de montar a lista | Garante que a análise segue sem erro de item (dono do produto) |
 | D16 | Produto da rede guardado em `produto_rede` (com EAN opcional), não em uma tabela única por EAN | OSuper (Condor) não informa EAN |
 
 ## Pendentes

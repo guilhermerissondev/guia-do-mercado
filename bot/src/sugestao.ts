@@ -72,3 +72,64 @@ export function quantidadeFinal(item: ItemCatalogo, quantidade: number, medida: 
   if (item.granel && medida && medida.unidade === "g") return Math.round((quantidade * medida.valor) / 10) / 100;
   return quantidade;
 }
+
+// ------------------------------------------------------------------ erro de digitação
+
+/** Distância de edição com transposição ("arorz" -> "arroz" = 1). */
+export function distancia(a: string, b: string): number {
+  const d: number[][] = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+  for (let j = 1; j <= b.length; j++) d[0]![j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      const custo = a[i - 1] === b[j - 1] ? 0 : 1;
+      d[i]![j] = Math.min(d[i - 1]![j]! + 1, d[i]![j - 1]! + 1, d[i - 1]![j - 1]! + custo);
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+        d[i]![j] = Math.min(d[i]![j]!, d[i - 2]![j - 2]! + 1);
+      }
+    }
+  }
+  return d[a.length]![b.length]!;
+}
+
+function vocabulario(catalogo: ItemCatalogo[]): string[] {
+  const v = new Set<string>();
+  for (const i of catalogo) for (const p of [...i.busca.split(" "), ...normalizar(i.nome).split(" ")]) if (p.length >= 3 && !/\d/.test(p)) v.add(p);
+  return [...v];
+}
+
+export interface Correcao {
+  texto: string;                       // texto corrigido, já normalizado ("file de frango 1kg")
+  trocas: { de: string; para: string }[];
+}
+
+/**
+ * Sugere a correção de palavras que não existem no catálogo ("frando" -> "frango").
+ * Só sugere se o texto corrigido casar com algum item por completo; senão devolve null.
+ */
+export function corrigir(texto: string, catalogo: ItemCatalogo[]): Correcao | null {
+  const vocab = vocabulario(catalogo);
+  const palavras = normalizar(texto).split(" ");
+  const trocas: { de: string; para: string }[] = [];
+  const corrigidas = palavras.map((p) => {
+    if (p.length < 3 || /\d/.test(p) || VAZIAS.has(p) || vocab.some((v) => casaPalavra(p, [v]))) return p;
+    const limite = p.length <= 5 ? 1 : 2;
+    let melhor: string | null = null;
+    let menor = limite + 1;
+    for (const v of vocab) {
+      if (Math.abs(v.length - p.length) > limite) continue;
+      const dist = distancia(raiz(p), raiz(v));
+      if (dist < menor || (dist === menor && melhor !== null && v.length < melhor.length)) {
+        melhor = v;
+        menor = dist;
+      }
+    }
+    if (melhor && menor <= limite) {
+      trocas.push({ de: p, para: melhor });
+      return melhor;
+    }
+    return p;
+  });
+  if (trocas.length === 0) return null;
+  const corrigido = corrigidas.join(" ");
+  return sugerir(corrigido, catalogo).sugestoes.length > 0 ? { texto: corrigido, trocas } : null;
+}

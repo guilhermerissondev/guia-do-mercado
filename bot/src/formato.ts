@@ -6,9 +6,13 @@ export type Perfil = "economico" | "tipico" | "premium" | "manual";
 
 export interface ItemLista {
   id: number;
+  textoOriginal: string;
+  itemCanonicoId: string | null;
   nomeExibicao: string;
   quantidade: number;
   granel: boolean;
+  incerto: boolean;             // casou só parte do texto
+  faixa: { p10: number; p50: number; p90: number } | null; // da região, quando o item entrou
   perfil: Perfil | null;
   precoEstimado: number | null; // unitário
   precoReal: number | null;     // unitário
@@ -77,23 +81,100 @@ export function idade(d: Date, agora = new Date()): string {
   return `há ${dias} dias`;
 }
 
-// ------------------------------------------------------------------ lista
+// ------------------------------------------------------------------ revisão da lista (uma mensagem só)
 
-export function textoLista(nome: string, itens: ItemLista[]): string {
+export const ITENS_POR_PAGINA = 15; // 5 botões por item + adicionar/navegação: cabe no limite de ~100 botões do Telegram
+
+export function paginas(itens: unknown[]): number {
+  return Math.max(1, Math.ceil(itens.length / ITENS_POR_PAGINA));
+}
+
+export function textoRevisao(nome: string, itens: ItemLista[], pagina: number, temRemovidos = false): string {
+  if (itens.length === 0 && temRemovidos) {
+    return `🛒 *${esc(nome)}*\n\nTodos os itens foram removidos\\. Toque em ↩️ para voltar algum, ou me mande novos itens\\.`;
+  }
   if (itens.length === 0) {
     return `🛒 *${esc(nome)}*\n\nSua lista está vazia\\. Me mande os itens, por exemplo:\n_2 leite, arroz 5kg, café_`;
   }
+  const t = totais(itens);
+  const semPreco = itens.filter((i) => i.precoEstimado === null).length;
+  const incertos = itens.filter((i) => i.incerto).length;
+  const linhas = [
+    `🛒 *${esc(nome)}* — ${itens.length} ${itens.length === 1 ? "item" : "itens"}`,
+    `*Total estimado: ${esc(brl(t.estimado))}*`,
+    "",
+    "Toque em *E* \\(econômico\\), *T* \\(típico\\) ou *P* \\(premium\\) em cada item; o total muda na hora\\.",
+    "➕ adiciona · 🔄 troca o item · 🗑 remove \\(↩️ desfaz\\)",
+  ];
+  if (incertos) linhas.push(`❓ ${incertos} ${incertos === 1 ? "item precisa" : "itens precisam"} de conferência: toque no nome para trocar\\.`);
+  if (semPreco) linhas.push(`✏️ ${semPreco} sem preço da região: toque em ✏️ para informar\\.`);
+  const n = paginas(itens);
+  if (n > 1) linhas.push("", `_Página ${pagina + 1} de ${n}_`);
+  return linhas.join("\n");
+}
+
+function rotuloFaixa(letra: string, valor: number, quantidade: number, marcado: boolean): string {
+  return `${marcado ? "●" : ""}${letra} ${brl(centavos(valor * quantidade)).replace("R$ ", "")}`;
+}
+
+/**
+ * Duas linhas por item: [nome · 🔄] [🗑] e [E] [T] [P] (ou [✏️ informar preço]).
+ * `temAlternativas` diz se o 🔄 faz sentido para o item.
+ */
+export function tecladoRevisao(
+  itens: ItemLista[],
+  pagina: number,
+  temAlternativas: (i: ItemLista) => boolean,
+  removidos: { id: number; nome: string }[] = [],
+): InlineKeyboard {
+  const k = new InlineKeyboard().text("➕ Adicionar item", "add").row();
+  const n = paginas(itens);
+  const pag = Math.min(Math.max(pagina, 0), n - 1);
+  for (const i of itens.slice(pag * ITENS_POR_PAGINA, (pag + 1) * ITENS_POR_PAGINA)) {
+    const q = qtd(i);
+    const nome = `${i.incerto ? "❓ " : ""}${encurtar(i.nomeExibicao, 30)}${q ? " " + q : ""}${temAlternativas(i) ? " 🔄" : ""}`;
+    k.text(nome, `a:${i.id}:${pag}`).text("🗑", `d:${i.id}:${pag}`).row();
+    if (i.faixa) {
+      k.text(rotuloFaixa("E", i.faixa.p10, i.quantidade, i.perfil === "economico"), `t:${i.id}:e:${pag}`)
+        .text(rotuloFaixa("T", i.faixa.p50, i.quantidade, i.perfil === "tipico"), `t:${i.id}:t:${pag}`)
+        .text(rotuloFaixa("P", i.faixa.p90, i.quantidade, i.perfil === "premium"), `t:${i.id}:p:${pag}`)
+        .row();
+      if (i.perfil === "manual" && i.precoEstimado !== null) {
+        k.text(`●✏️ ${brl(centavos(i.precoEstimado * i.quantidade))}`, `w:${i.id}:${pag}`).row();
+      }
+    } else {
+      const v = i.precoEstimado === null ? "✏️ informar preço" : `✏️ ${brl(centavos(i.precoEstimado * i.quantidade))}`;
+      k.text(v, `w:${i.id}:${pag}`).row();
+    }
+  }
+  for (const r of removidos) k.text(`↩️ Voltar: ${encurtar(r.nome, 34)}`, `u:${r.id}:${pag}`).row();
+  if (n > 1) {
+    if (pag > 0) k.text("⬅️ Anterior", `g:${pag - 1}`);
+    if (pag < n - 1) k.text("Próxima ➡️", `g:${pag + 1}`);
+    k.row();
+  }
+  return k.text("✅ Pronto", "ok").text("🛍️ Estou no mercado", "v:mercado");
+}
+
+/** Troca do item (🔄): substitui o teclado da revisão pelas opções, na mesma mensagem. */
+export function tecladoAlternativas(itemListaId: number, pagina: number, opcoes: { id: string; nome: string }[]): InlineKeyboard {
+  const k = new InlineKeyboard();
+  for (const o of opcoes) k.text(o.nome, `s:${itemListaId}:${o.id}:${pagina}`).row();
+  return k.text("Item livre (sem preço da região)", `s:${itemListaId}:-:${pagina}`).row().text("⬅️ Voltar", `g:${pagina}`);
+}
+
+export function textoResumo(nome: string, itens: ItemLista[]): string {
+  const t = totais(itens);
   const linhas = itens.map((i) => {
     const preco = i.precoEstimado === null ? "sem preço" : brl(centavos(i.precoEstimado * i.quantidade));
     const q = qtd(i);
     return `• ${esc(i.nomeExibicao)}${q ? " " + esc(q) : ""} — ${esc(preco)}`;
   });
-  const t = totais(itens);
   return `🛒 *${esc(nome)}*\n\n${linhas.join("\n")}\n\n*Total estimado: ${esc(brl(t.estimado))}*`;
 }
 
-export function tecladoLista(): InlineKeyboard {
-  return new InlineKeyboard().text("🛍️ Estou no mercado", "v:mercado").row().text("🧾 Finalizar lista", "x:finalizar");
+export function tecladoResumo(): InlineKeyboard {
+  return new InlineKeyboard().text("➕ Adicionar item", "add").text("✏️ Ajustar", "g:0").row().text("🛍️ Estou no mercado", "v:mercado").row().text("🧾 Finalizar lista", "x:finalizar");
 }
 
 // ------------------------------------------------------------------ modo mercado
@@ -122,40 +203,6 @@ export function tecladoMercado(itens: ItemLista[]): InlineKeyboard {
       .row();
   }
   return k.text("🧾 Finalizar compra", "x:finalizar");
-}
-
-// ------------------------------------------------------------------ escolhas
-
-export function tecladoSugestoes(itemListaId: number, sugestoes: { id: string; nome: string }[]): InlineKeyboard {
-  const k = new InlineKeyboard();
-  for (const s of sugestoes) k.text(s.nome, `i:${itemListaId}:${s.id}`).row();
-  return k.text("Outro (sem preço do catálogo)", `i:${itemListaId}:-`);
-}
-
-export function textoFaixa(nome: string, quantidade: string, f: Faixa): string {
-  const origem = f.nivel === "imediata" ? f.nomeLocal : `${f.nomeLocal} (sem dados da sua região)`;
-  return [
-    `*${esc(nome)}*${quantidade ? " " + esc(quantidade) : ""}`,
-    `Preço em ${esc(origem)}, atualizado ${esc(idade(f.atualizadoEm))}:`,
-    "",
-    `Econômico: ${esc(brl(f.p10))}`,
-    `Típico: ${esc(brl(f.p50))}`,
-    `Premium: ${esc(brl(f.p90))}`,
-    "",
-    "Quanto você quer considerar?",
-  ].join("\n");
-}
-
-export function tecladoFaixa(itemListaId: number, f: Faixa): InlineKeyboard {
-  return new InlineKeyboard()
-    .text(`Econômico ${brl(f.p10)}`, `f:${itemListaId}:e`)
-    .row()
-    .text(`Típico ${brl(f.p50)}`, `f:${itemListaId}:t`)
-    .row()
-    .text(`Premium ${brl(f.p90)}`, `f:${itemListaId}:p`)
-    .row()
-    .text("Outro valor", `f:${itemListaId}:m`)
-    .text("Sem preço", `f:${itemListaId}:0`);
 }
 
 /** Escapa texto para MarkdownV2 do Telegram. */
