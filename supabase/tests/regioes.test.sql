@@ -38,6 +38,10 @@ begin
   -- Worker por rede só pega tarefas da sua rede
   assert (select rede_id from pegar_tarefa('nacional')) = 'nacional', 'pegar_tarefa ignorou o filtro de rede';
 
+  -- Tarefa presa em 'executando' há mais de 3 horas volta para a fila
+  update coleta_tarefa set status = 'executando', iniciada_em = now() - interval '4 hours' where rede_id = 'nacional';
+  assert (select rede_id from pegar_tarefa('nacional')) = 'nacional', 'tarefa presa não foi retomada';
+
   raise notice 'regioes: todos os testes passaram';
 end $$;
 rollback;

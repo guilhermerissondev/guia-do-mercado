@@ -43,7 +43,10 @@ $$
      set status = 'executando', iniciada_em = now(), tentativas = t.tentativas + 1
    where t.id = (
      select id from coleta_tarefa
-      where status = 'pendente' and agendada_para <= now() and (p_rede is null or rede_id = p_rede)
+      where (p_rede is null or rede_id = p_rede)
+        and ((status = 'pendente' and agendada_para <= now())
+             -- worker que morreu no meio (máquina reiniciada, processo encerrado): tarefa volta a valer
+             or (status = 'executando' and iniciada_em < now() - interval '3 hours'))
       order by agendada_para
       for update skip locked
       limit 1)
