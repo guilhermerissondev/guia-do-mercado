@@ -94,7 +94,8 @@ def test_ciclo_completo(conn):
         assert loja["municipio_ibge"] == BRASILIA, "loja precisa ser mapeada para o município do IBGE"
 
         assert conn.execute("select agendar_coletas() as n").fetchone()["n"] == 3
-        assert coletor.rodar_fila() == 3
+        # Só as redes falsas do teste: nunca pegar tarefas reais da fila
+        assert sum(coletor.rodar_fila(rede=r) for r in ("fakea", "fakeb", "fakeosuper")) == 3
 
         tarefas = conn.execute("select status, n_precos from coleta_tarefa where rede_id like 'fake%' order by rede_id").fetchall()
         assert [t["status"] for t in tarefas] == ["concluida"] * 3
