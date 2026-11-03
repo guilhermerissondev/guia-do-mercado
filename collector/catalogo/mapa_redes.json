@@ -1,6 +1,51 @@
 {
- "gerado_em": "2026-11-03T21:28:34.570882+00:00",
+ "gerado_em": "2026-11-03T21:42:42.876369+00:00",
  "redes": [
+  {
+   "id": "abc",
+   "nome": "Supermercados ABC",
+   "ufs": [
+    "MG"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.supermercadosabc.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "amigao",
+   "nome": "Amigão Supermercados",
+   "ufs": [
+    "PR",
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "plataforma": "vtex",
+   "host": "www.amigao.com",
+   "config": {
+    "host": "www.amigao.com"
+   },
+   "regioes": {},
+   "motivo": "www.amigao.com: VTEX FastStore (headless), APIs não expostas no domínio; precisa de adaptador próprio"
+  },
+  {
+   "id": "andreazza",
+   "nome": "Super Andreazza",
+   "ufs": [
+    "RS",
+    "SC"
+   ],
+   "status": "nao_atende",
+   "plataforma": "vtex",
+   "host": "ecommerce.superandreazza.com.br",
+   "config": {
+    "host": "ecommerce.superandreazza.com.br",
+    "regionaliza": false
+   },
+   "regioes": {},
+   "regioes_vtex_distintas": 1,
+   "regionaliza": false,
+   "motivo": "nenhuma região com itens de teste com preço"
+  },
   {
    "id": "angeloni",
    "nome": "Angeloni",
@@ -32,6 +77,17 @@
    "regioes_vtex_distintas": 11,
    "regionaliza": true,
    "motivo": ""
+  },
+  {
+   "id": "arcomix",
+   "nome": "Arco-Mix",
+   "ufs": [
+    "PE"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.delivery.arcomix.com.br: plataforma não identificada",
+   "host": "www.delivery.arcomix.com.br",
+   "regioes": {}
   },
   {
    "id": "assai",
@@ -611,6 +667,16 @@
    "motivo": ""
   },
   {
+   "id": "atack",
+   "nome": "Atack",
+   "ufs": [
+    "AM"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.atack.com.br: ConnectTimeout",
+   "regioes": {}
+  },
+  {
    "id": "atakarejo",
    "nome": "Atakarejo",
    "ufs": [
@@ -622,6 +688,28 @@
    "regioes": {}
   },
   {
+   "id": "bahamas",
+   "nome": "Supermercados Bahamas",
+   "ufs": [
+    "MG"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "bahamas.com.br: plataforma não identificada",
+   "host": "bahamas.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "barbosa",
+   "nome": "Barbosa Supermercados",
+   "ufs": [
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.barbosasupermercados.com.br: plataforma não identificada",
+   "host": "www.barbosasupermercados.com.br",
+   "regioes": {}
+  },
+  {
    "id": "bigbox",
    "nome": "Big Box",
    "ufs": [
@@ -630,6 +718,17 @@
    "status": "plataforma_nao_suportada",
    "motivo": "bigboxdelivery.com.br: plataforma não identificada",
    "host": "bigboxdelivery.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "biglar",
+   "nome": "Big Lar",
+   "ufs": [
+    "MT"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.biglar.com.br: plataforma não identificada",
+   "host": "www.biglar.com.br",
    "regioes": {}
   },
   {
@@ -714,6 +813,16 @@
    "regioes": {}
   },
   {
+   "id": "casagrande",
+   "nome": "Casagrande",
+   "ufs": [
+    "ES"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.casagrande.com.br: HTTP 500",
+   "regioes": {}
+  },
+  {
    "id": "cidadecancao",
    "nome": "Cidade Canção",
    "ufs": [
@@ -790,6 +899,17 @@
    "motivo": ""
   },
   {
+   "id": "confianca",
+   "nome": "Confiança Supermercados",
+   "ufs": [
+    "SP"
+   ],
+   "status": "bloqueada",
+   "motivo": "www.confianca.com.br: HTTP 403 / verificação anti-robô",
+   "host": "www.confianca.com.br",
+   "regioes": {}
+  },
+  {
    "id": "coop",
    "nome": "Coop",
    "ufs": [
@@ -820,6 +940,17 @@
    "motivo": ""
   },
   {
+   "id": "cooper",
+   "nome": "Cooper",
+   "ufs": [
+    "SC"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.cooper.coop.br: plataforma não identificada",
+   "host": "www.cooper.coop.br",
+   "regioes": {}
+  },
+  {
    "id": "covabra",
    "nome": "Covabra",
    "ufs": [
@@ -844,6 +975,16 @@
    "motivo": ""
   },
   {
+   "id": "dalben",
+   "nome": "Dalben",
+   "ufs": [
+    "SP"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.dalben.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
    "id": "db",
    "nome": "DB Supermercados",
    "ufs": [
@@ -852,6 +993,28 @@
    "status": "plataforma_nao_suportada",
    "motivo": "dbsupermercados.com.br: plataforma não identificada",
    "host": "dbsupermercados.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "diaadia",
+   "nome": "Atacadão Dia a Dia",
+   "ufs": [
+    "DF",
+    "GO"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "diaadiaatacadista.com.br: plataforma não identificada",
+   "host": "diaadiaatacadista.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "donadecasa",
+   "nome": "Dona de Casa",
+   "ufs": [
+    "DF"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.donadecasa.com.br: ConnectError",
    "regioes": {}
   },
   {
@@ -946,6 +1109,16 @@
    "motivo": ""
   },
   {
+   "id": "frangolandia",
+   "nome": "Frangolândia",
+   "ufs": [
+    "CE"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.frangolandia.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
    "id": "gbarbosa",
    "nome": "GBarbosa",
    "ufs": [
@@ -998,6 +1171,18 @@
    "regioes_vtex_distintas": 7,
    "regionaliza": true,
    "motivo": ""
+  },
+  {
+   "id": "goncalves",
+   "nome": "Irmãos Gonçalves",
+   "ufs": [
+    "RO",
+    "AC"
+   ],
+   "status": "bloqueada",
+   "motivo": "www.irmaosgoncalves.com.br: HTTP 403 / verificação anti-robô",
+   "host": "www.irmaosgoncalves.com.br",
+   "regioes": {}
   },
   {
    "id": "guanabara",
@@ -1053,6 +1238,17 @@
    "regioes": {}
   },
   {
+   "id": "jacomar",
+   "nome": "Jacomar",
+   "ufs": [
+    "PR"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.jacomar.com.br: plataforma não identificada",
+   "host": "www.jacomar.com.br",
+   "regioes": {}
+  },
+  {
    "id": "koch",
    "nome": "Koch",
    "ufs": [
@@ -1090,6 +1286,16 @@
    "regioes": {}
   },
   {
+   "id": "lusitana",
+   "nome": "Lusitana",
+   "ufs": [
+    "MA"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.lusitana.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
    "id": "martminas",
    "nome": "Mart Minas",
    "ufs": [
@@ -1122,6 +1328,17 @@
    "regioes": {}
   },
   {
+   "id": "modelo",
+   "nome": "Supermercados Modelo",
+   "ufs": [
+    "MT"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.supermodelo.com.br: plataforma não identificada",
+   "host": "www.supermodelo.com.br",
+   "regioes": {}
+  },
+  {
    "id": "muffato",
    "nome": "Super Muffato",
    "ufs": [
@@ -1141,6 +1358,17 @@
    "status": "plataforma_nao_suportada",
    "motivo": "www.supermercadosmundial.com.br: plataforma não identificada",
    "host": "www.supermercadosmundial.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "nagumo",
+   "nome": "Nagumo",
+   "ufs": [
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.nagumo.com.br: plataforma não identificada",
+   "host": "www.nagumo.com.br",
    "regioes": {}
   },
   {
@@ -1164,6 +1392,26 @@
    "motivo": "www.lojaonline.nordestao.com.br: plataforma não identificada",
    "host": "www.lojaonline.nordestao.com.br",
    "regioes": {}
+  },
+  {
+   "id": "novaera",
+   "nome": "Nova Era",
+   "ufs": [
+    "AM"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.supernovaera.com.br",
+   "config": {
+    "host": "www.supernovaera.com.br",
+    "regionaliza": false
+   },
+   "regioes": {
+    "130001": 5
+   },
+   "regioes_vtex_distintas": 1,
+   "regionaliza": false,
+   "motivo": ""
   },
   {
    "id": "novoatacarejo",
@@ -1247,6 +1495,17 @@
    "motivo": ""
   },
   {
+   "id": "palato",
+   "nome": "Palato",
+   "ufs": [
+    "AL"
+   ],
+   "status": "bloqueada",
+   "motivo": "www.palato.com.br: HTTP 200 / verificação anti-robô",
+   "host": "www.palato.com.br",
+   "regioes": {}
+  },
+  {
    "id": "paodeacucar",
    "nome": "Pão de Açúcar",
    "ufs": [
@@ -1263,6 +1522,17 @@
    "regioes": {}
   },
   {
+   "id": "perim",
+   "nome": "Perim",
+   "ufs": [
+    "ES"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.perim.com.br: plataforma não identificada",
+   "host": "www.perim.com.br",
+   "regioes": {}
+  },
+  {
    "id": "perini",
    "nome": "Perini",
    "ufs": [
@@ -1274,6 +1544,17 @@
    "regioes": {}
   },
   {
+   "id": "peruzzo",
+   "nome": "Peruzzo",
+   "ufs": [
+    "RS"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.peruzzo.com.br: plataforma não identificada",
+   "host": "www.peruzzo.com.br",
+   "regioes": {}
+  },
+  {
    "id": "pinheiro",
    "nome": "Pinheiro Supermercado",
    "ufs": [
@@ -1282,6 +1563,16 @@
    "status": "plataforma_nao_suportada",
    "motivo": "www.supermercadopinheiro.com.br: plataforma não identificada",
    "host": "www.supermercadopinheiro.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "precobaixo",
+   "nome": "Preço Baixo",
+   "ufs": [
+    "PA"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.supermercadoprecobaixo.com.br: ConnectError",
    "regioes": {}
   },
   {
@@ -1303,6 +1594,39 @@
    "regioes_vtex_distintas": 2,
    "regionaliza": false,
    "motivo": ""
+  },
+  {
+   "id": "queiroz",
+   "nome": "Queiroz Atacadão",
+   "ufs": [
+    "RN",
+    "PB"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.hiperqueiroz.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "redemix",
+   "nome": "RedeMix",
+   "ufs": [
+    "BA"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.redemix.com.br: plataforma não identificada",
+   "host": "www.redemix.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "roldao",
+   "nome": "Roldão Atacadista",
+   "ufs": [
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "roldao.com.br: plataforma não identificada",
+   "host": "roldao.com.br",
+   "regioes": {}
   },
   {
    "id": "samsclub",
@@ -1407,6 +1731,29 @@
    "motivo": ""
   },
   {
+   "id": "semar",
+   "nome": "Semar",
+   "ufs": [
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.semar.com.br: plataforma não identificada",
+   "host": "www.semar.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "shibata",
+   "nome": "Shibata",
+   "ufs": [
+    "SP",
+    "MG"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "shibata.com.br: plataforma não identificada",
+   "host": "shibata.com.br",
+   "regioes": {}
+  },
+  {
    "id": "sonda",
    "nome": "Sonda",
    "ufs": [
@@ -1415,6 +1762,17 @@
    "status": "plataforma_nao_suportada",
    "motivo": "www.sondadelivery.com.br: plataforma não identificada",
    "host": "www.sondadelivery.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "spani",
+   "nome": "Spani Atacadista",
+   "ufs": [
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.spanionline.com.br: plataforma não identificada",
+   "host": "www.spanionline.com.br",
    "regioes": {}
   },
   {
@@ -1436,6 +1794,16 @@
    ],
    "status": "sem_resposta",
    "motivo": "www.stokcenter.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "superfacil",
+   "nome": "Superfácil",
+   "ufs": [
+    "RN"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.superfacil.com.br: ConnectError",
    "regioes": {}
   },
   {
@@ -1472,6 +1840,17 @@
    "motivo": ""
   },
   {
+   "id": "superprix",
+   "nome": "SuperPrix",
+   "ufs": [
+    "RJ"
+   ],
+   "status": "bloqueada",
+   "motivo": "www.superprix.com.br: HTTP 403 / verificação anti-robô",
+   "host": "www.superprix.com.br",
+   "regioes": {}
+  },
+  {
    "id": "tatico",
    "nome": "Tatico",
    "ufs": [
@@ -1480,6 +1859,17 @@
    ],
    "status": "sem_resposta",
    "motivo": "www.tatico.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "tauste",
+   "nome": "Tauste",
+   "ufs": [
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "tauste.com.br: plataforma não identificada",
+   "host": "tauste.com.br",
    "regioes": {}
   },
   {
@@ -1492,6 +1882,28 @@
    "status": "plataforma_nao_suportada",
    "motivo": "www.tendaatacado.com.br: plataforma não identificada",
    "host": "www.tendaatacado.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "tozetto",
+   "nome": "Tozetto",
+   "ufs": [
+    "PR"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.tozetto.com.br: plataforma não identificada",
+   "host": "www.tozetto.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "unicompra",
+   "nome": "Unicompra",
+   "ufs": [
+    "AL"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.unicompra.com.br: plataforma não identificada",
+   "host": "www.unicompra.com.br",
    "regioes": {}
   },
   {
@@ -1514,6 +1926,17 @@
    "status": "bloqueada",
    "motivo": "www.portobellohoteis.com.br: HTTP 200 / verificação anti-robô",
    "host": "www.portobellohoteis.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "villefort",
+   "nome": "Villefort",
+   "ufs": [
+    "MG"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.villefort.com.br: plataforma não identificada",
+   "host": "www.villefort.com.br",
    "regioes": {}
   },
   {

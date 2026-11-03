@@ -109,6 +109,10 @@ def detectar(rede: dict, cliente: ClienteEducado) -> dict:
     return ultimo
 
 
+class FastStore(Exception):
+    """Loja VTEX headless (FastStore): as APIs da VTEX não ficam expostas no domínio da loja."""
+
+
 MIN_REGIOES_PARA_JULGAR = 4  # com menos regiões testadas não dá para dizer se a rede regionaliza
 
 
@@ -124,6 +128,8 @@ def mapear_vtex(rede: dict, info: dict, regioes: list[dict], cliente: ClienteEdu
         except httpx.HTTPStatusError as e:
             if e.response.status_code in BLOQUEIO:
                 raise RuntimeError(f"API respondeu HTTP {e.response.status_code}") from e
+            if e.response.status_code == 404 and not regiao_para_rid:
+                raise FastStore() from e
             rid = None
         regiao_para_rid[reg["regiao"]] = rid
         if rid and rid not in por_region_id:
@@ -201,6 +207,9 @@ def processar(rede: dict, regioes_por_uf: dict[str, list[dict]], municipios, cas
                 else:
                     extra = mapear_osuper(rede, info, municipios, cliente)
                 break
+            except FastStore:
+                return {**base, **info, "status": "plataforma_nao_suportada", "regioes": {},
+                        "motivo": f"{info['host']}: VTEX FastStore (headless), APIs não expostas no domínio; precisa de adaptador próprio"}
             except RuntimeError as e:  # 401/403/429/503: recusa de acesso, não insistir
                 return {**base, **info, "status": "bloqueada", "motivo": f"{info['host']}: {e}", "regioes": {}}
             except httpx.HTTPError as e:  # 500 e falhas de rede: problema do servidor, tenta de novo uma vez

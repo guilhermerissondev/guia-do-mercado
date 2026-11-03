@@ -379,3 +379,238 @@ id = "db"
 nome = "DB Supermercados"
 dominios = ["www.dbsupermercados.com.br"]
 ufs = ["AM"]
+
+# ================================================================ ampliação (2026-11-03)
+# Redes regionais para as regiões que só tinham o Atacadão. Domínios a confirmar pelo mapa.
+
+# ---------------------------------------------------------------- Sul
+
+[[rede]]
+id = "amigao"
+nome = "Amigão Supermercados"
+dominios = ["www.amigao.com", "www.amigao.com.br", "www.amigaosupermercados.com.br"]
+ufs = ["PR", "SP"]
+
+[[rede]]
+id = "andreazza"
+nome = "Super Andreazza"
+dominios = ["ecommerce.superandreazza.com.br", "www.superandreazza.com.br"]
+ufs = ["RS", "SC"]
+
+[[rede]]
+id = "jacomar"
+nome = "Jacomar"
+dominios = ["www.jacomar.com.br"]
+ufs = ["PR"]
+
+[[rede]]
+id = "tozetto"
+nome = "Tozetto"
+dominios = ["www.tozetto.com.br"]
+ufs = ["PR"]
+
+[[rede]]
+id = "cooper"
+nome = "Cooper"
+dominios = ["www.cooper.coop.br", "loja.cooper.coop.br"]
+ufs = ["SC"]
+
+[[rede]]
+id = "peruzzo"
+nome = "Peruzzo"
+dominios = ["www.peruzzo.com.br"]
+ufs = ["RS"]
+
+# ---------------------------------------------------------------- Sudeste
+
+[[rede]]
+id = "shibata"
+nome = "Shibata"
+dominios = ["www.shibata.com.br", "www.shibataemcasa.com.br"]
+ufs = ["SP", "MG"]
+
+[[rede]]
+id = "nagumo"
+nome = "Nagumo"
+dominios = ["www.nagumo.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "barbosa"
+nome = "Barbosa Supermercados"
+dominios = ["www.barbosasupermercados.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "semar"
+nome = "Semar"
+dominios = ["www.semar.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "tauste"
+nome = "Tauste"
+dominios = ["www.tauste.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "confianca"
+nome = "Confiança Supermercados"
+dominios = ["www.confianca.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "dalben"
+nome = "Dalben"
+dominios = ["www.dalben.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "spani"
+nome = "Spani Atacadista"
+dominios = ["www.spani.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "roldao"
+nome = "Roldão Atacadista"
+dominios = ["www.roldao.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "villefort"
+nome = "Villefort"
+dominios = ["www.villefort.com.br"]
+ufs = ["MG"]
+
+[[rede]]
+id = "bahamas"
+nome = "Supermercados Bahamas"
+dominios = ["www.bahamas.com.br", "www.superbahamas.com.br"]
+ufs = ["MG"]
+
+[[rede]]
+id = "abc"
+nome = "Supermercados ABC"
+dominios = ["www.supermercadosabc.com.br"]
+ufs = ["MG"]
+
+[[rede]]
+id = "superprix"
+nome = "SuperPrix"
+dominios = ["www.superprix.com.br"]
+ufs = ["RJ"]
+
+[[rede]]
+id = "perim"
+nome = "Perim"
+dominios = ["www.perim.com.br"]
+ufs = ["ES"]
+
+[[rede]]
+id = "casagrande"
+nome = "Casagrande"
+dominios = ["www.supercasagrande.com.br", "www.casagrande.com.br"]
+ufs = ["ES"]
+
+# ---------------------------------------------------------------- Centro-Oeste
+
+[[rede]]
+id = "biglar"
+nome = "Big Lar"
+dominios = ["www.biglar.com.br"]
+ufs = ["MT"]
+
+[[rede]]
+id = "modelo"
+nome = "Supermercados Modelo"
+dominios = ["www.supermodelo.com.br", "www.supermercadosmodelo.com.br"]
+ufs = ["MT"]
+
+[[rede]]
+id = "diaadia"
+nome = "Atacadão Dia a Dia"
+dominios = ["www.atacadaodiaadia.com.br"]
+ufs = ["DF", "GO"]
+
+[[rede]]
+id = "donadecasa"
+nome = "Dona de Casa"
+dominios = ["www.donadecasa.com.br"]
+ufs = ["DF"]
+
+# ---------------------------------------------------------------- Nordeste
+
+[[rede]]
+id = "redemix"
+nome = "RedeMix"
+dominios = ["www.redemix.com.br"]
+ufs = ["BA"]
+
+[[rede]]
+id = "arcomix"
+nome = "Arco-Mix"
+dominios = ["www.arcomix.com.br"]
+ufs = ["PE"]
+
+[[rede]]
+id = "frangolandia"
+nome = "Frangolândia"
+dominios = ["www.frangolandia.com.br"]
+ufs = ["CE"]
+
+[[rede]]
+id = "superfacil"
+nome = "Superfácil"
+dominios = ["www.superfacil.com.br"]
+ufs = ["RN"]
+
+[[rede]]
+id = "queiroz"
+nome = "Queiroz Atacadão"
+dominios = ["www.queirozatacadao.com.br", "www.hiperqueiroz.com.br"]
+ufs = ["RN", "PB"]
+
+[[rede]]
+id = "unicompra"
+nome = "Unicompra"
+dominios = ["www.unicompra.com.br"]
+ufs = ["AL"]
+
+[[rede]]
+id = "palato"
+nome = "Palato"
+dominios = ["www.palato.com.br"]
+ufs = ["AL"]
+
+[[rede]]
+id = "lusitana"
+nome = "Lusitana"
+dominios = ["www.lusitanaonline.com.br", "www.lusitana.com.br"]
+ufs = ["MA"]
+
+# ---------------------------------------------------------------- Norte
+
+[[rede]]
+id = "precobaixo"
+nome = "Preço Baixo"
+dominios = ["www.precobaixo.com.br", "www.supermercadoprecobaixo.com.br"]
+ufs = ["PA"]
+
+[[rede]]
+id = "novaera"
+nome = "Nova Era"
+dominios = ["www.supernovaera.com.br", "www.novaera.com.br"]
+ufs = ["AM"]
+
+[[rede]]
+id = "atack"
+nome = "Atack"
+dominios = ["www.atack.com.br"]
+ufs = ["AM"]
+
+[[rede]]
+id = "goncalves"
+nome = "Irmãos Gonçalves"
+dominios = ["www.supergoncalves.com.br", "www.irmaosgoncalves.com.br"]
+ufs = ["RO", "AC"]

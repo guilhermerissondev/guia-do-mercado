@@ -1,8 +1,8 @@
 # Mapa de redes por região (coleta de preço base)
 
-Gerado por `collector/gm/ferramentas/mapear_redes.py` em 2026-11-03 21:28 UTC. Não editar à mão.
+Gerado por `collector/gm/ferramentas/mapear_redes.py` em 2026-11-03 21:42 UTC. Não editar à mão.
 
-**19 redes viáveis** de 59 candidatas. Meta: 2 a 3 redes por região imediata (D11, D15).
+**20 redes viáveis** de 96 candidatas. Meta: 2 a 3 redes por região imediata (D11, D15).
 
 ## Cobertura por estado
 
@@ -10,7 +10,7 @@ Gerado por `collector/gm/ferramentas/mapear_redes.py` em 2026-11-03 21:28 UTC. N
 |---|---|---|---|---|
 | AC | 5 | 0 | 5 | 0 |
 | AL | 11 | 1 | 10 | 0 |
-| AM | 11 | 0 | 11 | 0 |
+| AM | 11 | 1 | 10 | 0 |
 | AP | 4 | 0 | 4 | 0 |
 | BA | 34 | 5 | 29 | 0 |
 | CE | 18 | 1 | 17 | 0 |
@@ -35,7 +35,7 @@ Gerado por `collector/gm/ferramentas/mapear_redes.py` em 2026-11-03 21:28 UTC. N
 | SE | 6 | 1 | 5 | 0 |
 | SP | 53 | 26 | 27 | 0 |
 | TO | 11 | 0 | 11 | 0 |
-| **Brasil** | **510** | **67** | **441** | **2** |
+| **Brasil** | **510** | **68** | **440** | **2** |
 
 ## Redes
 
@@ -58,43 +58,80 @@ Gerado por `collector/gm/ferramentas/mapear_redes.py` em 2026-11-03 21:28 UTC. N
 | Zaffari | ✅ viável | vtex | 4 |  |
 | Carone | ✅ viável | vtex | 1 |  |
 | Hiperideal | ✅ viável | vtex | 1 |  |
+| Nova Era | ✅ viável | vtex | 1 |  |
 | Prezunic | ✅ viável | vtex | 1 |  |
 | Super Nosso | ✅ viável | vtex | 1 |  |
 | Bretas | ⚪ não atende | vtex | 0 | nenhuma região com itens de teste com preço |
 | Formosa Supermercados | ⚪ não atende | vtex | 0 | nenhuma região com itens de teste com preço |
+| Super Andreazza | ⚪ não atende | vtex | 0 | nenhuma região com itens de teste com preço |
+| Amigão Supermercados | 🔧 outra plataforma | vtex | 0 | www.amigao.com: VTEX FastStore (headless), APIs não expostas no domínio; precisa de adaptador próprio |
+| Arco-Mix | 🔧 outra plataforma | – | 0 | www.delivery.arcomix.com.br: plataforma não identificada |
+| Atacadão Dia a Dia | 🔧 outra plataforma | – | 0 | diaadiaatacadista.com.br: plataforma não identificada |
 | Atakarejo | 🔧 outra plataforma | – | 0 | atakarejo.com.br: plataforma não identificada |
+| Barbosa Supermercados | 🔧 outra plataforma | – | 0 | www.barbosasupermercados.com.br: plataforma não identificada |
 | Big Box | 🔧 outra plataforma | – | 0 | bigboxdelivery.com.br: plataforma não identificada |
+| Big Lar | 🔧 outra plataforma | – | 0 | www.biglar.com.br: plataforma não identificada |
+| Cooper | 🔧 outra plataforma | – | 0 | www.cooper.coop.br: plataforma não identificada |
 | DB Supermercados | 🔧 outra plataforma | – | 0 | dbsupermercados.com.br: plataforma não identificada |
 | EPA Supermercados | 🔧 outra plataforma | – | 0 | epa.com.br: plataforma não identificada |
 | Extrabom | 🔧 outra plataforma | – | 0 | www.extrabom.com.br: plataforma não identificada |
 | Hirota | 🔧 outra plataforma | – | 0 | www.lojahirota.com.br: plataforma não identificada |
 | Imperatriz | 🔧 outra plataforma | – | 0 | www.imperatriz.com.br: plataforma não identificada |
+| Jacomar | 🔧 outra plataforma | – | 0 | www.jacomar.com.br: plataforma não identificada |
 | Líder Supermercados | 🔧 outra plataforma | – | 0 | www.supermercadoslider.com.br: plataforma não identificada |
 | Mart Minas | 🔧 outra plataforma | – | 0 | www.martminas.com.br: plataforma não identificada |
 | Mateus Supermercados | 🔧 outra plataforma | – | 0 | www.mateusmais.com.br: plataforma não identificada |
 | Mercadinhos São Luiz | 🔧 outra plataforma | – | 0 | mercadinhossaoluiz.com.br: plataforma não identificada |
+| Nagumo | 🔧 outra plataforma | – | 0 | www.nagumo.com.br: plataforma não identificada |
 | Nordestão | 🔧 outra plataforma | – | 0 | www.lojaonline.nordestao.com.br: plataforma não identificada |
 | Novo Atacarejo | 🔧 outra plataforma | – | 0 | novoatacarejo.com: plataforma não identificada |
+| Perim | 🔧 outra plataforma | – | 0 | www.perim.com.br: plataforma não identificada |
+| Peruzzo | 🔧 outra plataforma | – | 0 | www.peruzzo.com.br: plataforma não identificada |
 | Pinheiro Supermercado | 🔧 outra plataforma | – | 0 | www.supermercadopinheiro.com.br: plataforma não identificada |
+| RedeMix | 🔧 outra plataforma | – | 0 | www.redemix.com.br: plataforma não identificada |
+| Roldão Atacadista | 🔧 outra plataforma | – | 0 | roldao.com.br: plataforma não identificada |
+| Semar | 🔧 outra plataforma | – | 0 | www.semar.com.br: plataforma não identificada |
+| Shibata | 🔧 outra plataforma | – | 0 | shibata.com.br: plataforma não identificada |
 | Sonda | 🔧 outra plataforma | – | 0 | www.sondadelivery.com.br: plataforma não identificada |
+| Spani Atacadista | 🔧 outra plataforma | – | 0 | www.spanionline.com.br: plataforma não identificada |
 | St Marche | 🔧 outra plataforma | – | 0 | marche.com.br: plataforma não identificada |
 | Supermercados BH | 🔧 outra plataforma | – | 0 | www.supermercadosbh.com.br: plataforma não identificada |
+| Supermercados Bahamas | 🔧 outra plataforma | – | 0 | bahamas.com.br: plataforma não identificada |
 | Supermercados Guanabara | 🔧 outra plataforma | – | 0 | www.supermercadosguanabara.com.br: plataforma não identificada |
+| Supermercados Modelo | 🔧 outra plataforma | – | 0 | www.supermodelo.com.br: plataforma não identificada |
 | Supermercados Mundial | 🔧 outra plataforma | – | 0 | www.supermercadosmundial.com.br: plataforma não identificada |
+| Tauste | 🔧 outra plataforma | – | 0 | tauste.com.br: plataforma não identificada |
 | Tenda Atacado | 🔧 outra plataforma | – | 0 | www.tendaatacado.com.br: plataforma não identificada |
+| Tozetto | 🔧 outra plataforma | – | 0 | www.tozetto.com.br: plataforma não identificada |
+| Unicompra | 🔧 outra plataforma | – | 0 | www.unicompra.com.br: plataforma não identificada |
 | Unidasul | 🔧 outra plataforma | – | 0 | www.unidasul.com.br: plataforma não identificada |
+| Villefort | 🔧 outra plataforma | – | 0 | www.villefort.com.br: plataforma não identificada |
+| Confiança Supermercados | ⛔ bloqueada | – | 0 | www.confianca.com.br: HTTP 403 / verificação anti-robô |
+| Irmãos Gonçalves | ⛔ bloqueada | – | 0 | www.irmaosgoncalves.com.br: HTTP 403 / verificação anti-robô |
+| Palato | ⛔ bloqueada | – | 0 | www.palato.com.br: HTTP 200 / verificação anti-robô |
 | Perini | ⛔ bloqueada | – | 0 | www.perini.com.br: HTTP 200 / verificação anti-robô |
+| SuperPrix | ⛔ bloqueada | – | 0 | www.superprix.com.br: HTTP 403 / verificação anti-robô |
 | Supermercados Nazaré | ⛔ bloqueada | – | 0 | www.nazare.com.br: HTTP 200 / verificação anti-robô |
 | Verdemar | ⛔ bloqueada | – | 0 | www.portobellohoteis.com.br: HTTP 200 / verificação anti-robô |
 | Bistek | ⛔ robots.txt | vtex | 0 | www.bistek.com.br: robots.txt proíbe /api |
 | Zona Sul | ⛔ robots.txt | vtex | 0 | www.zonasul.com.br: robots.txt proíbe /api |
 | Asun | ❔ sem resposta | – | 0 | www.asun.com.br: ConnectError |
+| Atack | ❔ sem resposta | – | 0 | www.atack.com.br: ConnectTimeout |
 | Carvalho Supermercado | ❔ sem resposta | – | 0 | www.carvalhosupermercado.com.br: ConnectError |
+| Casagrande | ❔ sem resposta | – | 0 | www.casagrande.com.br: HTTP 500 |
 | Cidade Canção | ❔ sem resposta | – | 0 | www.cidadecancaosupermercados.com.br: ConnectError |
 | Cometa Supermercados | ❔ sem resposta | – | 0 | www.cometasupermercados.com.br: ConnectError |
+| Dalben | ❔ sem resposta | – | 0 | www.dalben.com.br: ConnectError |
+| Dona de Casa | ❔ sem resposta | – | 0 | www.donadecasa.com.br: ConnectError |
 | Enxuto | ❔ sem resposta | – | 0 | www.enxuto.com.br: ConnectTimeout |
 | Festval | ❔ sem resposta | – | 0 | www.festval.com.br: ConnectError |
+| Frangolândia | ❔ sem resposta | – | 0 | www.frangolandia.com.br: ConnectError |
+| Lusitana | ❔ sem resposta | – | 0 | www.lusitana.com.br: ConnectError |
+| Preço Baixo | ❔ sem resposta | – | 0 | www.supermercadoprecobaixo.com.br: ConnectError |
+| Queiroz Atacadão | ❔ sem resposta | – | 0 | www.hiperqueiroz.com.br: ConnectError |
 | Stok Center | ❔ sem resposta | – | 0 | www.stokcenter.com.br: ConnectError |
+| Superfácil | ❔ sem resposta | – | 0 | www.superfacil.com.br: ConnectError |
+| Supermercados ABC | ❔ sem resposta | – | 0 | www.supermercadosabc.com.br: ConnectError |
 | Tatico | ❔ sem resposta | – | 0 | www.tatico.com.br: ConnectError |
 | Assaí Atacadista | 🚫 excluída | – | 0 | 403 anti-robô no spike M1; não contornar |
 | Carrefour Mercado | 🚫 excluída | – | 0 | APIs bloqueadas (503) no spike M1; não contornar |
@@ -127,7 +164,6 @@ Onde a estimativa vai depender do nível estado/Brasil (ou do valor informado pe
 | AM | Itacoatiara | Atacadão |
 | AM | Lábrea | Atacadão |
 | AM | Manacapuru | Atacadão |
-| AM | Manaus | Atacadão |
 | AM | Manicoré | Atacadão |
 | AM | Parintins | Atacadão |
 | AM | São Gabriel da Cachoeira | Atacadão |

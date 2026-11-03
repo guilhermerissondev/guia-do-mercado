@@ -50,4 +50,5 @@
 | P11 | Alertas de coleta (falha, região sem preço novo) no Telegram do admin | Com o bot (M4) |
 | ~~P12~~ | ~~Regiões sem CEP~~: 508 de 510 com CEP (fonte alternativa OpenStreetMap + BrasilAPI). Faltam Vacaria-RS e Porangatu-GO, que usam o nível estado | ✓ |
 | P13 | 441 regiões só com o Atacadão (meta: 2 a 3 redes). Redes grandes do N/NE e de MG usam plataformas próprias (ver `mapa-redes.md`); Instabuy é a única candidata a terceiro adaptador | Decisão do dono do produto |
+| P14 | Adaptador VTEX FastStore (lojas headless em Next.js, APIs não expostas no domínio), ex.: Amigão (região de Maringá) | Quando houver várias redes assim no mapa |
 | P7 | Calibração dos parâmetros de aprendizado (peso 0,3, `k`, limites 0,75 a 1,25) | M5, com dados reais |
