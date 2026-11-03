@@ -167,6 +167,9 @@ $$
 declare
   n integer;
 begin
+  -- Vários workers de coleta terminam em paralelo: um recálculo por vez
+  perform pg_advisory_xact_lock(hashtext('recalcular_estat_preco'));
+
   create temp table _obs on commit drop as
   select distinct on (o.rede_id, o.codigo, o.regiao_imediata)
          o.item_canonico_id, o.rede_id, o.regiao_imediata, o.preco_ref,

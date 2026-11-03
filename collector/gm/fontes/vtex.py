@@ -18,6 +18,7 @@ class ProdutoRede:
     marca: str | None
     ean: str | None
     preco: float | None  # preço para a região consultada; None se indisponível
+    vendedor: str | None = None  # seller da oferta (VTEX), para simular entrega
 
 
 class Vtex:
@@ -45,11 +46,11 @@ class Vtex:
         if not itens:
             return None
         sku = itens[0]
-        preco = None
+        preco, vendedor = None, None
         for s in sku.get("sellers", []):
             oferta = s.get("commertialOffer") or {}
             if oferta.get("AvailableQuantity") and oferta.get("Price"):
-                preco = float(oferta["Price"])
+                preco, vendedor = float(oferta["Price"]), s.get("sellerId")
                 break
         return ProdutoRede(
             rede=self.rede,
@@ -58,4 +59,17 @@ class Vtex:
             marca=p.get("brand"),
             ean=sku.get("ean") or None,
             preco=preco,
+            vendedor=vendedor,
         )
+
+    def entrega(self, cep: str, sku: str, vendedor: str) -> bool:
+        """True se a loja entrega ou tem retirada no CEP (simulação de frete da VTEX).
+
+        Necessário nas redes que não regionalizam pelo CEP: nelas a busca mostra o preço da loja
+        para qualquer CEP, mesmo onde a rede não atende.
+        """
+        r = self.cliente.post(
+            f"{self.base}/api/checkout/pub/orderForms/simulation", params={"sc": 1},
+            json={"items": [{"id": sku, "quantity": 1, "seller": vendedor}], "postalCode": cep, "country": "BRA"},
+        )
+        return any(li.get("slas") for li in r.json().get("logisticsInfo") or [])

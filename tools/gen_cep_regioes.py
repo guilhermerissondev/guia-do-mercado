@@ -5,7 +5,12 @@ com nome composto, o primeiro nome) e busca um CEP dela no ViaCEP, preferindo o 
 O CEP só é aceito se o ViaCEP devolver o mesmo código IBGE do município.
 
 Uso (a partir da raiz do repo; 1 requisição a cada 2 segundos):
-    GM_CONTACT=voce@exemplo.com python3 -I tools/gen_cep_regioes.py
+    GM_CONTACT=voce@exemplo.com python3 -I tools/gen_cep_regioes.py [--fonte viacep|osm]
+
+Fontes:
+  viacep (padrão): busca logradouros da cidade-polo no ViaCEP.
+  osm: coordenadas da cidade no OpenStreetMap (Nominatim) + endereço mais próximo do centro
+       (busca reversa), validado na BrasilAPI. Usada quando o ViaCEP limita o acesso.
 
 Incremental: regiões que já têm CEP no arquivo são mantidas; só as que faltam são buscadas.
 Se o ViaCEP parar de responder (limite de uso), o script para depois de algumas falhas
@@ -21,6 +26,7 @@ import sys
 import time
 import unicodedata
 import urllib.parse
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -73,6 +79,12 @@ def consultar(url: str):
             _falhas_seguidas = 0
             time.sleep(INTERVALO)
             return dados
+        except urllib.error.HTTPError as e:
+            if 400 <= e.code < 500 and e.code != 429:  # "não existe" não é serviço fora do ar
+                _falhas_seguidas = 0
+                time.sleep(INTERVALO)
+                return []
+            time.sleep(INTERVALO * (3 ** tentativa))
         except Exception:
             time.sleep(INTERVALO * (3 ** tentativa))
     _falhas_seguidas += 1
@@ -95,16 +107,42 @@ def cep_do_municipio(m: dict, uf: str) -> tuple[str, str] | None:
     return None
 
 
+NOMINATIM = "https://nominatim.openstreetmap.org"
+BRASILAPI = "https://brasilapi.com.br/api/cep/v2/{cep}"
+DESLOCAMENTOS = [(0, 0), (0.004, 0), (0, 0.004), (-0.004, 0), (0, -0.004)]
+
+
+def cep_osm(m: dict, uf: str, uf_nome: str) -> tuple[str, str] | None:
+    """CEP de um endereço perto do centro da cidade, validado na BrasilAPI (cidade e UF)."""
+    busca = consultar(f"{NOMINATIM}/search?" + urllib.parse.urlencode(
+        {"city": m["nome"], "state": uf_nome, "country": "Brasil", "format": "json", "limit": 1}))
+    if not busca:
+        return None
+    lat, lon = float(busca[0]["lat"]), float(busca[0]["lon"])
+    for dlat, dlon in DESLOCAMENTOS:
+        r = consultar(f"{NOMINATIM}/reverse?" + urllib.parse.urlencode(
+            {"lat": lat + dlat, "lon": lon + dlon, "format": "json", "zoom": 18, "addressdetails": 1}))
+        cep = re.sub(r"\D", "", ((r or {}).get("address") or {}).get("postcode", "") if isinstance(r, dict) else "")
+        if len(cep) != 8 or int(cep[5:]) >= 900:  # 9xx: caixa postal / grande usuário, não serve para entrega
+            continue
+        v = consultar(BRASILAPI.format(cep=cep))
+        if isinstance(v, dict) and norm(v.get("city", "")) == norm(m["nome"]) and v.get("state") == uf:
+            return cep, v.get("neighborhood") or ""
+    return None
+
+
 def q(t: str) -> str:
     return "'" + t.replace("'", "''") + "'"
 
 
 def main() -> int:
+    fonte = "osm" if "--fonte" in sys.argv and sys.argv[sys.argv.index("--fonte") + 1] == "osm" else "viacep"
     municipios = baixar(IBGE)
     regioes: dict[int, dict] = {}
     for m in municipios:
         ri = m["regiao-imediata"]
-        reg = regioes.setdefault(ri["id"], {"nome": ri["nome"], "uf": ri["regiao-intermediaria"]["UF"]["sigla"], "municipios": []})
+        uf = ri["regiao-intermediaria"]["UF"]
+        reg = regioes.setdefault(ri["id"], {"nome": ri["nome"], "uf": uf["sigla"], "uf_nome": uf["nome"], "municipios": []})
         reg["municipios"].append({"id": m["id"], "nome": m["nome"]})
 
     existentes: dict[int, str] = {}
@@ -124,13 +162,13 @@ def main() -> int:
         if not interrompido:
             try:
                 for candidato in polo(reg["nome"], reg["municipios"])[:3]:
-                    r = cep_do_municipio(candidato, reg["uf"])
+                    r = cep_osm(candidato, reg["uf"], reg["uf_nome"]) if fonte == "osm" else cep_do_municipio(candidato, reg["uf"])
                     if r:
                         achado = (candidato, *r)
                         break
             except ViaCepIndisponivel:
                 interrompido = True
-                print("ViaCEP sem responder; gravando o que já tem. Rode de novo mais tarde.", file=sys.stderr)
+                print(f"{fonte} sem responder; gravando o que já tem. Rode de novo mais tarde.", file=sys.stderr)
         if achado:
             m, cep, bairro = achado
             inseridos[rid] = (

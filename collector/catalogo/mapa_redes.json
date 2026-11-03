@@ -1,0 +1,1556 @@
+{
+ "gerado_em": "2026-11-03T21:28:34.570882+00:00",
+ "redes": [
+  {
+   "id": "angeloni",
+   "nome": "Angeloni",
+   "ufs": [
+    "SC",
+    "PR"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "super.angeloni.com.br",
+   "config": {
+    "host": "super.angeloni.com.br",
+    "regionaliza": true
+   },
+   "regioes": {
+    "420001": 6,
+    "420002": 6,
+    "420003": 6,
+    "420004": 6,
+    "420005": 6,
+    "420016": 6,
+    "420019": 6,
+    "420020": 6,
+    "410001": 6,
+    "410014": 6,
+    "410021": 6,
+    "410025": 6
+   },
+   "regioes_vtex_distintas": 11,
+   "regionaliza": true,
+   "motivo": ""
+  },
+  {
+   "id": "assai",
+   "nome": "Assaí Atacadista",
+   "ufs": [
+    "SP",
+    "RJ",
+    "MG",
+    "PR",
+    "BA",
+    "PE",
+    "CE"
+   ],
+   "status": "excluida",
+   "motivo": "403 anti-robô no spike M1; não contornar",
+   "regioes": {}
+  },
+  {
+   "id": "asun",
+   "nome": "Asun",
+   "ufs": [
+    "RS"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.asun.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "atacadao",
+   "nome": "Atacadão",
+   "ufs": [
+    "AC",
+    "AL",
+    "AM",
+    "AP",
+    "BA",
+    "CE",
+    "DF",
+    "ES",
+    "GO",
+    "MA",
+    "MG",
+    "MS",
+    "MT",
+    "PA",
+    "PB",
+    "PE",
+    "PI",
+    "PR",
+    "RJ",
+    "RN",
+    "RO",
+    "RR",
+    "RS",
+    "SC",
+    "SE",
+    "SP",
+    "TO"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.atacadao.com.br",
+   "config": {
+    "host": "www.atacadao.com.br"
+   },
+   "regioes": {
+    "120001": 5,
+    "120002": 5,
+    "120003": 5,
+    "120004": 5,
+    "120005": 5,
+    "270001": 5,
+    "270002": 5,
+    "270003": 5,
+    "270004": 5,
+    "270005": 5,
+    "270006": 5,
+    "270007": 5,
+    "270008": 5,
+    "270009": 5,
+    "270010": 5,
+    "270011": 5,
+    "130001": 5,
+    "130002": 5,
+    "130003": 5,
+    "130004": 5,
+    "130005": 5,
+    "130006": 5,
+    "130007": 5,
+    "130008": 5,
+    "130009": 5,
+    "130010": 5,
+    "130011": 5,
+    "160001": 5,
+    "160002": 5,
+    "160003": 5,
+    "160004": 5,
+    "290001": 5,
+    "290002": 5,
+    "290003": 5,
+    "290004": 5,
+    "290005": 5,
+    "290006": 5,
+    "290007": 5,
+    "290008": 5,
+    "290009": 5,
+    "290010": 5,
+    "290011": 5,
+    "290012": 5,
+    "290013": 5,
+    "290014": 5,
+    "290015": 5,
+    "290016": 5,
+    "290017": 5,
+    "290018": 5,
+    "290019": 5,
+    "290020": 5,
+    "290021": 5,
+    "290022": 5,
+    "290023": 5,
+    "290024": 5,
+    "290025": 5,
+    "290026": 5,
+    "290027": 5,
+    "290028": 5,
+    "290029": 5,
+    "290030": 5,
+    "290031": 5,
+    "290032": 5,
+    "290033": 5,
+    "290034": 5,
+    "230001": 5,
+    "230002": 5,
+    "230003": 5,
+    "230004": 5,
+    "230005": 5,
+    "230006": 5,
+    "230007": 5,
+    "230008": 5,
+    "230009": 5,
+    "230010": 5,
+    "230011": 5,
+    "230012": 5,
+    "230013": 5,
+    "230014": 5,
+    "230015": 5,
+    "230016": 5,
+    "230017": 5,
+    "230018": 5,
+    "530001": 6,
+    "320001": 5,
+    "320002": 5,
+    "320003": 5,
+    "320004": 5,
+    "320005": 5,
+    "320006": 5,
+    "320007": 5,
+    "320008": 5,
+    "520001": 5,
+    "520002": 5,
+    "520003": 5,
+    "520004": 5,
+    "520005": 5,
+    "520006": 5,
+    "520007": 5,
+    "520008": 5,
+    "520009": 5,
+    "520010": 5,
+    "520011": 5,
+    "520012": 5,
+    "520013": 5,
+    "520014": 5,
+    "520015": 5,
+    "520017": 5,
+    "520018": 5,
+    "520019": 5,
+    "520020": 5,
+    "520021": 5,
+    "520022": 5,
+    "210001": 5,
+    "210002": 5,
+    "210003": 5,
+    "210004": 5,
+    "210005": 5,
+    "210006": 5,
+    "210007": 5,
+    "210008": 5,
+    "210009": 5,
+    "210010": 5,
+    "210011": 5,
+    "210012": 5,
+    "210013": 5,
+    "210014": 5,
+    "210015": 5,
+    "210016": 5,
+    "210017": 5,
+    "210018": 5,
+    "210019": 5,
+    "210020": 5,
+    "210021": 5,
+    "210022": 5,
+    "310001": 6,
+    "310002": 5,
+    "310003": 5,
+    "310004": 5,
+    "310005": 5,
+    "310006": 5,
+    "310007": 5,
+    "310008": 5,
+    "310009": 5,
+    "310010": 5,
+    "310011": 5,
+    "310012": 5,
+    "310013": 5,
+    "310014": 5,
+    "310015": 5,
+    "310016": 5,
+    "310017": 5,
+    "310018": 5,
+    "310019": 5,
+    "310020": 5,
+    "310021": 5,
+    "310022": 5,
+    "310023": 5,
+    "310024": 5,
+    "310025": 5,
+    "310026": 5,
+    "310027": 5,
+    "310028": 5,
+    "310029": 5,
+    "310030": 5,
+    "310031": 5,
+    "310032": 5,
+    "310033": 5,
+    "310034": 5,
+    "310035": 5,
+    "310036": 5,
+    "310037": 5,
+    "310038": 5,
+    "310039": 5,
+    "310040": 5,
+    "310041": 5,
+    "310042": 5,
+    "310043": 5,
+    "310044": 5,
+    "310045": 5,
+    "310046": 5,
+    "310047": 5,
+    "310048": 5,
+    "310049": 5,
+    "310050": 5,
+    "310051": 5,
+    "310052": 5,
+    "310053": 5,
+    "310054": 5,
+    "310055": 5,
+    "310056": 5,
+    "310057": 5,
+    "310058": 5,
+    "310059": 5,
+    "310060": 5,
+    "310061": 5,
+    "310062": 5,
+    "310063": 5,
+    "310064": 5,
+    "310065": 5,
+    "310066": 5,
+    "310067": 5,
+    "310068": 5,
+    "310069": 5,
+    "310070": 5,
+    "500001": 5,
+    "500002": 5,
+    "500003": 5,
+    "500004": 5,
+    "500005": 5,
+    "500006": 5,
+    "500007": 5,
+    "500008": 5,
+    "500009": 5,
+    "500010": 5,
+    "500011": 5,
+    "500012": 5,
+    "510001": 5,
+    "510002": 5,
+    "510003": 5,
+    "510004": 5,
+    "510005": 5,
+    "510006": 5,
+    "510007": 5,
+    "510008": 5,
+    "510009": 5,
+    "510010": 5,
+    "510011": 5,
+    "510012": 5,
+    "510013": 5,
+    "510014": 5,
+    "510015": 5,
+    "510016": 5,
+    "510017": 5,
+    "510018": 5,
+    "150001": 5,
+    "150002": 5,
+    "150003": 5,
+    "150004": 5,
+    "150005": 5,
+    "150006": 5,
+    "150007": 5,
+    "150008": 5,
+    "150009": 5,
+    "150010": 5,
+    "150011": 5,
+    "150012": 5,
+    "150013": 5,
+    "150014": 5,
+    "150015": 5,
+    "150016": 5,
+    "150017": 5,
+    "150018": 5,
+    "150019": 5,
+    "150020": 5,
+    "150021": 5,
+    "250001": 5,
+    "250002": 5,
+    "250003": 5,
+    "250004": 5,
+    "250005": 5,
+    "250006": 5,
+    "250007": 5,
+    "250008": 5,
+    "250009": 5,
+    "250010": 5,
+    "250011": 5,
+    "250012": 5,
+    "250013": 5,
+    "250014": 5,
+    "250015": 5,
+    "260001": 5,
+    "260002": 5,
+    "260003": 5,
+    "260004": 5,
+    "260005": 5,
+    "260006": 5,
+    "260007": 5,
+    "260008": 5,
+    "260009": 5,
+    "260010": 5,
+    "260011": 5,
+    "260012": 5,
+    "260013": 5,
+    "260014": 5,
+    "260015": 5,
+    "260016": 5,
+    "260017": 5,
+    "260018": 5,
+    "220001": 5,
+    "220002": 5,
+    "220003": 5,
+    "220004": 5,
+    "220005": 5,
+    "220006": 5,
+    "220007": 5,
+    "220008": 5,
+    "220009": 5,
+    "220010": 5,
+    "220011": 5,
+    "220012": 5,
+    "220013": 5,
+    "220014": 5,
+    "220015": 5,
+    "220016": 5,
+    "220017": 5,
+    "220018": 5,
+    "220019": 5,
+    "410001": 6,
+    "410002": 5,
+    "410003": 5,
+    "410004": 5,
+    "410005": 5,
+    "410006": 6,
+    "410007": 6,
+    "410008": 5,
+    "410009": 5,
+    "410010": 5,
+    "410011": 5,
+    "410012": 5,
+    "410013": 5,
+    "410014": 6,
+    "410015": 5,
+    "410016": 5,
+    "410017": 5,
+    "410018": 5,
+    "410019": 5,
+    "410020": 5,
+    "410021": 6,
+    "410022": 5,
+    "410023": 5,
+    "410024": 5,
+    "410025": 6,
+    "410026": 5,
+    "410027": 6,
+    "410028": 5,
+    "410029": 5,
+    "330001": 6,
+    "330002": 5,
+    "330003": 5,
+    "330004": 5,
+    "330005": 6,
+    "330006": 5,
+    "330007": 5,
+    "330008": 5,
+    "330009": 5,
+    "330010": 5,
+    "330011": 5,
+    "330012": 5,
+    "330013": 5,
+    "330014": 5,
+    "240001": 5,
+    "240002": 5,
+    "240003": 5,
+    "240004": 5,
+    "240005": 5,
+    "240006": 5,
+    "240007": 5,
+    "240008": 5,
+    "240009": 5,
+    "240010": 5,
+    "240011": 5,
+    "110001": 5,
+    "110002": 5,
+    "110003": 5,
+    "110004": 5,
+    "110005": 5,
+    "110006": 5,
+    "140001": 5,
+    "140002": 5,
+    "140003": 5,
+    "140004": 5,
+    "430001": 6,
+    "430002": 5,
+    "430003": 5,
+    "430004": 5,
+    "430005": 5,
+    "430006": 5,
+    "430007": 5,
+    "430008": 5,
+    "430009": 5,
+    "430010": 6,
+    "430011": 6,
+    "430012": 5,
+    "430013": 5,
+    "430014": 5,
+    "430015": 6,
+    "430016": 5,
+    "430017": 5,
+    "430018": 5,
+    "430019": 5,
+    "430020": 5,
+    "430021": 5,
+    "430022": 5,
+    "430023": 5,
+    "430024": 5,
+    "430025": 5,
+    "430026": 5,
+    "430027": 5,
+    "430028": 5,
+    "430029": 5,
+    "430030": 5,
+    "430031": 5,
+    "430032": 5,
+    "430033": 5,
+    "430034": 5,
+    "430035": 5,
+    "430036": 5,
+    "430037": 5,
+    "430038": 5,
+    "430040": 5,
+    "430041": 5,
+    "430042": 5,
+    "430043": 5,
+    "420001": 5,
+    "420002": 5,
+    "420003": 5,
+    "420004": 5,
+    "420005": 5,
+    "420006": 5,
+    "420007": 5,
+    "420008": 5,
+    "420009": 5,
+    "420010": 5,
+    "420011": 5,
+    "420012": 5,
+    "420013": 5,
+    "420014": 5,
+    "420015": 5,
+    "420016": 5,
+    "420017": 5,
+    "420018": 5,
+    "420019": 5,
+    "420020": 6,
+    "420021": 5,
+    "420022": 5,
+    "420023": 5,
+    "420024": 5,
+    "280001": 5,
+    "280002": 5,
+    "280003": 5,
+    "280004": 5,
+    "280005": 5,
+    "280006": 5,
+    "350001": 6,
+    "350002": 6,
+    "350003": 6,
+    "350004": 6,
+    "350005": 6,
+    "350006": 6,
+    "350007": 6,
+    "350008": 6,
+    "350009": 6,
+    "350010": 5,
+    "350011": 5,
+    "350012": 5,
+    "350013": 5,
+    "350014": 5,
+    "350015": 6,
+    "350016": 5,
+    "350017": 6,
+    "350018": 6,
+    "350019": 5,
+    "350020": 5,
+    "350021": 5,
+    "350022": 5,
+    "350023": 5,
+    "350024": 5,
+    "350025": 6,
+    "350026": 6,
+    "350027": 5,
+    "350028": 5,
+    "350029": 5,
+    "350030": 5,
+    "350031": 6,
+    "350032": 6,
+    "350033": 5,
+    "350034": 5,
+    "350035": 5,
+    "350036": 6,
+    "350037": 6,
+    "350038": 6,
+    "350039": 6,
+    "350040": 5,
+    "350041": 6,
+    "350042": 5,
+    "350043": 5,
+    "350044": 5,
+    "350045": 5,
+    "350046": 5,
+    "350047": 5,
+    "350048": 5,
+    "350049": 6,
+    "350050": 6,
+    "350051": 6,
+    "350052": 6,
+    "350053": 6,
+    "170001": 5,
+    "170002": 5,
+    "170003": 5,
+    "170004": 5,
+    "170005": 5,
+    "170006": 5,
+    "170007": 5,
+    "170008": 5,
+    "170009": 5,
+    "170010": 5,
+    "170011": 5
+   },
+   "regioes_vtex_distintas": 58,
+   "motivo": ""
+  },
+  {
+   "id": "atakarejo",
+   "nome": "Atakarejo",
+   "ufs": [
+    "BA"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "atakarejo.com.br: plataforma não identificada",
+   "host": "atakarejo.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "bigbox",
+   "nome": "Big Box",
+   "ufs": [
+    "DF"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "bigboxdelivery.com.br: plataforma não identificada",
+   "host": "bigboxdelivery.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "bistek",
+   "nome": "Bistek",
+   "ufs": [
+    "SC",
+    "RS"
+   ],
+   "status": "robots",
+   "motivo": "www.bistek.com.br: robots.txt proíbe /api",
+   "host": "www.bistek.com.br",
+   "plataforma": "vtex",
+   "regioes": {}
+  },
+  {
+   "id": "bretas",
+   "nome": "Bretas",
+   "ufs": [
+    "MG",
+    "GO",
+    "BA",
+    "DF"
+   ],
+   "status": "nao_atende",
+   "plataforma": "vtex",
+   "host": "www.bretas.com.br",
+   "config": {
+    "host": "www.bretas.com.br"
+   },
+   "regioes": {},
+   "regioes_vtex_distintas": 1,
+   "motivo": "nenhuma região com itens de teste com preço"
+  },
+  {
+   "id": "carone",
+   "nome": "Carone",
+   "ufs": [
+    "ES"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.carone.com.br",
+   "config": {
+    "host": "www.carone.com.br",
+    "regionaliza": false
+   },
+   "regioes": {
+    "320001": 6
+   },
+   "regioes_vtex_distintas": 2,
+   "regionaliza": false,
+   "motivo": ""
+  },
+  {
+   "id": "carrefour",
+   "nome": "Carrefour Mercado",
+   "ufs": [
+    "SP",
+    "RJ",
+    "MG",
+    "DF",
+    "PR",
+    "RS",
+    "SC",
+    "GO",
+    "PE",
+    "BA"
+   ],
+   "status": "excluida",
+   "motivo": "APIs bloqueadas (503) no spike M1; não contornar",
+   "regioes": {}
+  },
+  {
+   "id": "carvalho",
+   "nome": "Carvalho Supermercado",
+   "ufs": [
+    "PI"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.carvalhosupermercado.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "cidadecancao",
+   "nome": "Cidade Canção",
+   "ufs": [
+    "PR"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.cidadecancaosupermercados.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "cometa",
+   "nome": "Cometa Supermercados",
+   "ufs": [
+    "CE"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.cometasupermercados.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "comper",
+   "nome": "Comper",
+   "ufs": [
+    "DF",
+    "MS",
+    "MT",
+    "SC"
+   ],
+   "status": "viavel",
+   "plataforma": "osuper",
+   "host": "www.comper.com.br",
+   "config": {
+    "site": "https://www.comper.com.br",
+    "api": "https://api.comper.com.br/storefront/graphql",
+    "loja_contexto": "1584"
+   },
+   "regioes": {
+    "510001": 6,
+    "530001": 6,
+    "500001": 6,
+    "420020": 6,
+    "510016": 6,
+    "500005": 6,
+    "420007": 6
+   },
+   "lojas": 16,
+   "lojas_sem_municipio": [],
+   "motivo": ""
+  },
+  {
+   "id": "condor",
+   "nome": "Condor",
+   "ufs": [
+    "PR",
+    "SC"
+   ],
+   "status": "viavel",
+   "plataforma": "osuper",
+   "host": "www.condor.com.br",
+   "config": {
+    "site": "https://www.condor.com.br",
+    "api": "https://api.condor.com.br/storefront/graphql",
+    "loja_contexto": "1441"
+   },
+   "regioes": {
+    "410001": 6,
+    "410002": 6,
+    "410014": 6,
+    "410027": 6,
+    "420016": 6
+   },
+   "lojas": 19,
+   "lojas_sem_municipio": [],
+   "motivo": ""
+  },
+  {
+   "id": "coop",
+   "nome": "Coop",
+   "ufs": [
+    "SP"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.coopsupermercado.com.br",
+   "config": {
+    "host": "www.coopsupermercado.com.br",
+    "regionaliza": false
+   },
+   "regioes": {
+    "350001": 6,
+    "350002": 6,
+    "350003": 6,
+    "350006": 6,
+    "350008": 6,
+    "350040": 6,
+    "350042": 6,
+    "350045": 6,
+    "350046": 6,
+    "350049": 6,
+    "350050": 6
+   },
+   "regioes_vtex_distintas": 2,
+   "regionaliza": false,
+   "motivo": ""
+  },
+  {
+   "id": "covabra",
+   "nome": "Covabra",
+   "ufs": [
+    "SP"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.covabra.com.br",
+   "config": {
+    "host": "www.covabra.com.br",
+    "regionaliza": true
+   },
+   "regioes": {
+    "350038": 4,
+    "350039": 4,
+    "350042": 4,
+    "350046": 4,
+    "350048": 4
+   },
+   "regioes_vtex_distintas": 6,
+   "regionaliza": true,
+   "motivo": ""
+  },
+  {
+   "id": "db",
+   "nome": "DB Supermercados",
+   "ufs": [
+    "AM"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "dbsupermercados.com.br: plataforma não identificada",
+   "host": "dbsupermercados.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "enxuto",
+   "nome": "Enxuto",
+   "ufs": [
+    "SP"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.enxuto.com.br: ConnectTimeout",
+   "regioes": {}
+  },
+  {
+   "id": "epa",
+   "nome": "EPA Supermercados",
+   "ufs": [
+    "MG",
+    "ES"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "epa.com.br: plataforma não identificada",
+   "host": "epa.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "extrabom",
+   "nome": "Extrabom",
+   "ufs": [
+    "ES"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.extrabom.com.br: plataforma não identificada",
+   "host": "www.extrabom.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "festval",
+   "nome": "Festval",
+   "ufs": [
+    "PR"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.festval.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "formosa",
+   "nome": "Formosa Supermercados",
+   "ufs": [
+    "PA"
+   ],
+   "status": "nao_atende",
+   "plataforma": "vtex",
+   "host": "www.formosa.com.br",
+   "config": {
+    "host": "www.formosa.com.br"
+   },
+   "regioes": {},
+   "regioes_vtex_distintas": 2,
+   "motivo": "nenhuma região com itens de teste com preço"
+  },
+  {
+   "id": "fort",
+   "nome": "Fort Atacadista",
+   "ufs": [
+    "RS",
+    "SC",
+    "SP"
+   ],
+   "status": "viavel",
+   "plataforma": "osuper",
+   "host": "www.fortatacadista.com.br",
+   "config": {
+    "site": "https://www.fortatacadista.com.br",
+    "api": "https://api.fortatacadista.com.br/storefront/graphql",
+    "loja_contexto": "1585"
+   },
+   "regioes": {
+    "420020": 6,
+    "420019": 6,
+    "420001": 6,
+    "430001": 6,
+    "430036": 6,
+    "350001": 6,
+    "420016": 6,
+    "350039": 6,
+    "430002": 6,
+    "350002": 6
+   },
+   "lojas": 20,
+   "lojas_sem_municipio": [],
+   "motivo": ""
+  },
+  {
+   "id": "gbarbosa",
+   "nome": "GBarbosa",
+   "ufs": [
+    "SE",
+    "BA",
+    "AL",
+    "PE",
+    "CE",
+    "PB"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.gbarbosa.com.br",
+   "config": {
+    "host": "www.gbarbosa.com.br",
+    "regionaliza": true
+   },
+   "regioes": {
+    "280001": 3,
+    "290002": 4,
+    "290007": 4,
+    "290011": 4,
+    "270001": 4
+   },
+   "regioes_vtex_distintas": 7,
+   "regionaliza": true,
+   "motivo": ""
+  },
+  {
+   "id": "giassi",
+   "nome": "Giassi",
+   "ufs": [
+    "SC"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.giassi.com.br",
+   "config": {
+    "host": "www.giassi.com.br",
+    "regionaliza": true
+   },
+   "regioes": {
+    "420002": 6,
+    "420003": 6,
+    "420004": 6,
+    "420016": 6,
+    "420019": 6,
+    "420020": 6
+   },
+   "regioes_vtex_distintas": 7,
+   "regionaliza": true,
+   "motivo": ""
+  },
+  {
+   "id": "guanabara",
+   "nome": "Supermercados Guanabara",
+   "ufs": [
+    "RJ"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.supermercadosguanabara.com.br: plataforma não identificada",
+   "host": "www.supermercadosguanabara.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "hiperideal",
+   "nome": "Hiperideal",
+   "ufs": [
+    "BA"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.hiperideal.com.br",
+   "config": {
+    "host": "www.hiperideal.com.br",
+    "regionaliza": false
+   },
+   "regioes": {
+    "290001": 4
+   },
+   "regioes_vtex_distintas": 1,
+   "regionaliza": false,
+   "motivo": ""
+  },
+  {
+   "id": "hirota",
+   "nome": "Hirota",
+   "ufs": [
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.lojahirota.com.br: plataforma não identificada",
+   "host": "www.lojahirota.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "imperatriz",
+   "nome": "Imperatriz",
+   "ufs": [
+    "SC"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.imperatriz.com.br: plataforma não identificada",
+   "host": "www.imperatriz.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "koch",
+   "nome": "Koch",
+   "ufs": [
+    "SC"
+   ],
+   "status": "viavel",
+   "plataforma": "osuper",
+   "host": "www.superkoch.com.br",
+   "config": {
+    "site": "https://www.superkoch.com.br",
+    "api": "https://api.superkoch.com.br/storefront/graphql",
+    "loja_contexto": "1415"
+   },
+   "regioes": {
+    "420020": 6,
+    "420018": 6,
+    "420001": 6,
+    "420016": 6,
+    "420019": 6,
+    "420003": 6
+   },
+   "lojas": 13,
+   "lojas_sem_municipio": [],
+   "motivo": ""
+  },
+  {
+   "id": "lider",
+   "nome": "Líder Supermercados",
+   "ufs": [
+    "PA"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.supermercadoslider.com.br: plataforma não identificada",
+   "host": "www.supermercadoslider.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "martminas",
+   "nome": "Mart Minas",
+   "ufs": [
+    "MG"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.martminas.com.br: plataforma não identificada",
+   "host": "www.martminas.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "mateus",
+   "nome": "Mateus Supermercados",
+   "ufs": [
+    "MA",
+    "PA",
+    "PI",
+    "CE",
+    "BA",
+    "PE",
+    "SE",
+    "AL",
+    "PB",
+    "RN",
+    "TO"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.mateusmais.com.br: plataforma não identificada",
+   "host": "www.mateusmais.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "muffato",
+   "nome": "Super Muffato",
+   "ufs": [
+    "PR",
+    "SP"
+   ],
+   "status": "excluida",
+   "motivo": "termos de uso proíbem explorar o conteúdo sem autorização (decisão do dono do produto)",
+   "regioes": {}
+  },
+  {
+   "id": "mundial",
+   "nome": "Supermercados Mundial",
+   "ufs": [
+    "RJ"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.supermercadosmundial.com.br: plataforma não identificada",
+   "host": "www.supermercadosmundial.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "nazare",
+   "nome": "Supermercados Nazaré",
+   "ufs": [
+    "PA"
+   ],
+   "status": "bloqueada",
+   "motivo": "www.nazare.com.br: HTTP 200 / verificação anti-robô",
+   "host": "www.nazare.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "nordestao",
+   "nome": "Nordestão",
+   "ufs": [
+    "RN"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.lojaonline.nordestao.com.br: plataforma não identificada",
+   "host": "www.lojaonline.nordestao.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "novoatacarejo",
+   "nome": "Novo Atacarejo",
+   "ufs": [
+    "PE"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "novoatacarejo.com: plataforma não identificada",
+   "host": "novoatacarejo.com",
+   "regioes": {}
+  },
+  {
+   "id": "oba",
+   "nome": "Oba Hortifruti",
+   "ufs": [
+    "SP",
+    "DF",
+    "GO",
+    "RJ"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.obahortifruti.com.br",
+   "config": {
+    "host": "www.obahortifruti.com.br",
+    "regionaliza": true
+   },
+   "regioes": {
+    "350001": 6,
+    "350002": 6,
+    "350003": 6,
+    "350009": 6,
+    "350025": 6,
+    "350031": 6,
+    "350033": 6,
+    "350038": 6,
+    "350039": 6,
+    "350040": 6,
+    "350042": 6,
+    "350049": 6,
+    "350050": 5,
+    "530001": 6,
+    "520001": 6
+   },
+   "regioes_vtex_distintas": 16,
+   "regionaliza": true,
+   "motivo": ""
+  },
+  {
+   "id": "paguemenos",
+   "nome": "Pague Menos Supermercados",
+   "ufs": [
+    "SP"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.superpaguemenos.com.br",
+   "config": {
+    "host": "www.superpaguemenos.com.br",
+    "regionaliza": false
+   },
+   "regioes": {
+    "350003": 6,
+    "350008": 6,
+    "350015": 6,
+    "350031": 6,
+    "350038": 6,
+    "350039": 6,
+    "350040": 6,
+    "350042": 6,
+    "350043": 6,
+    "350044": 6,
+    "350045": 6,
+    "350046": 6,
+    "350047": 6,
+    "350048": 6
+   },
+   "regioes_vtex_distintas": 1,
+   "regionaliza": false,
+   "motivo": ""
+  },
+  {
+   "id": "paodeacucar",
+   "nome": "Pão de Açúcar",
+   "ufs": [
+    "SP",
+    "RJ",
+    "DF",
+    "CE",
+    "PE",
+    "PB",
+    "BA"
+   ],
+   "status": "excluida",
+   "motivo": "verificação anti-robô no spike M1; não contornar",
+   "regioes": {}
+  },
+  {
+   "id": "perini",
+   "nome": "Perini",
+   "ufs": [
+    "BA"
+   ],
+   "status": "bloqueada",
+   "motivo": "www.perini.com.br: HTTP 200 / verificação anti-robô",
+   "host": "www.perini.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "pinheiro",
+   "nome": "Pinheiro Supermercado",
+   "ufs": [
+    "CE"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.supermercadopinheiro.com.br: plataforma não identificada",
+   "host": "www.supermercadopinheiro.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "prezunic",
+   "nome": "Prezunic",
+   "ufs": [
+    "RJ"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.prezunic.com.br",
+   "config": {
+    "host": "www.prezunic.com.br",
+    "regionaliza": false
+   },
+   "regioes": {
+    "330001": 5
+   },
+   "regioes_vtex_distintas": 2,
+   "regionaliza": false,
+   "motivo": ""
+  },
+  {
+   "id": "samsclub",
+   "nome": "Sam's Club",
+   "ufs": [
+    "SP",
+    "RJ",
+    "MG",
+    "PR",
+    "RS",
+    "SC",
+    "GO",
+    "DF",
+    "BA",
+    "PE",
+    "CE",
+    "ES",
+    "MS",
+    "MT"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.samsclub.com.br",
+   "config": {
+    "host": "www.samsclub.com.br",
+    "regionaliza": true
+   },
+   "regioes": {
+    "350001": 6,
+    "350003": 6,
+    "350009": 6,
+    "350018": 6,
+    "350025": 6,
+    "350031": 6,
+    "350033": 6,
+    "350038": 6,
+    "350040": 6,
+    "350042": 6,
+    "350046": 6,
+    "350049": 6,
+    "350050": 6,
+    "310001": 6,
+    "310059": 6,
+    "410001": 5,
+    "430002": 6,
+    "430036": 4,
+    "430037": 4,
+    "420001": 6,
+    "420016": 6,
+    "420019": 6,
+    "520001": 6,
+    "530001": 6,
+    "290001": 5,
+    "290029": 6,
+    "260001": 6,
+    "230001": 6,
+    "320001": 6,
+    "500001": 6
+   },
+   "regioes_vtex_distintas": 28,
+   "regionaliza": true,
+   "motivo": ""
+  },
+  {
+   "id": "saoluiz",
+   "nome": "Mercadinhos São Luiz",
+   "ufs": [
+    "CE"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "mercadinhossaoluiz.com.br: plataforma não identificada",
+   "host": "mercadinhossaoluiz.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "savegnago",
+   "nome": "Savegnago",
+   "ufs": [
+    "SP"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.savegnago.com.br",
+   "config": {
+    "host": "www.savegnago.com.br",
+    "regionaliza": true
+   },
+   "regioes": {
+    "350031": 6,
+    "350032": 6,
+    "350033": 6,
+    "350036": 6,
+    "350037": 6,
+    "350038": 6,
+    "350040": 6,
+    "350042": 6,
+    "350045": 6,
+    "350046": 6
+   },
+   "regioes_vtex_distintas": 11,
+   "regionaliza": true,
+   "motivo": ""
+  },
+  {
+   "id": "sonda",
+   "nome": "Sonda",
+   "ufs": [
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.sondadelivery.com.br: plataforma não identificada",
+   "host": "www.sondadelivery.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "stmarche",
+   "nome": "St Marche",
+   "ufs": [
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "marche.com.br: plataforma não identificada",
+   "host": "marche.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "stokcenter",
+   "nome": "Stok Center",
+   "ufs": [
+    "RS"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.stokcenter.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "supermercadosbh",
+   "nome": "Supermercados BH",
+   "ufs": [
+    "MG",
+    "ES",
+    "SP"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.supermercadosbh.com.br: plataforma não identificada",
+   "host": "www.supermercadosbh.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "supernosso",
+   "nome": "Super Nosso",
+   "ufs": [
+    "MG"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.supernosso.com",
+   "config": {
+    "host": "www.supernosso.com",
+    "regionaliza": false
+   },
+   "regioes": {
+    "310001": 6
+   },
+   "regioes_vtex_distintas": 2,
+   "regionaliza": false,
+   "motivo": ""
+  },
+  {
+   "id": "tatico",
+   "nome": "Tatico",
+   "ufs": [
+    "DF",
+    "GO"
+   ],
+   "status": "sem_resposta",
+   "motivo": "www.tatico.com.br: ConnectError",
+   "regioes": {}
+  },
+  {
+   "id": "tenda",
+   "nome": "Tenda Atacado",
+   "ufs": [
+    "SP",
+    "GO"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.tendaatacado.com.br: plataforma não identificada",
+   "host": "www.tendaatacado.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "unidasul",
+   "nome": "Unidasul",
+   "ufs": [
+    "RS"
+   ],
+   "status": "plataforma_nao_suportada",
+   "motivo": "www.unidasul.com.br: plataforma não identificada",
+   "host": "www.unidasul.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "verdemar",
+   "nome": "Verdemar",
+   "ufs": [
+    "MG"
+   ],
+   "status": "bloqueada",
+   "motivo": "www.portobellohoteis.com.br: HTTP 200 / verificação anti-robô",
+   "host": "www.portobellohoteis.com.br",
+   "regioes": {}
+  },
+  {
+   "id": "zaffari",
+   "nome": "Zaffari",
+   "ufs": [
+    "RS",
+    "SP"
+   ],
+   "status": "viavel",
+   "plataforma": "vtex",
+   "host": "www.zaffari.com.br",
+   "config": {
+    "host": "www.zaffari.com.br",
+    "regionaliza": false
+   },
+   "regioes": {
+    "430001": 4,
+    "430002": 4,
+    "430006": 4,
+    "430007": 4
+   },
+   "regioes_vtex_distintas": 1,
+   "regionaliza": false,
+   "motivo": ""
+  },
+  {
+   "id": "zonasul",
+   "nome": "Zona Sul",
+   "ufs": [
+    "RJ"
+   ],
+   "status": "robots",
+   "motivo": "www.zonasul.com.br: robots.txt proíbe /api",
+   "host": "www.zonasul.com.br",
+   "plataforma": "vtex",
+   "regioes": {}
+  }
+ ]
+}

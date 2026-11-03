@@ -17,14 +17,24 @@ RAIZ = Path(__file__).resolve().parents[3]
 SAIDA = RAIZ / "supabase" / "seed" / "02_catalogo.sql"
 SAIDA_BOT = RAIZ / "bot" / "test" / "fixtures" / "catalogo.json"  # catálogo para os testes do bot
 
-# Redes do piloto, comprovadas no spike M1. Novas redes entram aqui (e, na M3, pela configuração no banco).
-REDES = [
-    ("atacadao", "Atacadão", "vtex", '{"host": "www.atacadao.com.br"}'),
-    ("angeloni", "Angeloni", "vtex", '{"host": "super.angeloni.com.br"}'),
+# Redes do piloto, comprovadas no spike M1. Usadas só se ainda não houver catalogo/mapa_redes.json.
+REDES_PILOTO = [
+    ("atacadao", "Atacadão", "vtex", {"host": "www.atacadao.com.br"}, None),
+    ("angeloni", "Angeloni", "vtex", {"host": "super.angeloni.com.br"}, ["SC", "PR"]),
     ("condor", "Condor", "osuper",
-     '{"site": "https://www.condor.com.br", "api": "https://api.condor.com.br/storefront/graphql", '
-     '"loja_contexto": "1441"}'),
+     {"site": "https://www.condor.com.br", "api": "https://api.condor.com.br/storefront/graphql",
+      "loja_contexto": "1441"}, ["PR", "SC"]),
 ]
+MAPA = RAIZ / "collector" / "catalogo" / "mapa_redes.json"
+
+
+def redes() -> list[tuple[str, str, str, dict, list[str] | None]]:
+    """Redes viáveis do mapa nacional (gm.ferramentas.mapear_redes); senão, as do piloto."""
+    if not MAPA.exists():
+        return REDES_PILOTO
+    mapa = json.loads(MAPA.read_text(encoding="utf-8"))
+    return [(r["id"], r["nome"], r["plataforma"], {**r["config"], "regioes": sorted(r["regioes"])}, r["ufs"])
+            for r in mapa["redes"] if r["status"] == "viavel"]
 
 
 def q(texto: str) -> str:
@@ -60,9 +70,11 @@ def gerar() -> str:
             f"values ({q(i.id)}, {q(i.nome)}, {q(i.categoria)}, {valor}, {unidade}, {str(i.granel).lower()}, "
             f"{q(palavras_busca(i))}, {ordem});"
         )
-    for rid, nome, plataforma, config in REDES:
+    for rid, nome, plataforma, config, ufs in redes():
+        ufs_sql = "null" if not ufs or len(ufs) >= 27 else "array[" + ", ".join(q(u) for u in ufs) + "]::char(2)[]"
         linhas.append(
-            f"insert into rede (id, nome, plataforma, config) values ({q(rid)}, {q(nome)}, {q(plataforma)}, {q(config)}::jsonb);"
+            "insert into rede (id, nome, plataforma, config, ufs) values "
+            f"({q(rid)}, {q(nome)}, {q(plataforma)}, {q(json.dumps(config, ensure_ascii=False))}::jsonb, {ufs_sql});"
         )
     linhas.append("commit;")
     return "\n".join(linhas) + "\n"

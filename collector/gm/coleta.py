@@ -64,17 +64,30 @@ class Coletor:
         self.cliente = cliente or ClienteEducado()
         eans = {r["ean"]: r["item_canonico_id"] for r in conn.execute("select ean, item_canonico_id from ean_item")}
         self.casador = Casador(self.catalogo, eans)
+        # Regiões com a mesma região VTEX têm os mesmos preços: busca uma vez por execução.
+        self._cache_vtex: dict[tuple[str, str], list[ProdutoRede]] = {}
 
     # ------------------------------------------------------------------ coleta por plataforma
 
-    def _coletar_vtex(self, fonte: Vtex, cep: str) -> Resultado:
+    def _coletar_vtex(self, fonte: Vtex, cep: str, regionaliza: bool = True) -> Resultado:
         region_id = fonte.region_id(cep)
         if not region_id:
             return Resultado(False, None, [])
+        chave = (fonte.rede, region_id)
+        if regionaliza and chave in self._cache_vtex:
+            produtos_cache = self._cache_vtex[chave]
+            log.info("%s: região VTEX já coletada nesta execução, reaproveitando %s produtos", fonte.rede, len(produtos_cache))
+            return Resultado(any(p.preco for p in produtos_cache), region_id, produtos_cache)
         produtos: dict[str, ProdutoRede] = {}
         for item in self.catalogo.itens.values():
             for p in fonte.buscar(item.nome, region_id):
                 produtos[p.codigo] = p
+                if not regionaliza and len(produtos) == 1 and p.preco and p.vendedor:
+                    # Rede sem preço por CEP: antes de seguir, confere se ela atende esta região
+                    if not fonte.entrega(cep, p.codigo, p.vendedor):
+                        return Resultado(False, region_id, [])
+        if regionaliza:
+            self._cache_vtex[chave] = list(produtos.values())
         return Resultado(any(p.preco for p in produtos.values()), region_id, list(produtos.values()))
 
     def _coletar_osuper(self, fonte: OSuper, rede_id: str, regiao: int) -> Resultado:
@@ -150,7 +163,7 @@ class Coletor:
         ).fetchone()["cep_referencia"]
         fonte = self.fabrica(rede, self.cliente)
         if rede["plataforma"] == "vtex":
-            res = self._coletar_vtex(fonte, cep)
+            res = self._coletar_vtex(fonte, cep, rede["config"].get("regionaliza", True))
         else:
             res = self._coletar_osuper(fonte, rede["id"], regiao)
         n_precos, itens, com_preco = self._gravar(rede["id"], regiao, res.produtos) if res.atende else (0, 0, 0)
@@ -167,10 +180,10 @@ class Coletor:
         self.conn.execute("select selecionar_redes(%s)", (regiao,))
         return n_precos
 
-    def rodar_fila(self, maximo: int | None = None) -> int:
+    def rodar_fila(self, maximo: int | None = None, rede: str | None = None) -> int:
         feitas = 0
         while maximo is None or feitas < maximo:
-            tarefa = self.conn.execute("select * from pegar_tarefa()").fetchone()
+            tarefa = self.conn.execute("select * from pegar_tarefa(%s)", (rede,)).fetchone()
             if not tarefa:
                 break
             log.info("tarefa %s: %s na região %s", tarefa["id"], tarefa["rede_id"], tarefa["regiao_imediata"])
@@ -293,6 +306,7 @@ def main() -> int:
     sub.add_parser("agendar")
     r = sub.add_parser("rodar")
     r.add_argument("--max", type=int)
+    r.add_argument("--rede", help="só tarefas desta rede (para rodar um worker por rede em paralelo)")
     sub.add_parser("recalcular")
     sub.add_parser("recasar")
     args = ap.parse_args()
@@ -313,7 +327,7 @@ def main() -> int:
             if args.cmd == "lojas":
                 log.info("%s lojas sincronizadas", coletor.sincronizar_lojas())
             else:
-                log.info("%s tarefas executadas", coletor.rodar_fila(args.max))
+                log.info("%s tarefas executadas", coletor.rodar_fila(args.max, args.rede))
         finally:
             coletor.cliente.close()
     return 0

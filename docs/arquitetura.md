@@ -56,6 +56,10 @@ Implementada em `supabase/migrations/20261103000000_geo.sql`: tabelas normalizad
 - **Estimativa** (`estimativa(item, município)`): primeiro nível com pelo menos 2 pontos marca × rede. Sem nenhum, não devolve linha e o bot pergunta o valor.
 - **Granel na VTEX:** `Price` já é por kg (confirmado por simulação de carrinho: 0,2 kg de tomate a R$ 20,49/kg custa R$ 4,09).
 
+### Mapa nacional de redes
+
+`python -m gm.ferramentas.mapear_redes` testa cada rede de `catalogo/redes.toml`: plataforma (VTEX ou OSuper), `robots.txt`, bloqueios e regiões atendidas (6 itens de teste por região VTEX distinta; nas redes que não regionalizam, simulação de frete por CEP; nas OSuper, lista de lojas). Grava `catalogo/mapa_redes.json` e `docs/mapa-redes.md`; o seed das redes vem desse mapa.
+
 ### Operação
 
 ```bash

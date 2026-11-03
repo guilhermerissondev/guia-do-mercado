@@ -2,6 +2,8 @@
 begin;
 
 insert into rede (id, nome, plataforma) values ('teste4', 'Rede Teste 4', 'vtex');
+-- Isola o teste das demais redes do seed (o mapa nacional tem várias que atendem o PR)
+update rede set ativa = false where id not in ('atacadao', 'angeloni', 'condor', 'teste4');
 
 -- Região imediata de Maringá (410014) com 4 redes avaliadas; só 3 devem ser selecionadas.
 insert into regiao_coleta (regiao_imediata, cep_referencia) values (410014, '87013000');

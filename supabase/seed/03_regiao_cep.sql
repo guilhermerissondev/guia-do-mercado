@@ -442,72 +442,72 @@ insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro)
 insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430026, 4307005, '99700276', 'Centro');
 insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430027, 4306106, '98050370', 'Gobbo');
 insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430028, 4304705, '99500974', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430029, 4308508, '98400000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430030, 4311809, '99150000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430031, 4320800, '99300000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430032, 4320909, '99950000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430033, 4301800, '95370000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430034, 4313706, '98300000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430035, 4312708, '99600000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430036, 4305108, '95020460', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430037, 4302105, '95700200', 'Juventude da Enologia');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430038, 4313300, '95320000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430040, 4316808, '96810034', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430041, 4311403, '95900140', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430042, 4320701, '96900000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (430043, 4306809, '95960000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500001, 5002704, '79002071', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500002, 5008305, '79603020', 'Jardim Primaveril');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500003, 5002951, '79560000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500004, 5003306, '79400000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500005, 5003702, '79826010', 'Jardim Central');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500006, 5005707, '79950000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500007, 5006200, '79750041', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500008, 5006606, '79901860', 'Fazenda Itamarati');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500009, 5000609, '79990000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500010, 5003207, '79300060', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500011, 5005004, '79240000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (500012, 5002159, '79390000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510001, 5103403, '78005150', 'Centro-Norte');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510002, 5107958, '78300100', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510003, 5103502, '78400000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510004, 5102504, '78210016', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510005, 5106752, '78250000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510006, 5105622, '78280000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510007, 5107909, '78550338', 'Setor Residencial Norte');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510008, 5107925, '78890178', 'Centro-Norte');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510009, 5105150, '78320000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510010, 5100250, '78580000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510011, 5104104, '78520000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510012, 5105101, '78575000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510013, 5101803, '78600013', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510014, 5103353, '78652000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510015, 5100201, '78635000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510016, 5107602, '78700180', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510017, 5107040, '78850000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (510018, 5105200, '78810000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520001, 5208707, '74083195', 'Setor Sul');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520002, 5201108, '75023160', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520003, 5210406, '76630000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520004, 5205109, '75701050', 'Setor Central');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520005, 5208905, '76600000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520006, 5217401, '75200000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520007, 5211503, '75503520', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520008, 5204508, '75680029', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520009, 5217104, '75640024', 'Setor Fernandes');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520010, 5218805, '75905790', 'Parque Bandeirante');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520011, 5211909, '75804020', 'Divino Espírito Santo');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520012, 5218508, '75860000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520013, 5220108, '76050321', 'Setor Central');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520014, 5210208, '76200000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520015, 5200134, '75960000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520017, 5221601, '76400000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520018, 5218607, '76310000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520019, 5212501, '72800220', 'Centro');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520020, 5200258, '72920524', 'Jardim da Barragem III');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520021, 5200803, '73950000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (520022, 5200175, '73780000', '');
+insert into regiao_cep_referencia (regiao_imediata, municipio_polo, cep, bairro) values (530001, 5300108, '70070150', 'Zona Cívico-Administrativa');
 commit;
--- sem CEP: 430029 Frederico Westphalen-RS
--- sem CEP: 430030 Marau-RS
--- sem CEP: 430031 Soledade-RS
--- sem CEP: 430032 Tapejara - Sananduva-RS
--- sem CEP: 430033 Lagoa Vermelha-RS
--- sem CEP: 430034 Palmeira das Missões-RS
--- sem CEP: 430035 Nonoai-RS
--- sem CEP: 430036 Caxias do Sul-RS
--- sem CEP: 430037 Bento Gonçalves-RS
--- sem CEP: 430038 Nova Prata - Guaporé-RS
 -- sem CEP: 430039 Vacaria-RS
--- sem CEP: 430040 Santa Cruz do Sul-RS
--- sem CEP: 430041 Lajeado-RS
--- sem CEP: 430042 Sobradinho-RS
--- sem CEP: 430043 Encantado-RS
--- sem CEP: 500001 Campo Grande-MS
--- sem CEP: 500002 Três Lagoas-MS
--- sem CEP: 500003 Paranaíba - Chapadão do Sul - Cassilândia-MS
--- sem CEP: 500004 Coxim-MS
--- sem CEP: 500005 Dourados-MS
--- sem CEP: 500006 Naviraí - Mundo Novo-MS
--- sem CEP: 500007 Nova Andradina-MS
--- sem CEP: 500008 Ponta Porã-MS
--- sem CEP: 500009 Amambai-MS
--- sem CEP: 500010 Corumbá-MS
--- sem CEP: 500011 Jardim-MS
--- sem CEP: 500012 Aquidauana - Anastácio-MS
--- sem CEP: 510001 Cuiabá-MT
--- sem CEP: 510002 Tangará da Serra-MT
--- sem CEP: 510003 Diamantino-MT
--- sem CEP: 510004 Cáceres-MT
--- sem CEP: 510005 Pontes e Lacerda - Comodoro-MT
--- sem CEP: 510006 Mirassol D'oeste-MT
--- sem CEP: 510007 Sinop-MT
--- sem CEP: 510008 Sorriso-MT
--- sem CEP: 510009 Juína-MT
--- sem CEP: 510010 Alta Floresta-MT
--- sem CEP: 510011 Peixoto de Azevedo - Guarantã do Norte-MT
--- sem CEP: 510012 Juara-MT
--- sem CEP: 510013 Barra do Garças-MT
--- sem CEP: 510014 Confresa - Vila Rica-MT
--- sem CEP: 510015 Água Boa-MT
--- sem CEP: 510016 Rondonópolis-MT
--- sem CEP: 510017 Primavera do Leste-MT
--- sem CEP: 510018 Jaciara-MT
--- sem CEP: 520001 Goiânia-GO
--- sem CEP: 520002 Anápolis-GO
--- sem CEP: 520003 Inhumas - Itaberaí - Anicuns-GO
--- sem CEP: 520004 Catalão-GO
--- sem CEP: 520005 Goiás - Itapuranga-GO
--- sem CEP: 520006 Pires do Rio-GO
--- sem CEP: 520007 Itumbiara-GO
--- sem CEP: 520008 Caldas Novas-Morrinhos-GO
--- sem CEP: 520009 Piracanjuba-GO
--- sem CEP: 520010 Rio Verde-GO
--- sem CEP: 520011 Jataí-Mineiros-GO
--- sem CEP: 520012 Quirinópolis-GO
--- sem CEP: 520013 São Luís de Montes Belos-GO
--- sem CEP: 520014 Iporá-GO
--- sem CEP: 520015 Palmeiras de Goiás-GO
 -- sem CEP: 520016 Porangatu-GO
--- sem CEP: 520017 Uruaçu - Niquelândia-GO
--- sem CEP: 520018 Ceres - Rialma - Goianésia-GO
--- sem CEP: 520019 Luziânia-GO
--- sem CEP: 520020 Águas Lindas de Goiás-GO
--- sem CEP: 520021 Posse-Campos Belos-GO
--- sem CEP: 520022 Flores de Goiás-GO
--- sem CEP: 530001 Distrito Federal-DF

@@ -31,10 +31,12 @@ class ClienteEducado:
             time.sleep(falta)
         self._ultimo = time.monotonic()
 
-    def get(self, url: str, **kw) -> httpx.Response:
+    def get(self, url: str, verificar: bool = True, **kw) -> httpx.Response:
+        """GET espaçado. Com verificar=False, devolve a resposta mesmo com status de erro."""
         self._esperar()
         r = self._http.get(url, **kw)
-        r.raise_for_status()
+        if verificar:
+            r.raise_for_status()
         return r
 
     def post(self, url: str, **kw) -> httpx.Response:

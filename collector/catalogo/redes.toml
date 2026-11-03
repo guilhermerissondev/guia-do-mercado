@@ -1,0 +1,381 @@
+# Redes de supermercado candidatas à coleta de preço base.
+#
+# Esta lista é só o ponto de partida: `python -m gm.ferramentas.mapear_redes` confere cada rede
+# (o site responde? qual plataforma? o robots.txt permite? em quais regiões entrega?) e grava o
+# resultado em catalogo/mapa_redes.json. Só entram na coleta as redes marcadas como viáveis lá.
+#
+#   id       : identificador interno
+#   nome     : nome público
+#   dominios : endereços a tentar, em ordem (o primeiro que responder é usado)
+#   ufs      : estados onde a rede atua (limita os testes e o agendamento da coleta)
+#   excluida : motivo, se a rede não deve ser coletada (decisão do dono do produto ou bloqueio)
+
+# ---------------------------------------------------------------- nacionais / multirregionais
+
+[[rede]]
+id = "atacadao"
+nome = "Atacadão"
+dominios = ["www.atacadao.com.br"]
+ufs = ["AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO"]
+
+[[rede]]
+id = "carrefour"
+nome = "Carrefour Mercado"
+dominios = ["mercado.carrefour.com.br"]
+ufs = ["SP", "RJ", "MG", "DF", "PR", "RS", "SC", "GO", "PE", "BA"]
+excluida = "APIs bloqueadas (503) no spike M1; não contornar"
+
+[[rede]]
+id = "assai"
+nome = "Assaí Atacadista"
+dominios = ["www.assai.com.br"]
+ufs = ["SP", "RJ", "MG", "PR", "BA", "PE", "CE"]
+excluida = "403 anti-robô no spike M1; não contornar"
+
+[[rede]]
+id = "paodeacucar"
+nome = "Pão de Açúcar"
+dominios = ["www.paodeacucar.com"]
+ufs = ["SP", "RJ", "DF", "CE", "PE", "PB", "BA"]
+excluida = "verificação anti-robô no spike M1; não contornar"
+
+[[rede]]
+id = "muffato"
+nome = "Super Muffato"
+dominios = ["www.supermuffato.com.br"]
+ufs = ["PR", "SP"]
+excluida = "termos de uso proíbem explorar o conteúdo sem autorização (decisão do dono do produto)"
+
+[[rede]]
+id = "samsclub"
+nome = "Sam's Club"
+dominios = ["www.samsclub.com.br"]
+ufs = ["SP", "RJ", "MG", "PR", "RS", "SC", "GO", "DF", "BA", "PE", "CE", "ES", "MS", "MT"]
+
+[[rede]]
+id = "comper"
+nome = "Comper"
+dominios = ["www.comper.com.br"]
+ufs = ["MS", "MT", "GO", "DF", "SC"]
+
+[[rede]]
+id = "fort"
+nome = "Fort Atacadista"
+dominios = ["www.fortatacadista.com.br"]
+ufs = ["SC", "MS", "MT", "GO", "DF"]
+
+[[rede]]
+id = "mateus"
+nome = "Mateus Supermercados"
+dominios = ["www.mateusmais.com.br", "www.mateussupermercados.com.br"]
+ufs = ["MA", "PA", "PI", "CE", "BA", "PE", "SE", "AL", "PB", "RN", "TO"]
+
+[[rede]]
+id = "supermercadosbh"
+nome = "Supermercados BH"
+dominios = ["www.supermercadosbh.com.br"]
+ufs = ["MG", "ES", "SP"]
+
+[[rede]]
+id = "gbarbosa"
+nome = "GBarbosa"
+dominios = ["www.gbarbosa.com.br"]
+ufs = ["SE", "BA", "AL", "PE", "CE", "PB"]
+
+[[rede]]
+id = "bretas"
+nome = "Bretas"
+dominios = ["www.bretas.com.br"]
+ufs = ["MG", "GO", "BA", "DF"]
+
+[[rede]]
+id = "prezunic"
+nome = "Prezunic"
+dominios = ["www.prezunic.com.br"]
+ufs = ["RJ"]
+
+[[rede]]
+id = "perini"
+nome = "Perini"
+dominios = ["www.perini.com.br"]
+ufs = ["BA"]
+
+# ---------------------------------------------------------------- Sudeste
+
+[[rede]]
+id = "supernosso"
+nome = "Super Nosso"
+dominios = ["www.supernosso.com", "www.supernosso.com.br"]
+ufs = ["MG"]
+
+[[rede]]
+id = "verdemar"
+nome = "Verdemar"
+dominios = ["www.verdemaronline.com.br", "www.verdemar.com.br"]
+ufs = ["MG"]
+
+[[rede]]
+id = "epa"
+nome = "EPA Supermercados"
+dominios = ["www.epa.com.br", "www.epaplus.com.br"]
+ufs = ["MG", "ES"]
+
+[[rede]]
+id = "martminas"
+nome = "Mart Minas"
+dominios = ["www.martminas.com.br"]
+ufs = ["MG"]
+
+[[rede]]
+id = "savegnago"
+nome = "Savegnago"
+dominios = ["www.savegnago.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "sonda"
+nome = "Sonda"
+dominios = ["www.sondadelivery.com.br", "www.sonda.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "hirota"
+nome = "Hirota"
+dominios = ["www.hirota.com.br", "www.hirotaemcasa.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "stmarche"
+nome = "St Marche"
+dominios = ["www.marche.com.br", "www.stmarche.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "paguemenos"
+nome = "Pague Menos Supermercados"
+dominios = ["www.superpaguemenos.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "tenda"
+nome = "Tenda Atacado"
+dominios = ["www.tendaatacado.com.br"]
+ufs = ["SP", "GO"]
+
+[[rede]]
+id = "enxuto"
+nome = "Enxuto"
+dominios = ["www.enxuto.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "covabra"
+nome = "Covabra"
+dominios = ["www.covabra.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "coop"
+nome = "Coop"
+dominios = ["www.coopsupermercado.com.br", "www.coop.com.br"]
+ufs = ["SP"]
+
+[[rede]]
+id = "oba"
+nome = "Oba Hortifruti"
+dominios = ["www.obahortifruti.com.br"]
+ufs = ["SP", "DF", "GO", "RJ"]
+
+[[rede]]
+id = "zonasul"
+nome = "Zona Sul"
+dominios = ["www.zonasul.com.br", "www.zonasulatende.com.br"]
+ufs = ["RJ"]
+
+[[rede]]
+id = "mundial"
+nome = "Supermercados Mundial"
+dominios = ["www.supermercadosmundial.com.br"]
+ufs = ["RJ"]
+
+[[rede]]
+id = "guanabara"
+nome = "Supermercados Guanabara"
+dominios = ["www.supermercadosguanabara.com.br"]
+ufs = ["RJ"]
+
+[[rede]]
+id = "extrabom"
+nome = "Extrabom"
+dominios = ["www.extrabom.com.br"]
+ufs = ["ES"]
+
+[[rede]]
+id = "carone"
+nome = "Carone"
+dominios = ["www.carone.com.br"]
+ufs = ["ES"]
+
+# ---------------------------------------------------------------- Sul
+
+[[rede]]
+id = "angeloni"
+nome = "Angeloni"
+dominios = ["super.angeloni.com.br"]
+ufs = ["SC", "PR"]
+
+[[rede]]
+id = "condor"
+nome = "Condor"
+dominios = ["www.condor.com.br"]
+ufs = ["PR", "SC"]
+
+[[rede]]
+id = "festval"
+nome = "Festval"
+dominios = ["www.festval.com.br"]
+ufs = ["PR"]
+
+[[rede]]
+id = "cidadecancao"
+nome = "Cidade Canção"
+dominios = ["www.cidadecancao.com", "www.supermercadocidadecancao.com.br", "www.cidadecancaosupermercados.com.br"]
+ufs = ["PR"]
+
+[[rede]]
+id = "giassi"
+nome = "Giassi"
+dominios = ["www.giassi.com.br"]
+ufs = ["SC"]
+
+[[rede]]
+id = "bistek"
+nome = "Bistek"
+dominios = ["www.bistek.com.br"]
+ufs = ["SC", "RS"]
+
+[[rede]]
+id = "koch"
+nome = "Koch"
+dominios = ["www.superkoch.com.br", "www.koch.com.br"]
+ufs = ["SC"]
+
+[[rede]]
+id = "imperatriz"
+nome = "Imperatriz"
+dominios = ["www.imperatriz.com.br", "www.superimperatriz.com.br"]
+ufs = ["SC"]
+
+[[rede]]
+id = "zaffari"
+nome = "Zaffari"
+dominios = ["www.zaffari.com.br", "www.zaffarionline.com.br"]
+ufs = ["RS", "SP"]
+
+[[rede]]
+id = "asun"
+nome = "Asun"
+dominios = ["www.asun.com.br"]
+ufs = ["RS"]
+
+[[rede]]
+id = "stokcenter"
+nome = "Stok Center"
+dominios = ["www.stokcenter.com.br"]
+ufs = ["RS"]
+
+[[rede]]
+id = "unidasul"
+nome = "Unidasul"
+dominios = ["www.unidasul.com.br", "www.rissul.com.br"]
+ufs = ["RS"]
+
+# ---------------------------------------------------------------- Centro-Oeste
+
+[[rede]]
+id = "bigbox"
+nome = "Big Box"
+dominios = ["www.bigboxdelivery.com.br", "www.bigbox.com.br"]
+ufs = ["DF"]
+
+[[rede]]
+id = "tatico"
+nome = "Tatico"
+dominios = ["www.tatico.com.br"]
+ufs = ["DF", "GO"]
+
+# ---------------------------------------------------------------- Nordeste
+
+[[rede]]
+id = "atakarejo"
+nome = "Atakarejo"
+dominios = ["www.atakarejo.com.br"]
+ufs = ["BA"]
+
+[[rede]]
+id = "hiperideal"
+nome = "Hiperideal"
+dominios = ["www.hiperideal.com.br"]
+ufs = ["BA"]
+
+[[rede]]
+id = "novoatacarejo"
+nome = "Novo Atacarejo"
+dominios = ["www.novoatacarejo.com", "www.novoatacarejo.com.br"]
+ufs = ["PE"]
+
+[[rede]]
+id = "saoluiz"
+nome = "Mercadinhos São Luiz"
+dominios = ["www.mercadinhossaoluiz.com.br", "www.saoluiz.com.br"]
+ufs = ["CE"]
+
+[[rede]]
+id = "cometa"
+nome = "Cometa Supermercados"
+dominios = ["www.cometasupermercados.com.br"]
+ufs = ["CE"]
+
+[[rede]]
+id = "pinheiro"
+nome = "Pinheiro Supermercado"
+dominios = ["www.pinheirosupermercado.com.br"]
+ufs = ["CE"]
+
+[[rede]]
+id = "nordestao"
+nome = "Nordestão"
+dominios = ["www.nordestao.com.br"]
+ufs = ["RN"]
+
+[[rede]]
+id = "carvalho"
+nome = "Carvalho Supermercado"
+dominios = ["www.carvalhosupermercado.com.br"]
+ufs = ["PI"]
+
+# ---------------------------------------------------------------- Norte
+
+[[rede]]
+id = "lider"
+nome = "Líder Supermercados"
+dominios = ["www.supermercadoslider.com.br", "www.lider.net.br"]
+ufs = ["PA"]
+
+[[rede]]
+id = "formosa"
+nome = "Formosa Supermercados"
+dominios = ["www.formosasupermercados.com.br", "www.formosa.com.br"]
+ufs = ["PA"]
+
+[[rede]]
+id = "nazare"
+nome = "Supermercados Nazaré"
+dominios = ["www.supernazare.com.br", "www.nazare.com.br"]
+ufs = ["PA"]
+
+[[rede]]
+id = "db"
+nome = "DB Supermercados"
+dominios = ["www.dbsupermercados.com.br"]
+ufs = ["AM"]

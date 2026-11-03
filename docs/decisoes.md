@@ -27,6 +27,11 @@
 | D22 | CEP de referência automático por região imediata: cidade-polo + ViaCEP, preferindo o Centro, validado pelo código IBGE | Ativar uma região vira só escolher a cidade; o bot ativa a região quando o usuário se cadastra |
 | D23 | Montagem da lista numa mensagem só: cada item com botões E/T/P, típico marcado por padrão; sem perfil de preço salvo | Responder item por item cansa; perfil fixo distorceria a análise, porque os gastos mudam de mês para mês (dono do produto) |
 | D24 | Erro de digitação: o bot pergunta "Você quis dizer …?" antes de montar a lista | Garante que a análise segue sem erro de item (dono do produto) |
+| D25 | Mapa nacional de redes (`gm.ferramentas.mapear_redes`): candidatas em `catalogo/redes.toml`, resultado em `catalogo/mapa_redes.json`; só redes viáveis entram no seed | Rede nova é configuração; o mapa é refeito quando a lista de candidatas muda |
+| D26 | Rede VTEX que devolve a mesma região para o estado inteiro "não regionaliza": só conta onde a simulação de frete mostra entrega ou retirada (no mapa e na coleta) | Sem isso, Hiperideal (Salvador) aparecia em 34 regiões da Bahia e Zaffari (Porto Alegre) em 95 |
+| D27 | Rede só é agendada para regiões dos estados onde atua (`rede.ufs`); nas redes OSuper os estados vêm da lista de lojas | Evita milhares de tarefas inúteis por domingo |
+| D28 | Na coleta, regiões com a mesma região VTEX reaproveitam a busca na mesma execução | Atacadão: 508 regiões, 58 regiões VTEX distintas |
+| D29 | Erro 5xx do servidor da loja é "instável" (tenta de novo), não bloqueio; 401/403/429/503 e verificação anti-robô são bloqueio e nunca são contornados | Oba e Carone deram 500 temporário e são viáveis |
 | D16 | Produto da rede guardado em `produto_rede` (com EAN opcional), não em uma tabela única por EAN | OSuper (Condor) não informa EAN |
 
 ## Pendentes
@@ -43,5 +48,6 @@
 | P9 | Passo de LLM para casamentos ambíguos (hoje zero na amostra; entra quando aparecer volume) | M3 ou depois |
 | ~~P10~~ | ~~CEP de referência automático~~: resolvido (D22) | ✓ |
 | P11 | Alertas de coleta (falha, região sem preço novo) no Telegram do admin | Com o bot (M4) |
-| P12 | 68 regiões imediatas sem CEP de referência (parte do RS e todo MS, MT, GO e DF): o ViaCEP bloqueou o IP no fim da geração. Rodar `tools/gen_cep_regioes.py` de novo (incremental). Até lá, essas regiões usam preços do estado/Brasil | Antes de abrir para essas regiões |
+| ~~P12~~ | ~~Regiões sem CEP~~: 508 de 510 com CEP (fonte alternativa OpenStreetMap + BrasilAPI). Faltam Vacaria-RS e Porangatu-GO, que usam o nível estado | ✓ |
+| P13 | 441 regiões só com o Atacadão (meta: 2 a 3 redes). Redes grandes do N/NE e de MG usam plataformas próprias (ver `mapa-redes.md`); Instabuy é a única candidata a terceiro adaptador | Decisão do dono do produto |
 | P7 | Calibração dos parâmetros de aprendizado (peso 0,3, `k`, limites 0,75 a 1,25) | M5, com dados reais |

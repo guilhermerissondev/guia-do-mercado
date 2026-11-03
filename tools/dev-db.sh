@@ -16,6 +16,9 @@ if ! docker ps -a --format '{{.Names}}' | grep -qx "$NAME"; then
   sleep 2
 fi
 docker start "$NAME" >/dev/null
+# Container religado (ex.: depois de reiniciar a máquina): espera o Postgres aceitar conexões
+for _ in $(seq 1 60); do docker exec "$NAME" pg_isready -U postgres >/dev/null 2>&1 && break; sleep 1; done
+sleep 1
 
 if [[ "$(docker exec "$NAME" psql -U postgres -tAc "select to_regclass('public.municipio') is not null")" != "t" ]]; then
   for f in supabase/migrations/*.sql supabase/seed/*.sql; do
