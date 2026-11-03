@@ -1,0 +1,17 @@
+# Bot do Telegram do Guia do Mercado (long polling). Instalar na VPS:
+#   sudo cp deploy/guia-do-mercado-bot.service /etc/systemd/system/
+#   sudo systemctl enable --now guia-do-mercado-bot
+# Variáveis em /etc/guia-do-mercado/bot.env: TELEGRAM_BOT_TOKEN e DATABASE_URL
+[Unit]
+Description=Guia do Mercado - bot do Telegram
+After=network-online.target
+
+[Service]
+WorkingDirectory=/opt/guia-do-mercado/bot
+EnvironmentFile=/etc/guia-do-mercado/bot.env
+ExecStart=/usr/bin/node --import tsx src/main.ts
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

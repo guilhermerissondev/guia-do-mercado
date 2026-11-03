@@ -1,0 +1,848 @@
+[
+ {
+  "id": "arroz-branco-5kg",
+  "nome": "Arroz branco tipo 1 5 kg",
+  "busca": "arroz branco kg",
+  "granel": false,
+  "conteudoValor": 5000.0,
+  "conteudoUnidade": "g",
+  "ordem": 0
+ },
+ {
+  "id": "arroz-branco-1kg",
+  "nome": "Arroz branco tipo 1 1 kg",
+  "busca": "arroz branco kg",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "g",
+  "ordem": 1
+ },
+ {
+  "id": "arroz-parboilizado-5kg",
+  "nome": "Arroz parboilizado 5 kg",
+  "busca": "arroz parboilizado kg",
+  "granel": false,
+  "conteudoValor": 5000.0,
+  "conteudoUnidade": "g",
+  "ordem": 2
+ },
+ {
+  "id": "feijao-carioca-1kg",
+  "nome": "Feijão carioca 1 kg",
+  "busca": "feijao carioca kg",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "g",
+  "ordem": 3
+ },
+ {
+  "id": "feijao-preto-1kg",
+  "nome": "Feijão preto 1 kg",
+  "busca": "feijao preto kg",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "g",
+  "ordem": 4
+ },
+ {
+  "id": "lentilha-500g",
+  "nome": "Lentilha 500 g",
+  "busca": "lentilha 500",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 5
+ },
+ {
+  "id": "aveia-flocos-500g",
+  "nome": "Aveia em flocos 500 g",
+  "busca": "aveia flocos 500 floco",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 6
+ },
+ {
+  "id": "macarrao-espaguete-500g",
+  "nome": "Macarrão espaguete 500 g",
+  "busca": "macarrao espaguete 500 spaghetti espagueti",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 7
+ },
+ {
+  "id": "macarrao-parafuso-500g",
+  "nome": "Macarrão parafuso 500 g",
+  "busca": "macarrao parafuso 500 fusilli",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 8
+ },
+ {
+  "id": "macarrao-penne-500g",
+  "nome": "Macarrão penne 500 g",
+  "busca": "macarrao penne 500",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 9
+ },
+ {
+  "id": "macarrao-instantaneo-85g",
+  "nome": "Macarrão instantâneo 85 g",
+  "busca": "macarrao instantaneo 85 lamen miojo",
+  "granel": false,
+  "conteudoValor": 85.0,
+  "conteudoUnidade": "g",
+  "ordem": 10
+ },
+ {
+  "id": "oleo-soja-900ml",
+  "nome": "Óleo de soja 900 ml",
+  "busca": "oleo soja 900 ml",
+  "granel": false,
+  "conteudoValor": 900.0,
+  "conteudoUnidade": "ml",
+  "ordem": 11
+ },
+ {
+  "id": "azeite-extra-virgem-500ml",
+  "nome": "Azeite de oliva extra virgem 500 ml",
+  "busca": "azeite oliva extra virgem 500 ml",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "ml",
+  "ordem": 12
+ },
+ {
+  "id": "azeite-extra-virgem-250ml",
+  "nome": "Azeite de oliva extra virgem 250 ml",
+  "busca": "azeite oliva extra virgem 250 ml",
+  "granel": false,
+  "conteudoValor": 250.0,
+  "conteudoUnidade": "ml",
+  "ordem": 13
+ },
+ {
+  "id": "acucar-refinado-1kg",
+  "nome": "Açúcar refinado 1 kg",
+  "busca": "acucar refinado kg",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "g",
+  "ordem": 14
+ },
+ {
+  "id": "acucar-cristal-5kg",
+  "nome": "Açúcar cristal 5 kg",
+  "busca": "acucar cristal kg",
+  "granel": false,
+  "conteudoValor": 5000.0,
+  "conteudoUnidade": "g",
+  "ordem": 15
+ },
+ {
+  "id": "acucar-cristal-1kg",
+  "nome": "Açúcar cristal 1 kg",
+  "busca": "acucar cristal kg",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "g",
+  "ordem": 16
+ },
+ {
+  "id": "cafe-torrado-moido-500g",
+  "nome": "Café torrado e moído 500 g",
+  "busca": "cafe torrado moido 500",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 17
+ },
+ {
+  "id": "cafe-torrado-moido-250g",
+  "nome": "Café torrado e moído 250 g",
+  "busca": "cafe torrado moido 250",
+  "granel": false,
+  "conteudoValor": 250.0,
+  "conteudoUnidade": "g",
+  "ordem": 18
+ },
+ {
+  "id": "achocolatado-po-400g",
+  "nome": "Achocolatado em pó 400 g",
+  "busca": "achocolatado po 400",
+  "granel": false,
+  "conteudoValor": 400.0,
+  "conteudoUnidade": "g",
+  "ordem": 19
+ },
+ {
+  "id": "filtro-cafe-103-30un",
+  "nome": "Filtro de papel para café 103 (30 un)",
+  "busca": "filtro papel cafe 103 30",
+  "granel": false,
+  "conteudoValor": 30.0,
+  "conteudoUnidade": "un",
+  "ordem": 20
+ },
+ {
+  "id": "farinha-trigo-1kg",
+  "nome": "Farinha de trigo 1 kg",
+  "busca": "farinha trigo kg",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "g",
+  "ordem": 21
+ },
+ {
+  "id": "farinha-mandioca-500g",
+  "nome": "Farinha de mandioca 500 g",
+  "busca": "farinha mandioca 500",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 22
+ },
+ {
+  "id": "fuba-1kg",
+  "nome": "Fubá 1 kg",
+  "busca": "fuba kg",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "g",
+  "ordem": 23
+ },
+ {
+  "id": "fermento-quimico-100g",
+  "nome": "Fermento químico em pó 100 g",
+  "busca": "fermento quimico po 100",
+  "granel": false,
+  "conteudoValor": 100.0,
+  "conteudoUnidade": "g",
+  "ordem": 24
+ },
+ {
+  "id": "molho-tomate-300g",
+  "nome": "Molho de tomate sachê 300 g",
+  "busca": "molho tomate sache 300",
+  "granel": false,
+  "conteudoValor": 300.0,
+  "conteudoUnidade": "g",
+  "ordem": 25
+ },
+ {
+  "id": "extrato-tomate-300g",
+  "nome": "Extrato de tomate 300 g",
+  "busca": "extrato tomate 300",
+  "granel": false,
+  "conteudoValor": 300.0,
+  "conteudoUnidade": "g",
+  "ordem": 26
+ },
+ {
+  "id": "sal-refinado-1kg",
+  "nome": "Sal refinado 1 kg",
+  "busca": "sal refinado kg",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "g",
+  "ordem": 27
+ },
+ {
+  "id": "milho-verde-lata-170g",
+  "nome": "Milho verde em conserva 170 g",
+  "busca": "milho verde conserva 170",
+  "granel": false,
+  "conteudoValor": 170.0,
+  "conteudoUnidade": "g",
+  "ordem": 28
+ },
+ {
+  "id": "ervilha-lata-170g",
+  "nome": "Ervilha em conserva 170 g",
+  "busca": "ervilha conserva 170",
+  "granel": false,
+  "conteudoValor": 170.0,
+  "conteudoUnidade": "g",
+  "ordem": 29
+ },
+ {
+  "id": "atum-lata-170g",
+  "nome": "Atum em lata 170 g",
+  "busca": "atum lata 170",
+  "granel": false,
+  "conteudoValor": 170.0,
+  "conteudoUnidade": "g",
+  "ordem": 30
+ },
+ {
+  "id": "sardinha-lata-125g",
+  "nome": "Sardinha em lata 125 g",
+  "busca": "sardinha lata 125",
+  "granel": false,
+  "conteudoValor": 125.0,
+  "conteudoUnidade": "g",
+  "ordem": 31
+ },
+ {
+  "id": "maionese-500g",
+  "nome": "Maionese 500 g",
+  "busca": "maionese 500",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 32
+ },
+ {
+  "id": "ketchup-400g",
+  "nome": "Ketchup 400 g",
+  "busca": "ketchup 400",
+  "granel": false,
+  "conteudoValor": 400.0,
+  "conteudoUnidade": "g",
+  "ordem": 33
+ },
+ {
+  "id": "leite-integral-1l",
+  "nome": "Leite integral 1 L",
+  "busca": "leite integral",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 34
+ },
+ {
+  "id": "leite-desnatado-1l",
+  "nome": "Leite desnatado 1 L",
+  "busca": "leite desnatado",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 35
+ },
+ {
+  "id": "leite-semidesnatado-1l",
+  "nome": "Leite semidesnatado 1 L",
+  "busca": "leite semidesnatado",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 36
+ },
+ {
+  "id": "leite-zero-lactose-1l",
+  "nome": "Leite zero lactose 1 L",
+  "busca": "leite zero lactose",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 37
+ },
+ {
+  "id": "leite-condensado-395g",
+  "nome": "Leite condensado 395 g",
+  "busca": "leite condensado 395",
+  "granel": false,
+  "conteudoValor": 395.0,
+  "conteudoUnidade": "g",
+  "ordem": 38
+ },
+ {
+  "id": "creme-leite-200g",
+  "nome": "Creme de leite 200 g",
+  "busca": "creme leite 200",
+  "granel": false,
+  "conteudoValor": 200.0,
+  "conteudoUnidade": "g",
+  "ordem": 39
+ },
+ {
+  "id": "manteiga-200g",
+  "nome": "Manteiga 200 g",
+  "busca": "manteiga 200",
+  "granel": false,
+  "conteudoValor": 200.0,
+  "conteudoUnidade": "g",
+  "ordem": 40
+ },
+ {
+  "id": "margarina-500g",
+  "nome": "Margarina 500 g",
+  "busca": "margarina 500",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 41
+ },
+ {
+  "id": "requeijao-200g",
+  "nome": "Requeijão cremoso 200 g",
+  "busca": "requeijao cremoso 200",
+  "granel": false,
+  "conteudoValor": 200.0,
+  "conteudoUnidade": "g",
+  "ordem": 42
+ },
+ {
+  "id": "iogurte-natural-170g",
+  "nome": "Iogurte natural 170 g",
+  "busca": "iogurte natural 170",
+  "granel": false,
+  "conteudoValor": 170.0,
+  "conteudoUnidade": "g",
+  "ordem": 43
+ },
+ {
+  "id": "queijo-mussarela-fatiado-150g",
+  "nome": "Queijo muçarela fatiado 150 g",
+  "busca": "queijo mucarela fatiado 150 mussarela muzzarela mozzarella",
+  "granel": false,
+  "conteudoValor": 150.0,
+  "conteudoUnidade": "g",
+  "ordem": 44
+ },
+ {
+  "id": "queijo-parmesao-ralado-50g",
+  "nome": "Queijo parmesão ralado 50 g",
+  "busca": "queijo parmesao ralado 50 parmesano",
+  "granel": false,
+  "conteudoValor": 50.0,
+  "conteudoUnidade": "g",
+  "ordem": 45
+ },
+ {
+  "id": "presunto-fatiado-200g",
+  "nome": "Presunto fatiado 200 g",
+  "busca": "presunto fatiado 200",
+  "granel": false,
+  "conteudoValor": 200.0,
+  "conteudoUnidade": "g",
+  "ordem": 46
+ },
+ {
+  "id": "salsicha-500g",
+  "nome": "Salsicha 500 g",
+  "busca": "salsicha 500",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 47
+ },
+ {
+  "id": "linguica-toscana-1kg",
+  "nome": "Linguiça toscana 1 kg",
+  "busca": "linguica toscana kg",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "g",
+  "ordem": 48
+ },
+ {
+  "id": "mortadela-fatiada-200g",
+  "nome": "Mortadela fatiada 200 g",
+  "busca": "mortadela fatiada 200",
+  "granel": false,
+  "conteudoValor": 200.0,
+  "conteudoUnidade": "g",
+  "ordem": 49
+ },
+ {
+  "id": "pao-forma-tradicional-500g",
+  "nome": "Pão de forma tradicional 500 g",
+  "busca": "pao forma tradicional 500",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "g",
+  "ordem": 50
+ },
+ {
+  "id": "biscoito-cream-cracker-200g",
+  "nome": "Biscoito cream cracker 200 g",
+  "busca": "biscoito cream cracker 200 agua sal",
+  "granel": false,
+  "conteudoValor": 200.0,
+  "conteudoUnidade": "g",
+  "ordem": 51
+ },
+ {
+  "id": "biscoito-maizena-200g",
+  "nome": "Biscoito maisena 200 g",
+  "busca": "biscoito maisena 200 maizena",
+  "granel": false,
+  "conteudoValor": 200.0,
+  "conteudoUnidade": "g",
+  "ordem": 52
+ },
+ {
+  "id": "biscoito-recheado-chocolate-130g",
+  "nome": "Biscoito recheado de chocolate 130 g",
+  "busca": "biscoito recheado chocolate 130",
+  "granel": false,
+  "conteudoValor": 130.0,
+  "conteudoUnidade": "g",
+  "ordem": 53
+ },
+ {
+  "id": "torrada-tradicional-160g",
+  "nome": "Torrada tradicional 160 g",
+  "busca": "torrada tradicional 160",
+  "granel": false,
+  "conteudoValor": 160.0,
+  "conteudoUnidade": "g",
+  "ordem": 54
+ },
+ {
+  "id": "cereal-matinal-flocos-milho-300g",
+  "nome": "Cereal matinal flocos de milho 300 g",
+  "busca": "cereal matinal flocos milho 300 corn flakes sucrilhos",
+  "granel": false,
+  "conteudoValor": 300.0,
+  "conteudoUnidade": "g",
+  "ordem": 55
+ },
+ {
+  "id": "refrigerante-cola-2l",
+  "nome": "Refrigerante de cola 2 L",
+  "busca": "refrigerante cola coca pepsi",
+  "granel": false,
+  "conteudoValor": 2000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 56
+ },
+ {
+  "id": "refrigerante-guarana-2l",
+  "nome": "Refrigerante guaraná 2 L",
+  "busca": "refrigerante guarana",
+  "granel": false,
+  "conteudoValor": 2000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 57
+ },
+ {
+  "id": "agua-mineral-sem-gas-1-5l",
+  "nome": "Água mineral sem gás 1,5 L",
+  "busca": "agua mineral gas 1.5",
+  "granel": false,
+  "conteudoValor": 1500.0,
+  "conteudoUnidade": "ml",
+  "ordem": 58
+ },
+ {
+  "id": "suco-uva-integral-1l",
+  "nome": "Suco de uva integral 1 L",
+  "busca": "suco uva integral",
+  "granel": false,
+  "conteudoValor": 1000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 59
+ },
+ {
+  "id": "suco-po-25g",
+  "nome": "Suco em pó 25 g",
+  "busca": "suco po 25 refresco",
+  "granel": false,
+  "conteudoValor": 25.0,
+  "conteudoUnidade": "g",
+  "ordem": 60
+ },
+ {
+  "id": "cerveja-lata-350ml",
+  "nome": "Cerveja lata 350 ml",
+  "busca": "cerveja lata 350 ml",
+  "granel": false,
+  "conteudoValor": 350.0,
+  "conteudoUnidade": "ml",
+  "ordem": 61
+ },
+ {
+  "id": "ovos-brancos-12un",
+  "nome": "Ovos brancos (dúzia)",
+  "busca": "ovos brancos duzia ovo",
+  "granel": false,
+  "conteudoValor": 12.0,
+  "conteudoUnidade": "un",
+  "ordem": 62
+ },
+ {
+  "id": "peito-frango-kg",
+  "nome": "Peito de frango (kg)",
+  "busca": "peito frango kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 63
+ },
+ {
+  "id": "coxa-sobrecoxa-frango-kg",
+  "nome": "Coxa e sobrecoxa de frango (kg)",
+  "busca": "coxa sobrecoxa frango kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 64
+ },
+ {
+  "id": "carne-moida-kg",
+  "nome": "Carne moída bovina (kg)",
+  "busca": "carne moida bovina kg patinho acem moido",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 65
+ },
+ {
+  "id": "alcatra-kg",
+  "nome": "Alcatra bovina (kg)",
+  "busca": "alcatra bovina kg bife carne",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 66
+ },
+ {
+  "id": "acem-kg",
+  "nome": "Acém bovino (kg)",
+  "busca": "acem bovino kg carne bovina",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 67
+ },
+ {
+  "id": "costela-bovina-kg",
+  "nome": "Costela bovina (kg)",
+  "busca": "costela bovina kg boi minga janela carne",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 68
+ },
+ {
+  "id": "bisteca-suina-kg",
+  "nome": "Bisteca suína (kg)",
+  "busca": "bisteca suina kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 69
+ },
+ {
+  "id": "banana-prata-kg",
+  "nome": "Banana prata (kg)",
+  "busca": "banana prata kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 70
+ },
+ {
+  "id": "maca-gala-kg",
+  "nome": "Maçã gala (kg)",
+  "busca": "maca gala kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 71
+ },
+ {
+  "id": "laranja-pera-kg",
+  "nome": "Laranja pera (kg)",
+  "busca": "laranja pera kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 72
+ },
+ {
+  "id": "tomate-kg",
+  "nome": "Tomate (kg)",
+  "busca": "tomate kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 73
+ },
+ {
+  "id": "cebola-kg",
+  "nome": "Cebola (kg)",
+  "busca": "cebola kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 74
+ },
+ {
+  "id": "batata-kg",
+  "nome": "Batata (kg)",
+  "busca": "batata kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 75
+ },
+ {
+  "id": "alho-kg",
+  "nome": "Alho (kg)",
+  "busca": "alho kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 76
+ },
+ {
+  "id": "cenoura-kg",
+  "nome": "Cenoura (kg)",
+  "busca": "cenoura kg",
+  "granel": true,
+  "conteudoValor": null,
+  "conteudoUnidade": null,
+  "ordem": 77
+ },
+ {
+  "id": "detergente-liquido-500ml",
+  "nome": "Detergente líquido 500 ml",
+  "busca": "detergente liquido 500 ml",
+  "granel": false,
+  "conteudoValor": 500.0,
+  "conteudoUnidade": "ml",
+  "ordem": 78
+ },
+ {
+  "id": "sabao-po-1-6kg",
+  "nome": "Sabão em pó 1,6 kg",
+  "busca": "sabao po 1.6 kg lava roupas",
+  "granel": false,
+  "conteudoValor": 1600.0,
+  "conteudoUnidade": "g",
+  "ordem": 79
+ },
+ {
+  "id": "sabao-liquido-roupas-3l",
+  "nome": "Sabão líquido para roupas 3 L",
+  "busca": "sabao liquido roupas lava",
+  "granel": false,
+  "conteudoValor": 3000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 80
+ },
+ {
+  "id": "amaciante-2l",
+  "nome": "Amaciante de roupas 2 L",
+  "busca": "amaciante roupas",
+  "granel": false,
+  "conteudoValor": 2000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 81
+ },
+ {
+  "id": "agua-sanitaria-2l",
+  "nome": "Água sanitária 2 L",
+  "busca": "agua sanitaria",
+  "granel": false,
+  "conteudoValor": 2000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 82
+ },
+ {
+  "id": "desinfetante-2l",
+  "nome": "Desinfetante 2 L",
+  "busca": "desinfetante",
+  "granel": false,
+  "conteudoValor": 2000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 83
+ },
+ {
+  "id": "esponja-multiuso-3un",
+  "nome": "Esponja de louça multiuso (3 un)",
+  "busca": "esponja louca multiuso",
+  "granel": false,
+  "conteudoValor": 3.0,
+  "conteudoUnidade": "un",
+  "ordem": 84
+ },
+ {
+  "id": "papel-toalha-2un",
+  "nome": "Papel toalha (2 rolos)",
+  "busca": "papel toalha rolos",
+  "granel": false,
+  "conteudoValor": 2.0,
+  "conteudoUnidade": "un",
+  "ordem": 85
+ },
+ {
+  "id": "saco-lixo-50l",
+  "nome": "Saco de lixo 50 L",
+  "busca": "saco lixo 50",
+  "granel": false,
+  "conteudoValor": 50000.0,
+  "conteudoUnidade": "ml",
+  "ordem": 86
+ },
+ {
+  "id": "papel-higienico-12un",
+  "nome": "Papel higiênico folha dupla (12 rolos)",
+  "busca": "papel higienico folha dupla 12 rolos",
+  "granel": false,
+  "conteudoValor": 12.0,
+  "conteudoUnidade": "un",
+  "ordem": 87
+ },
+ {
+  "id": "creme-dental-90g",
+  "nome": "Creme dental 90 g",
+  "busca": "creme dental 90 pasta dente gel",
+  "granel": false,
+  "conteudoValor": 90.0,
+  "conteudoUnidade": "g",
+  "ordem": 88
+ },
+ {
+  "id": "sabonete-barra-85g",
+  "nome": "Sabonete em barra 85 g",
+  "busca": "sabonete barra 85",
+  "granel": false,
+  "conteudoValor": 85.0,
+  "conteudoUnidade": "g",
+  "ordem": 89
+ },
+ {
+  "id": "shampoo-350ml",
+  "nome": "Shampoo 350 ml",
+  "busca": "shampoo 350 ml",
+  "granel": false,
+  "conteudoValor": 350.0,
+  "conteudoUnidade": "ml",
+  "ordem": 90
+ },
+ {
+  "id": "condicionador-350ml",
+  "nome": "Condicionador 350 ml",
+  "busca": "condicionador 350 ml",
+  "granel": false,
+  "conteudoValor": 350.0,
+  "conteudoUnidade": "ml",
+  "ordem": 91
+ },
+ {
+  "id": "desodorante-aerosol-150ml",
+  "nome": "Desodorante aerossol 150 ml",
+  "busca": "desodorante aerossol 150 ml aerosol aero",
+  "granel": false,
+  "conteudoValor": 150.0,
+  "conteudoUnidade": "ml",
+  "ordem": 92
+ },
+ {
+  "id": "absorvente-8un",
+  "nome": "Absorvente com abas (8 un)",
+  "busca": "absorvente abas",
+  "granel": false,
+  "conteudoValor": 8.0,
+  "conteudoUnidade": "un",
+  "ordem": 93
+ }
+]

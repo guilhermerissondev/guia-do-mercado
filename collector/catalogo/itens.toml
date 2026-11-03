@@ -728,7 +728,7 @@ categoria = "hortifruti"
 granel = true
 comeca_com = ["batata"]
 termos = ["batata"]
-excluir = ["doce", "palha", "chips", "frita", "congelada", "pre frita", "baroa", "salsa", "smiles", "lata"]
+excluir = ["doce", "palha", "chips", "frita", "congelada", "pre frita", "baroa", "salsa", "smiles", "lata", "mccain", "corte", "palito", "noisette", "rustica", "tradicional", "bint", "cancao"]
 
 [[item]]
 id = "alho-kg"

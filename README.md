@@ -11,6 +11,7 @@ Escopo nacional, ancorado na geografia do IBGE. Maringá-PR é o ambiente de val
 - [`docs/arquitetura.md`](docs/arquitetura.md): arquitetura, stack e modelo de dados
 - [`docs/decisoes.md`](docs/decisoes.md): decisões e pendências
 - [`docs/validacao-maringa.md`](docs/validacao-maringa.md): protocolo de validação com o tester de Maringá
+- [`docs/criar-bot-telegram.md`](docs/criar-bot-telegram.md): criar o bot no @BotFather e rodar o piloto
 
 ## Estrutura
 
@@ -18,8 +19,9 @@ Escopo nacional, ancorado na geografia do IBGE. Maringá-PR é o ambiente de val
 supabase/migrations/   esquema versionado
 supabase/seed/         dados iniciais (geografia do IBGE gerada por tools/gen_geo_seed.py)
 supabase/tests/        testes SQL
-supabase/functions/    bot do Telegram (TypeScript), a partir da M4
-collector/             coletor de preços (Python), a partir da M3
+bot/                   bot do Telegram (TypeScript, grammY)
+collector/             catálogo, casamento e coleta de preços (Python)
+deploy/                cron da coleta semanal e serviço do bot para a VPS
 apps/landing/          landing page (GitHub Pages), a partir da M7
 tools/                 scripts de apoio
 ```
@@ -29,7 +31,13 @@ tools/                 scripts de apoio
 Requer Docker.
 
 ```bash
-tools/test-db.sh   # sobe um Postgres descartável, aplica migrações e seeds, roda os testes SQL
+tools/test-db.sh                       # Postgres descartável: migrações, seeds e testes SQL
+tools/dev-db.sh                        # Postgres de desenvolvimento persistente (porta 54329)
+export DATABASE_URL=postgresql://postgres:dev@localhost:54329/postgres
+(cd collector && .venv/bin/pytest -q)  # coletor (integração usa DATABASE_URL)
+(cd bot && npm test)                   # bot (integração usa DATABASE_URL)
 ```
+
+Para criar e rodar o bot: [`docs/criar-bot-telegram.md`](docs/criar-bot-telegram.md).
 
 Para regerar a geografia a partir do IBGE: `python3 -I tools/gen_geo_seed.py`.

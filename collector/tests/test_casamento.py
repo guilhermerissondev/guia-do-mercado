@@ -39,6 +39,8 @@ def casador():
         ("Sal Refinado CISNE Tradicional 1kg", "sal-refinado-1kg"),
         ("Café PILÃO Torrado E Moído Tradicional Vácuo 250g", "cafe-torrado-moido-250g"),
         ("Sabonete Cliss 85g - Lavanda", "sabonete-barra-85g"),
+        ("Ovos Brancos Grandes com 12 Unidades", "ovos-brancos-12un"),
+        ("Saco para Lixo 50 Litros com 10 Unidades", "saco-lixo-50l"),
     ],
 )
 def test_casa_com_item_certo(casador, nome, item):
@@ -78,6 +80,13 @@ def test_casa_com_item_certo(casador, nome, item):
         "Sabonete PROTEX Limpeza Profunda Original 85g cada Leve 6 Pague Menos",
         "NIVEA Sabonete em Barra Hidratante Leite Promo 6 uni 85g",
         "Creme Dental Colgate Total Com 3 Cremes de 90g cada - Original - Preço Especial",
+        # Erros reais da coleta M3
+        "Creme Dental Colgate Sensitive Pro-Alívio Imediato Original 90g LV 3 PG 2",
+        "Creme Dental Sensodyne 90g - Branqueador - Com 3 Cremes",
+        "Batata McCain 1,05kg - Corte Fino",
+        "Batata McCain 1,5kg - Tradicional",
+        "Batata Bint 2kg - Tradicional",
+        "Batata Canção 2kg - Tradicional",
     ],
 )
 def test_nao_casa(casador, nome):
@@ -87,7 +96,7 @@ def test_nao_casa(casador, nome):
         "refrigerante-cola-2l", "cafe-torrado-moido-500g", "ovos-brancos-12un",
         "arroz-branco-5kg", "arroz-branco-1kg", "cebola-kg", "tomate-kg", "cenoura-kg", "alho-kg",
         "peito-frango-kg", "costela-bovina-kg", "cafe-torrado-moido-250g", "sal-refinado-1kg",
-        "sabonete-barra-85g", "creme-dental-90g",
+        "sabonete-barra-85g", "creme-dental-90g", "batata-kg",
     }, c
 
 

@@ -33,7 +33,8 @@ A cada checkpoint, preencher a seção da etapa: o que foi conferido, o resultad
 
 ### M3. Preço base
 
-- [ ] 20 itens × 2 mercados: preço base vs gôndola, diferença registrada.
+- [x] Coleta real da região imediata de Maringá: Atacadão, Condor e Angeloni selecionados (76, 76 e 75 itens cobertos); 84 de 94 itens com estimativa.
+- [x] Tester aprovou os preços de `validacao-m3.md` (2026-11-03).
 
 | Item | Mercado | Preço base (típico) | Preço na gôndola | Diferença |
 |---|---|---|---|---|
@@ -41,7 +42,12 @@ A cada checkpoint, preencher a seção da etapa: o que foi conferido, o resultad
 
 ### M4. Bot núcleo
 
-- [ ] Uma compra real feita com o bot; atritos e erros de interpretação anotados.
+- [ ] Bot criado no @BotFather e rodando (ver `criar-bot-telegram.md`).
+- [ ] Cadastro: `/start`, digitar "maringa", escolher Maringá-PR.
+- [ ] Lista real da semana mandada numa mensagem; anotar itens que o bot entendeu errado ou não achou.
+- [ ] Escolha de faixas (econômico/típico/premium) em todos os itens; total estimado faz sentido?
+- [ ] No mercado: `/mercado`, marcar itens, corrigir pelo menos 3 preços com ✏️; total final bate com o caixa?
+- [ ] Atritos anotados (o que demorou, o que confundiu, o que faltou).
 
 ### M5. Ajuste do usuário
 

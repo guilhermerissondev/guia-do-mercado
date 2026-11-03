@@ -21,6 +21,10 @@
 | D15 | Sempre 2 ou 3 redes por região; entre as disponíveis, escolher as que **cobrem mais itens do catálogo** naquela região (desempate: total de produtos com preço) | Maximiza o que entra no banco; medido pela cobertura do catálogo, não por número bruto de produtos |
 | D17 | Faixas calculadas com **cada marca contando uma vez por rede** (mediana da marca na rede) | Na amostra real, 17 cafés gourmet de uma rede puxavam o típico do café 250 g para R$ 39,99 |
 | D18 | Itens a granel exigem `comeca_com` e preço é convertido para R$/kg (caixas de atacado incluídas) | Na amostra real, "salgadinho sabor cebola" e "sopa de peito de frango" casavam com hortifrúti e carnes |
+| D19 | `estimativa()` exige pelo menos 2 pontos marca × rede no nível; senão sobe na cascata | Evita faixa de um produto só |
+| D20 | Bot roda como processo Node na VPS (long polling), não em Supabase Edge Functions | A VPS já é obrigatória para o coletor (IP brasileiro); um só lugar para implantar; dispensa URL pública e webhook; o código separa lógica, banco e entrada, então trocar para webhook depois é um arquivo |
+| D21 | Coleta semanal: domingo às 12h (horário de Brasília); faixas usam janela de 15 dias | Decisão do dono do produto; a janela cobre uma coleta perdida |
+| D22 | CEP de referência automático por região imediata: cidade-polo + ViaCEP, preferindo o Centro, validado pelo código IBGE | Ativar uma região vira só escolher a cidade; o bot ativa a região quando o usuário se cadastra |
 | D16 | Produto da rede guardado em `produto_rede` (com EAN opcional), não em uma tabela única por EAN | OSuper (Condor) não informa EAN |
 
 ## Pendentes
@@ -29,10 +33,13 @@
 |---|---|---|
 | P1 | Termos de uso de Atacadão e Angeloni (leitura manual) | Antes da coleta contínua (M3) |
 | P2 | Teste de IP brasileiro vs nuvem estrangeira | M3, ao montar a VPS |
-| P3 | Nome público e usuário do bot no Telegram | Antes da M4 |
+| P3 | Criar o bot no @BotFather (nome, usuário, token): ver `criar-bot-telegram.md` | Agora (checkpoint M4) |
 | P4 | Projeto Supabase criado | Antes de aplicar migrações em produção |
 | P5 | VPS no Brasil | A partir da M3 |
 | P6 | Consulta jurídica sobre coleta em sites de terceiros | Antes de abrir ao público |
-| P8 | Granel na VTEX: capturar `measurementUnit` e `unitMultiplier` para garantir R$/kg (ex.: tomate do Angeloni a R$ 20,49/kg a conferir) | M3 |
+| ~~P8~~ | ~~Granel na VTEX~~: resolvido na M3, `Price` já é por kg (simulação de carrinho) | ✓ |
 | P9 | Passo de LLM para casamentos ambíguos (hoje zero na amostra; entra quando aparecer volume) | M3 ou depois |
+| ~~P10~~ | ~~CEP de referência automático~~: resolvido (D22) | ✓ |
+| P11 | Alertas de coleta (falha, região sem preço novo) no Telegram do admin | Com o bot (M4) |
+| P12 | 68 regiões imediatas sem CEP de referência (parte do RS e todo MS, MT, GO e DF): o ViaCEP bloqueou o IP no fim da geração. Rodar `tools/gen_cep_regioes.py` de novo (incremental). Até lá, essas regiões usam preços do estado/Brasil | Antes de abrir para essas regiões |
 | P7 | Calibração dos parâmetros de aprendizado (peso 0,3, `k`, limites 0,75 a 1,25) | M5, com dados reais |

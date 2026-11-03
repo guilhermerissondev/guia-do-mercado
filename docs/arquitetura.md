@@ -45,6 +45,33 @@ Implementada em `supabase/migrations/20261103000000_geo.sql`: tabelas normalizad
 - **Adaptadores** (`collector/gm/fontes/`): `vtex.py` (região por CEP + busca inteligente) e `osuper.py` (sitemap + GraphQL por loja), com um cliente HTTP comum que identifica o robô e espaça as requisições.
 - **Amostra de validação** (`collector/gm/ferramentas/amostra.py`): coleta real num CEP, grava fixture e gera `docs/revisao-casamentos-m2.md` (cobertura por rede, faixas por item, suspeitos, 50 casamentos para revisão).
 
+## Preço base e coleta (M3)
+
+- **Região ativa** (`regiao_coleta`): região imediata + CEP de referência. Ativar é um comando; nada no código cita cidade.
+- **Redes por região** (`rede_regiao`): cada coleta também avalia a rede (atende? quantos itens do catálogo cobre?). `selecionar_redes()` marca até 3 redes com maior cobertura (D15). Só as selecionadas entram nas faixas.
+- **Lojas OSuper** (`rede_loja`): lista de lojas da rede com cidade/UF, mapeada para o município do IBGE. A região usa a loja de um município dela.
+- **Fila** (`coleta_tarefa`): uma tarefa por rede × região; `pegar_tarefa()` com `SKIP LOCKED`; até 3 tentativas com espera crescente. A tabela também é o registro de execução.
+- **Agendamento** (`agendar_coletas()`): redes selecionadas a cada 7 dias; não selecionadas reavaliadas a cada 30.
+- **Observações** (`preco_obs`, só cresce) e **faixas** (`estat_preco`) recalculadas por `recalcular_estat_preco()` nos níveis imediata, intermediária, UF e Brasil. Regra igual à do Python: último preço por produto na janela de 30 dias, descarte fora de [mediana/5, mediana×5], cada marca uma vez por rede, P10/P50/P90.
+- **Estimativa** (`estimativa(item, município)`): primeiro nível com pelo menos 2 pontos marca × rede. Sem nenhum, não devolve linha e o bot pergunta o valor.
+- **Granel na VTEX:** `Price` já é por kg (confirmado por simulação de carrinho: 0,2 kg de tomate a R$ 20,49/kg custa R$ 4,09).
+
+### Operação
+
+```bash
+tools/dev-db.sh                                   # Postgres local com migrações e seeds
+export DATABASE_URL=postgresql://postgres:dev@localhost:54329/postgres GM_CONTACT=voce@exemplo.com
+cd collector
+python -m gm.coleta ativar --municipio 4115200 --cep 87013000
+python -m gm.coleta lojas        # lojas das redes OSuper
+python -m gm.coleta agendar      # cria tarefas vencidas
+python -m gm.coleta rodar        # executa a fila e recalcula faixas
+python -m gm.coleta recasar      # reaplica regras novas do catálogo ao que já foi coletado
+python -m gm.ferramentas.relatorio_m3 --municipio 4115200
+```
+
+Em produção, `agendar` + `rodar` rodam por cron diário na VPS brasileira (P5). Uma região com 3 redes leva cerca de 13 minutos.
+
 ## Modelo de dados
 
 Ver [`plano.md`](plano.md), seção "Modelo de dados", com estes ajustes da M2:
@@ -52,4 +79,4 @@ Ver [`plano.md`](plano.md), seção "Modelo de dados", com estes ajustes da M2:
 - `ean_item` guarda EANs confirmados, válidos para todas as redes.
 - `rede(id, nome, plataforma, config)`: rede nova é configuração.
 
-Migrações: `20261103000000_geo.sql` (geografia) e `20261103010000_catalogo.sql` (catálogo, redes, produtos, revisão).
+Migrações: `20261103000000_geo.sql` (geografia), `20261103010000_catalogo.sql` (catálogo, redes, produtos, revisão) e `20261103020000_precos.sql` (regiões, redes por região, lojas, fila, observações, faixas e estimativa).

@@ -1,0 +1,4 @@
+# Coleta semanal do Guia do Mercado: todo domingo às 12h, horário de Brasília.
+# Instalar na VPS com: crontab deploy/crontab   (ajuste o caminho do repositório)
+CRON_TZ=America/Sao_Paulo
+0 12 * * 0  set -a; . /etc/guia-do-mercado/coleta.env; set +a; /opt/guia-do-mercado/deploy/coleta-semanal.sh >> /var/log/guia-do-mercado-coleta.log 2>&1
