@@ -145,20 +145,67 @@ export class Repo {
 
   // ---------------------------------------------------------------- listas
 
+  /** Lista em uso: a ativa (própria ou compartilhada, se ainda aberta), senão a própria mais recente, senão uma nova. */
   async listaAberta(telegramId: number): Promise<Lista> {
     const [l] = await this.sql`
-      select id, nome from lista where dono_id = ${telegramId} and status = 'aberta' order by criada_em desc limit 1`;
+      select id, nome from (
+        select l.id, l.nome, 1 as prioridade from usuario u join lista l on l.id = u.lista_ativa_id
+         where u.telegram_id = ${telegramId} and l.status = 'aberta' and pode_editar(l.id, ${telegramId})
+        union all
+        select id, nome, 2 from (select id, nome from lista where dono_id = ${telegramId} and status = 'aberta'
+                                  order by criada_em desc limit 1) propria
+      ) c order by prioridade limit 1`;
     if (l) return { id: Number(l.id), nome: l.nome };
+    return this.novaLista(telegramId);
+  }
+
+  async novaLista(telegramId: number): Promise<Lista> {
     const [n] = await this.sql`insert into lista (dono_id) values (${telegramId}) returning id, nome`;
+    await this.sql`update usuario set lista_ativa_id = ${n!.id} where telegram_id = ${telegramId}`;
     return { id: Number(n!.id), nome: n!.nome };
   }
 
+  /** Finaliza a lista em uso (vale para todos que a compartilham). */
   async finalizarLista(telegramId: number): Promise<number | null> {
+    const atual = await this.listaAberta(telegramId);
     const [l] = await this.sql`
       update lista set status = 'finalizada', finalizada_em = now()
-       where id = (select id from lista where dono_id = ${telegramId} and status = 'aberta' order by criada_em desc limit 1)
+       where id = ${atual.id} and status = 'aberta' and pode_editar(id, ${telegramId})
       returning id`;
     return l ? Number(l.id) : null;
+  }
+
+  /** /nova: o dono fecha a própria lista; quem só participa de uma lista compartilhada apenas sai dela. */
+  async comecarOutraLista(telegramId: number): Promise<Lista> {
+    const atual = await this.listaAberta(telegramId);
+    await this.sql`update lista set status = 'finalizada', finalizada_em = now()
+                    where id = ${atual.id} and dono_id = ${telegramId} and status = 'aberta'`;
+    return this.novaLista(telegramId);
+  }
+
+  // ---------------------------------------------------------------- compartilhamento (M6)
+
+  async token(listaId: number): Promise<string> {
+    const [l] = await this.sql`select token_compartilhamento from lista where id = ${listaId}`;
+    return l!.token_compartilhamento;
+  }
+
+  /** Entra na lista do link. Devolve a lista e o nome do dono, ou null se o link não vale mais. */
+  async entrarNaLista(token: string, telegramId: number): Promise<{ lista: Lista; donoId: number; donoNome: string | null } | null> {
+    const [r] = await this.sql`select entrar_na_lista(${token}, ${telegramId}) as id`;
+    if (!r?.id) return null;
+    const [l] = await this.sql`
+      select l.id, l.nome, l.dono_id, u.nome as dono_nome from lista l join usuario u on u.telegram_id = l.dono_id
+       where l.id = ${r.id}`;
+    return { lista: { id: Number(l!.id), nome: l!.nome }, donoId: Number(l!.dono_id), donoNome: l!.dono_nome };
+  }
+
+  /** Quem mais usa a lista (dono e membros), para avisos. */
+  async participantes(listaId: number, exceto: number): Promise<number[]> {
+    const r = await this.sql`
+      select dono_id as id from lista where id = ${listaId}
+      union select telegram_id from lista_membro where lista_id = ${listaId}`;
+    return r.map((x) => Number(x.id)).filter((id) => id !== exceto);
   }
 
   async proximaOrdem(listaId: number): Promise<number> {
@@ -203,7 +250,7 @@ export class Repo {
         correcao = ${n.tipo === "correcao" ? n.correcao : null},
         etapa = ${n.tipo === "correcao" ? "confirmar_correcao" : "pronto"}
         from lista l
-       where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId}
+       where li.id = ${itemId} and l.id = li.lista_id and pode_editar(l.id, ${telegramId})
       returning li.id`;
     return r.length === 1;
   }
@@ -219,7 +266,7 @@ export class Repo {
   async item(telegramId: number, itemId: number): Promise<ItemDaLista | null> {
     const [i] = await this.sql`
       select li.*, coalesce(ic.granel, false) as granel from lista_item li
-        join lista l on l.id = li.lista_id and l.dono_id = ${telegramId}
+        join lista l on l.id = li.lista_id and pode_editar(l.id, ${telegramId})
         left join item_canonico ic on ic.id = li.item_canonico_id
        where li.id = ${itemId}`;
     return i ? this.converter(i) : null;
@@ -242,7 +289,7 @@ export class Repo {
         perfil = ${perfil},
         preco_estimado = case ${perfil} when 'economico' then li.faixa_p10 when 'premium' then li.faixa_p90 else li.faixa_p50 end
         from lista l
-       where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId} and li.faixa_p50 is not null
+       where li.id = ${itemId} and l.id = li.lista_id and pode_editar(l.id, ${telegramId}) and li.faixa_p50 is not null
       returning li.id`;
     return r.length === 1;
   }
@@ -251,7 +298,7 @@ export class Repo {
     const r = await this.sql`
       update lista_item li set perfil = 'manual', preco_estimado = ${preco}
         from lista l
-       where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId}
+       where li.id = ${itemId} and l.id = li.lista_id and pode_editar(l.id, ${telegramId})
       returning li.id`;
     return r.length === 1;
   }
@@ -261,7 +308,7 @@ export class Repo {
     const r = await this.sql`
       update lista_item li set removido_em = now()
         from lista l
-       where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId} and li.removido_em is null
+       where li.id = ${itemId} and l.id = li.lista_id and pode_editar(l.id, ${telegramId}) and li.removido_em is null
       returning li.id`;
     return r.length === 1;
   }
@@ -271,7 +318,7 @@ export class Repo {
     const r = await this.sql`
       update lista_item li set removido_em = null
         from lista l
-       where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId}
+       where li.id = ${itemId} and l.id = li.lista_id and pode_editar(l.id, ${telegramId})
       returning li.id`;
     return r.length === 1;
   }
@@ -288,7 +335,7 @@ export class Repo {
     const r = await this.sql`
       update lista_item li set marcado = not li.marcado
         from lista l
-       where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId}
+       where li.id = ${itemId} and l.id = li.lista_id and pode_editar(l.id, ${telegramId})
       returning li.id`;
     return r.length === 1;
   }
@@ -298,7 +345,7 @@ export class Repo {
     const r = await this.sql`
       update lista_item li set preco_real = ${preco}, marcado = true
         from lista l
-       where li.id = ${itemId} and l.id = li.lista_id and l.dono_id = ${telegramId}
+       where li.id = ${itemId} and l.id = li.lista_id and pode_editar(l.id, ${telegramId})
       returning li.id`;
     return r.length === 1;
   }

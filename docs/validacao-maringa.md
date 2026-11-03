@@ -56,7 +56,8 @@ A cada checkpoint, preencher a seção da etapa: o que foi conferido, o resultad
 
 ### M6. Compartilhamento
 
-- [ ] Compra com duas pessoas marcando ao mesmo tempo.
+- [x] Teste automático: duas pessoas na mesma lista (convite por link, edição, marcação, aviso ao dono, intruso barrado, link expira ao finalizar).
+- [ ] Compra real com duas pessoas marcando ao mesmo tempo (quando o app estiver no ar).
 
 ### M7. Aceite para beta fechado
 

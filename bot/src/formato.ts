@@ -154,7 +154,7 @@ export function tecladoRevisao(
     if (pag < n - 1) k.text("Próxima ➡️", `g:${pag + 1}`);
     k.row();
   }
-  return k.text("✅ Pronto", "ok").text("🛍️ Estou no mercado", "v:mercado");
+  return k.text("✅ Pronto", "ok").text("🛍️ Estou no mercado", "v:mercado").row().text("👥 Compartilhar", "sh");
 }
 
 /** Troca do item (🔄): substitui o teclado da revisão pelas opções, na mesma mensagem. */
@@ -175,7 +175,8 @@ export function textoResumo(nome: string, itens: ItemLista[]): string {
 }
 
 export function tecladoResumo(): InlineKeyboard {
-  return new InlineKeyboard().text("➕ Adicionar item", "add").text("✏️ Ajustar", "g:0").row().text("🛍️ Estou no mercado", "v:mercado").row().text("🧾 Finalizar lista", "x:finalizar");
+  return new InlineKeyboard().text("➕ Adicionar item", "add").text("✏️ Ajustar", "g:0").row()
+    .text("👥 Compartilhar", "sh").row().text("🛍️ Estou no mercado", "v:mercado").row().text("🧾 Finalizar lista", "x:finalizar");
 }
 
 // ------------------------------------------------------------------ modo mercado
@@ -189,7 +190,7 @@ export function textoMercado(nome: string, itens: ItemLista[]): string {
     `Falta pegar: ${esc(brl(t.falta))}`,
     `Previsão final: *${esc(brl(t.previsao))}*`,
     "",
-    "_Toque no item para marcar\\. ✏️ corrige o preço que você viu\\._",
+    "_Toque no item para marcar\\. ✏️ corrige o preço que você viu\\. 🔄 mostra o que quem divide a lista com você já pegou\\._",
   ].join("\n");
 }
 
@@ -203,10 +204,24 @@ export function tecladoMercado(itens: ItemLista[]): InlineKeyboard {
       .text("✏️", `r:${i.id}`)
       .row();
   }
-  return k.text("🧾 Finalizar compra", "x:finalizar");
+  return k.text("🔄 Atualizar", "v:atualizar").text("🧾 Finalizar compra", "x:finalizar");
 }
 
 /** Escapa texto para MarkdownV2 do Telegram. */
 export function esc(t: string): string {
   return t.replace(/[_*[\]()~`>#+\-=|{}.!\\]/g, "\\$&");
+}
+
+// ------------------------------------------------------------------ compartilhamento (M6)
+
+export function linkDaLista(usuarioDoBot: string, token: string): string {
+  return `https://t.me/${usuarioDoBot}?start=lista_${token}`;
+}
+
+export function tecladoCompartilhar(link: string): InlineKeyboard {
+  const convite = "Vamos montar a lista de compras juntos? Entre pelo link no Guia do Mercado:";
+  return new InlineKeyboard().url(
+    "📤 Enviar o link",
+    `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(convite)}`,
+  );
 }

@@ -7,7 +7,7 @@ import { Bot, type Context, InlineKeyboard } from "grammy";
 import type { UserFromGetMe } from "grammy/types";
 
 import {
-  brl, esc, ITENS_POR_PAGINA, tecladoAlternativas, tecladoMercado, tecladoResumo, tecladoRevisao,
+  brl, esc, ITENS_POR_PAGINA, linkDaLista, tecladoAlternativas, tecladoCompartilhar, tecladoMercado, tecladoResumo, tecladoRevisao,
   textoMercado, textoResumo, textoRevisao, totais, type ItemLista,
 } from "./formato.ts";
 import { alternativas, classificar } from "./montagem.ts";
@@ -129,6 +129,8 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
 
   bot.command("start", async (ctx) => {
     const u = await repo.usuario(uid(ctx), ctx.from?.first_name);
+    const convite = /^lista_([A-Za-z0-9_-]{8,64})$/.exec(String(ctx.match ?? "").trim());
+    if (convite) return entrarPorConvite(ctx, convite[1]!);
     await ctx.reply(
       `Olá${ctx.from?.first_name ? ", " + esc(ctx.from.first_name) : ""}\\! Eu organizo sua lista de compras e estimo quanto ela vai custar com preços de mercados da sua região\\.`,
       MD,
@@ -144,9 +146,35 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
 
   bot.command("nova", async (ctx) => {
     await repo.usuario(uid(ctx));
-    await repo.finalizarLista(uid(ctx));
-    await repo.listaAberta(uid(ctx));
+    await repo.comecarOutraLista(uid(ctx));
     await ctx.reply("Lista nova criada. Me mande os itens.");
+  });
+
+  // ------------------------------------------------------------------ compartilhamento (M6)
+
+  async function entrarPorConvite(ctx: Context, token: string): Promise<void> {
+    const r = await repo.entrarNaLista(token, uid(ctx));
+    if (!r) {
+      await ctx.reply("Esse link de lista não vale mais: a compra já foi finalizada. Peça um link novo para quem te convidou.");
+      return;
+    }
+    if (r.donoId !== uid(ctx)) {
+      await ctx.reply(`👥 Você entrou na lista de ${r.donoNome ?? "quem te convidou"}. O que um de vocês fizer, o outro vê.`);
+      await bot.api
+        .sendMessage(r.donoId, `👥 ${ctx.from?.first_name ?? "Alguém"} entrou na sua lista de compras.`)
+        .catch(() => undefined); // o dono pode ter bloqueado o bot: não impede a entrada
+    }
+    await mostrarRevisao(ctx, 0, false);
+  }
+
+  bot.callbackQuery("sh", async (ctx) => {
+    await responder(ctx);
+    const lista = await repo.listaAberta(uid(ctx));
+    const link = linkDaLista(ctx.me.username, await repo.token(lista.id));
+    await ctx.reply(
+      `Envie este link para quem vai comprar com você. Quem abrir entra nesta lista e pode adicionar, remover e marcar itens.\n\n${link}`,
+      { reply_markup: tecladoCompartilhar(link), link_preview_options: { is_disabled: true } },
+    );
   });
 
   bot.command("cancelar", async (ctx) => {
@@ -296,6 +324,11 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
     await ctx.reply(`Qual o preço de ${item.nomeExibicao} que você está vendo${item.granel ? " (por kg)" : ""}? Ex.: 6,20`);
   });
 
+  bot.callbackQuery("v:atualizar", async (ctx) => {
+    await responder(ctx, { text: "Atualizado" });
+    await mostrarMercado(ctx, true);
+  });
+
   bot.callbackQuery("v:mercado", async (ctx) => {
     await responder(ctx);
     await mostrarMercado(ctx);
@@ -305,7 +338,13 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
     await responder(ctx);
     const lista = await repo.listaAberta(uid(ctx));
     const t = totais(await repo.itensDaLista(lista.id));
+    const outros = await repo.participantes(lista.id, uid(ctx));
     await repo.finalizarLista(uid(ctx));
+    for (const id of outros) {
+      await bot.api
+        .sendMessage(id, `🧾 ${ctx.from?.first_name ?? "Alguém"} finalizou a compra da lista que vocês dividem: ${brl(t.carrinho)} no carrinho.`)
+        .catch(() => undefined);
+    }
     const corrigidos = await repo.aprenderComCompra(lista.id);
     const obrigado = corrigidos
       ? `\n\n💡 ${corrigidos === 1 ? "O preço que você corrigiu ajuda" : `Os ${corrigidos} preços que você corrigiu ajudam`} a deixar as estimativas da sua região mais certas\\.`

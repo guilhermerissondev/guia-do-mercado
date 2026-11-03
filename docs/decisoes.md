@@ -32,6 +32,8 @@
 | D27 | Rede só é agendada para regiões dos estados onde atua (`rede.ufs`); nas redes OSuper os estados vêm da lista de lojas | Evita milhares de tarefas inúteis por domingo |
 | D28 | Na coleta, regiões com a mesma região VTEX reaproveitam a busca na mesma execução | Atacadão: 508 regiões, 58 regiões VTEX distintas |
 | D29 | Erro 5xx do servidor da loja é "instável" (tenta de novo), não bloqueio; 401/403/429/503 e verificação anti-robô são bloqueio e nunca são contornados | Oba e Carone deram 500 temporário e são viáveis |
+| D30 | Compartilhamento por link de convite (`t.me/GuiaDoMercadoBot?start=lista_<token>`): quem abre vira membro e edita a mesma lista; o link deixa de valer quando a lista é finalizada | Sem cadastro extra; o token longo e aleatório é a "senha" da lista |
+| D31 | `/nova` de quem só participa de uma lista compartilhada apenas sai dela; só o dono fecha a lista | Evita que um participante encerre a compra dos outros |
 | D16 | Produto da rede guardado em `produto_rede` (com EAN opcional), não em uma tabela única por EAN | OSuper (Condor) não informa EAN |
 
 ## Pendentes
