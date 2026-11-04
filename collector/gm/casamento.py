@@ -46,6 +46,8 @@ def _passa_regras(item: Item, nome: str, emb: Embalagem) -> bool:
         return emb.contagem is not None and alvo.equivale(Conteudo(emb.contagem, "un"))
     if emb.medida is None or not alvo.equivale(emb.medida):
         return False
+    if item.max_unidades and emb.contagem and emb.contagem > item.max_unidades:
+        return False  # pacote econômico (saco de lixo c/100) não é a compra típica
     # tamanho + contagem > 1 sem permissão explícita = várias unidades juntas (ex.: lata 350 ml c/12)
     return item.permite_unidades or not emb.contagem or emb.contagem == 1
 

@@ -79,8 +79,9 @@ class Coletor:
             log.info("%s: região VTEX já coletada nesta execução, reaproveitando %s produtos", fonte.rede, len(produtos_cache))
             return Resultado(any(p.preco for p in produtos_cache), region_id, produtos_cache)
         produtos: dict[str, ProdutoRede] = {}
-        for item in self.catalogo.itens.values():
-            for p in fonte.buscar(item.nome, region_id):
+        buscas = [b for item in self.catalogo.itens.values() for b in item.buscas]
+        for busca in dict.fromkeys(buscas):
+            for p in fonte.buscar(busca, region_id):
                 produtos[p.codigo] = p
                 if not regionaliza and len(produtos) == 1 and p.preco and p.vendedor:
                     # Rede sem preço por CEP: antes de seguir, confere se ela atende esta região

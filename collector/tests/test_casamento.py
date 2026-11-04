@@ -41,6 +41,13 @@ def casador():
         ("Sabonete Cliss 85g - Lavanda", "sabonete-barra-85g"),
         ("Ovos Brancos Grandes com 12 Unidades", "ovos-brancos-12un"),
         ("Saco para Lixo 50 Litros com 10 Unidades", "saco-lixo-50l"),
+        # Coleta nacional: variantes que continuam no item
+        ("Margarina Claybom Sabor Manteiga com Sal 500g", "margarina-500g"),
+        ("Leite Longa Vida Italac Semi Desnatado 1l", "leite-semidesnatado-1l"),
+        ("Leite Condensado Moça Integral Lata 395g - 15% Grátis", "leite-condensado-395g"),
+        ("Macarrão de Sêmola Dona Benta Penne 500g", "macarrao-penne-500g"),
+        ("Café 3 Corações Torrado e Moído Tradicional 250g", "cafe-torrado-moido-250g"),
+        ("Café Torrado e Moído Melitta Sabor da Fazenda 500g", "cafe-torrado-moido-500g"),
     ],
 )
 def test_casa_com_item_certo(casador, nome, item):
@@ -119,3 +126,47 @@ def test_preco_por_kg_para_caixa_de_atacado():
     assert preco_referencia(cat.itens["cebola-kg"], "Cebola 19kg", 146.00) == 7.68
     assert preco_referencia(cat.itens["tomate-kg"], "Tomate Kg", 8.99) == 8.99
     assert preco_referencia(cat.itens["leite-integral-1l"], "Leite Integral 1L", 5.49) == 5.49
+
+
+# Erros da coleta nacional (nov/2026): segmento especial, produto de outro tipo, ração, pacote.
+@pytest.mark.parametrize(
+    "nome, item",
+    [
+        ("Ração Bravo 1kg - Cordeiro e Arroz", "arroz-branco-1kg"),
+        ("Arroz Realengo Para Cães 5kg", "arroz-branco-5kg"),
+        ("Arroz Arbório La Pastina 1kg", "arroz-branco-1kg"),
+        ("Arroz Carnaroli Italiano Campanini 1kg", "arroz-branco-1kg"),
+        ("Cereal Infantil Mucilon Arroz e Aveia Sachê 1kg", "arroz-branco-1kg"),
+        ("Macarrão Grano Duro Barilla Penne Rigate Tricolori 500g", "macarrao-penne-500g"),
+        ("Massa Italiana Spaghetti Nº 12 De Cecco 500g", "macarrao-espaguete-500g"),
+        ("Café Aromatizado Chocolate Trufado Baggio 250g", "cafe-torrado-moido-250g"),
+        ("Café 3 Corações Gourmet Cerrado Mineiro 250g", "cafe-torrado-moido-250g"),
+        ("Tábua de Frios Salame, Presunto e Queijo Parmesão Ceratti Bandeja 200g", "presunto-fatiado-200g"),
+        ("Queijo Mussarela Vegano Fatiado Vida Veg 150G", "queijo-mussarela-fatiado-150g"),
+        ("Croissant Manteiga Member's Mark Aprox.200g", "manteiga-200g"),
+        ("Porta Ovos Plástico Dúzia Plasutil Decorado A2", "ovos-brancos-12un"),
+        ("Almôndega Bovina Liv Up com Molho de Tomate, Arroz e Legumes 300g", "molho-tomate-300g"),
+        ("Bisteca Bovina Resfriada Kg", "bisteca-suina-kg"),
+        ("Cenoura Espaguete Fresca Oba", "cenoura-kg"),
+        ("Batata Waffle 1,02Kg Member's Mark", "batata-kg"),
+        ("Farinha de Trigo Pizzeria Tipo 00 Caputo 1kg", "farinha-trigo-1kg"),
+        ("Leite Pasteurizado Tipo A Integral Fazenda Bela Vista 1L", "leite-integral-1l"),
+        ("Cerveja Original Lata com 12 350ml", "cerveja-lata-350ml"),
+        ("Cerveja Corona Cero 8 latas de 350ml", "cerveja-lata-350ml"),
+        ("Refrigerante COCA-COLA + SPRITE 2L Leve + Pague -", "refrigerante-cola-2l"),
+        ("Refrigerante Coca Cola + Fanta Guaraná 2l", "refrigerante-guarana-2l"),
+        ("Maionese Hellmanns Tradicional 500gr 2 potes", "maionese-500g"),
+        ("Dueto Ervilha e Milho Verde Fugini em Conserva 170g", "ervilha-lata-170g"),
+        ("Saco para Lixo Fundo Reforçado 50l Member's Mark Pacote com 100 Unidades", "saco-lixo-50l"),
+        ("Café STARBUCKS Pike Place Roast Torrado e Moído 250g", "cafe-torrado-moido-250g"),
+    ],
+)
+def test_nao_casa_coleta_nacional(casador, nome, item):
+    assert casador.casar(nome).item_id != item
+
+
+def test_cada_item_busca_pelo_nome_e_por_uma_busca_curta():
+    c = carregar()
+    assert c.itens["cafe-torrado-moido-500g"].buscas == ("Café torrado e moído 500 g", "cafe 500g")
+    assert c.itens["batata-kg"].buscas == ("Batata (kg)", "batata")
+    assert all(i.buscas[0] == i.nome and len(i.buscas) >= 1 for i in c.itens.values())

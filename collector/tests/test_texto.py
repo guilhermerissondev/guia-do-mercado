@@ -43,6 +43,9 @@ def test_parse_conteudo_invalido():
         ("Papel Higiênico Neve Folha Dupla 12 Rolos 30m", None, 12, False),
         ("Cerveja Skol Lata 350ml c/12", Conteudo(350, "ml"), 12, False),
         ("Kit Shampoo + Condicionador 350ml", Conteudo(350, "ml"), None, True),
+        ("Cerveja Império Puro Malte Lata com 15 350ml", Conteudo(350, "ml"), None, True),
+        ("Cerveja Corona Cero 8 latas de 350ml", Conteudo(350, "ml"), None, True),
+        ("Lava-Roupas em Pó Omo Caixa 1,6kg Grátis 150g", Conteudo(1600, "g"), None, False),
     ],
 )
 def test_extrair_embalagem(nome, medida, contagem, multipack):

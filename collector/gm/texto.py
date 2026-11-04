@@ -18,9 +18,13 @@ _RE_MEDIDA = re.compile(rf"(?<![a-z0-9.])(\d+(?:\.\d+)?)\s*({_UNIDADES_MEDIDA})\
 _RE_CONTAGEM = re.compile(rf"(?<![a-z0-9.])(\d+)\s*({_UNIDADES_CONTAGEM})\b")
 _RE_COM_N = re.compile(r"\bc\s+(\d+)\b")  # "c/12" vira "c 12" depois da normalização
 # "cada" aparece em pacotes ("85g cada leve 6 pague menos", "3 cremes de 90g cada")
+# Também: "lata com 12", "8 latas de 350ml", "2 potes", "leve mais pague menos",
+# "conjunto" (Coca + Fanta) e "com 3 pr esp" (preço especial de 3 tubos).
 _RE_PACOTE = re.compile(
-    r"\b(kit|pack|fardo|cada|leve \d+|lv \d+ pg \d+|promo \d+|caixa com \d+"
-    r"|com \d+ (?:cremes|pacotes|latas|frascos|caixas|sabonetes|tubos))\b"
+    r"\b(kit|pack|fardo|cada|conjunto|leve \d+|leve mais pague|leve pague|lv \d+ pg \d+|promo \d+"
+    r"|caixa com \d+|lata com \d+|com \d+ pr"
+    r"|com \d+ (?:cremes|pacotes|latas|frascos|caixas|sabonetes|tubos|potes|garrafas)"
+    r"|\d+ (?:latas|potes|garrafas|frascos|pacotes|tubos))\b"
 )
 
 
