@@ -16,10 +16,12 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+import time
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Callable, Iterable
 
+import httpx
 import psycopg
 
 from gm.casamento import Casador, Casamento, preco_referencia
@@ -32,6 +34,10 @@ from gm.fontes.vtex import ProdutoRede, Vtex
 log = logging.getLogger("gm.coleta")
 
 MAX_TENTATIVAS = 3
+# Erro passageiro do servidor da loja numa busca: tenta de novo uma vez e, se persistir, pula só
+# essa busca (são 188 por região). 503 fica de fora: é sinal de bloqueio (D29) e derruba a tarefa.
+ERROS_PASSAGEIROS = {500, 502, 504}
+PAUSA_ERRO_PASSAGEIRO = 5.0
 MAX_PRODUTOS_OSUPER_POR_ITEM = 10  # sem busca por região, cada produto custa uma requisição
 
 
@@ -81,7 +87,7 @@ class Coletor:
         produtos: dict[str, ProdutoRede] = {}
         buscas = [b for item in self.catalogo.itens.values() for b in item.buscas]
         for busca in dict.fromkeys(buscas):
-            for p in fonte.buscar(busca, region_id):
+            for p in self._buscar_tolerante(fonte, busca, region_id):
                 produtos[p.codigo] = p
                 if not regionaliza and len(produtos) == 1 and p.preco and p.vendedor:
                     # Rede sem preço por CEP: antes de seguir, confere se ela atende esta região
@@ -90,6 +96,20 @@ class Coletor:
         if regionaliza:
             self._cache_vtex[chave] = list(produtos.values())
         return Resultado(any(p.preco for p in produtos.values()), region_id, list(produtos.values()))
+
+    def _buscar_tolerante(self, fonte: Vtex, busca: str, region_id: str) -> list[ProdutoRede]:
+        for tentativa in (1, 2):
+            try:
+                return fonte.buscar(busca, region_id)
+            except (httpx.HTTPStatusError, httpx.TimeoutException) as e:
+                passageiro = isinstance(e, httpx.TimeoutException) or e.response.status_code in ERROS_PASSAGEIROS
+                if not passageiro:
+                    raise
+                if tentativa == 2:
+                    log.warning("%s: busca %r pulada depois de erro passageiro: %s", fonte.rede, busca, e)
+                    return []
+                time.sleep(PAUSA_ERRO_PASSAGEIRO)
+        return []
 
     def _coletar_osuper(self, fonte: OSuper, rede_id: str, regiao: int) -> Resultado:
         loja = self.conn.execute(
