@@ -159,9 +159,14 @@ class Coletor:
     def executar(self, tarefa: dict) -> int:
         rede = self.conn.execute("select * from rede where id = %s", (tarefa["rede_id"],)).fetchone()
         regiao = tarefa["regiao_imediata"]
+        # região agendada sem estar ativa (ex.: Brasília) usa o CEP de referência
         cep = self.conn.execute(
-            "select cep_referencia from regiao_coleta where regiao_imediata = %s", (regiao,)
-        ).fetchone()["cep_referencia"]
+            """select coalesce((select cep_referencia from regiao_coleta where regiao_imediata = %(r)s),
+                               (select cep from regiao_cep_referencia where regiao_imediata = %(r)s)) as cep""",
+            {"r": regiao},
+        ).fetchone()["cep"]
+        if not cep:
+            raise ValueError(f"região {regiao} sem CEP de referência")
         fonte = self.fabrica(rede, self.cliente)
         if rede["plataforma"] == "vtex":
             res = self._coletar_vtex(fonte, cep, rede["config"].get("regionaliza", True))
