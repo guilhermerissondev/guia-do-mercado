@@ -155,8 +155,10 @@ a {
 
 .logo {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;
 }
 
 /* Marca animada: o carrinho chega rodando, depois balança de tempos em tempos como se alguém
@@ -411,6 +413,27 @@ a {
 
 .nav__links > a:not(.botao):hover {
   color: var(--tinta);
+}
+
+/* Crédito do autor no topo; no tablet fica só o ícone para o menu caber */
+.nav__links > .nav__github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 8px 10px;
+  margin-right: -12px;
+  border: 1px solid var(--divisoria);
+  border-radius: 999px;
+  color: var(--tinta);
+  font-size: 14px;
+}
+
+.nav__links > .nav__github:hover {
+  border-color: var(--tinta);
+}
+
+.nav__github svg {
+  flex-shrink: 0;
 }
 
 .nav__menu {
@@ -1527,15 +1550,59 @@ button.tecla--escolhida:hover {
   line-height: 18px;
 }
 
+/* Crédito do autor e links numa linha; o aviso dos preços embaixo, separado */
+.rodape {
+  flex-wrap: wrap;
+  row-gap: 20px;
+}
+
+.rodape > p {
+  order: 3;
+  flex-basis: 100%;
+  padding-top: 20px;
+  border-top: 1px solid rgb(253 255 252 / 0.12);
+  font-size: 13px;
+}
+
 .rodape__links {
   display: flex;
   gap: 28px;
+  white-space: nowrap;
   color: var(--tinta);
   font-weight: 500;
 }
 
 .rodape__links a:hover {
   text-decoration: underline;
+}
+
+.credito {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  color: var(--tinta);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.credito svg {
+  flex-shrink: 0;
+  transition: rotate 0.3s ease;
+}
+
+.credito strong {
+  color: var(--amarelo);
+  font-weight: 700;
+}
+
+.credito:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.credito:hover svg {
+  rotate: -12deg;
 }
 
 /* ------------------------------------------------------------------ política de privacidade */
@@ -1613,6 +1680,20 @@ button.tecla--escolhida:hover {
     --margem: 48px;
   }
 
+  .nav__links > .nav__github {
+    padding: 7px;
+    margin-right: -8px;
+  }
+
+  .nav__github span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   .hero h1 {
     font-size: 80px;
     line-height: 72px;
@@ -1651,6 +1732,17 @@ button.tecla--escolhida:hover {
 
   .garantias {
     flex: none;
+  }
+}
+
+/* Entre 861 e 1000 px o crédito não cabe no menu; continua no rodapé (e volta no menu do celular) */
+@media (min-width: 861px) and (max-width: 1000px) {
+  .nav__links {
+    gap: 24px;
+  }
+
+  .nav__links > .nav__github {
+    display: none;
   }
 }
 
@@ -1712,6 +1804,27 @@ button.tecla--escolhida:hover {
     padding-block: 14px;
     color: var(--tinta);
     font-size: 17px;
+  }
+
+  .nav--aberta .nav__links > .nav__github {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    width: auto;
+    height: auto;
+    margin: 0;
+  }
+
+  .nav--aberta .nav__links > .nav__github {
+    border: 0;
+    padding-inline: 0;
+  }
+
+  .nav--aberta .nav__github span {
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
   }
 
   .nav--aberta .nav__links .botao {
@@ -2062,7 +2175,7 @@ button.tecla--escolhida:hover {
   }
 
   .rodape {
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: flex-start;
     gap: 18px;
     padding-top: 32px;
@@ -2071,8 +2184,14 @@ button.tecla--escolhida:hover {
     line-height: 19px;
   }
 
+  .rodape > p {
+    flex-basis: auto;
+    align-self: stretch;
+  }
+
   .rodape__links {
-    gap: 24px;
+    flex-wrap: wrap;
+    gap: 12px 24px;
     font-size: 15px;
   }
 
