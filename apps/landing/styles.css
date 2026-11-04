@@ -535,8 +535,12 @@ a {
   border-bottom-right-radius: 4px;
 }
 
+/* Por cima do lugar da resposta (ainda invisível): aparecer e sumir não muda a altura do card */
 .balao--digitando {
-  align-self: flex-start;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
   display: none;
   gap: 4px;
   padding: 14px 16px;
@@ -575,6 +579,7 @@ a {
 
 /* Mensagem do bot com o teclado embaixo, como no Telegram */
 .resposta {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;

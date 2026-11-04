@@ -126,7 +126,7 @@
       for (const c of t.match(/\p{Extended_Pictographic}️?|./gsu) ?? []) {
         feito.textContent += c;
         resto.textContent = resto.textContent.slice(c.length);
-        await esperar(c === "," || c === ";" ? 140 : c === "." ? 240 : 16 + Math.random() * 20);
+        await esperar(c === "," || c === ";" ? 117 : c === "." ? 200 : 13 + Math.random() * 17);
       }
     }
     await esperar(500);
@@ -156,7 +156,10 @@
     balao.classList.add("chegou");
     etiqueta.classList.add("chegou");
     await esperar(250);
+    // O cursor muda as quebras de linha enquanto anda; a altura fica presa na do texto completo.
+    balao.style.height = balao.offsetHeight + "px";
     await digitar(pedacos);
+    balao.style.height = "";
     for (const l of linhas) {
       l.classList.add("chegou");
       await esperar(70);
