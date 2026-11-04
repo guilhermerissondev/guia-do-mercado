@@ -34,6 +34,8 @@
 | D29 | Erro 5xx do servidor da loja é "instável" (tenta de novo), não bloqueio; 401/403/429/503 e verificação anti-robô são bloqueio e nunca são contornados | Oba e Carone deram 500 temporário e são viáveis |
 | D30 | Compartilhamento por link de convite (`t.me/GuiaDoMercadoBot?start=lista_<token>`): quem abre vira membro e edita a mesma lista; o link deixa de valer quando a lista é finalizada | Sem cadastro extra; o token longo e aleatório é a "senha" da lista |
 | D31 | `/nova` de quem só participa de uma lista compartilhada apenas sai dela; só o dono fecha a lista | Evita que um participante encerre a compra dos outros |
+| D32 | O coletor busca cada item duas vezes nas lojas VTEX: pelo nome do catálogo e por uma busca curta ("café 500g", derivada das regras ou definida em `busca`) | A busca exige quase todas as palavras; no Atacadão o nome completo achou 542 produtos válidos e a curta 704 (74 → 86 itens cobertos) |
+| D33 | Item básico do catálogo exclui segmentos especiais (arbório, massa importada, café gourmet/especial, leite tipo A/A2, farinha 00, vegano, ração); eles não entram nem no premium | Nas regiões com uma rede só, essas variantes puxavam o típico: penne a R$ 10–15, arroz 1 kg a R$ 15–21 |
 | D16 | Produto da rede guardado em `produto_rede` (com EAN opcional), não em uma tabela única por EAN | OSuper (Condor) não informa EAN |
 
 ## Pendentes
@@ -54,4 +56,5 @@
 | P13 | 441 regiões só com o Atacadão (meta: 2 a 3 redes). Redes grandes do N/NE e de MG usam plataformas próprias (ver `mapa-redes.md`); Instabuy é a única candidata a terceiro adaptador | Decisão do dono do produto |
 | P14 | Adaptador VTEX FastStore (lojas headless em Next.js, APIs não expostas no domínio), ex.: Amigão (região de Maringá) | Quando houver várias redes assim no mapa |
 | ~~P15~~ | ~~Testes de integração no banco de desenvolvimento~~: agora `tools/test-integracao.sh` usa um banco descartável | ✓ |
+| P16 | Exigir 3 marcas (em vez de 2) no nível da região imediata; com 2–3 produtos de uma rede, o típico ainda oscila (ex.: penne a R$ 11 numa região do ES só com o Carone) | Depois da coleta nacional completa |
 | P7 | Calibração dos parâmetros de aprendizado (peso 0,3, `k`, limites 0,75 a 1,25) | M5, com dados reais |

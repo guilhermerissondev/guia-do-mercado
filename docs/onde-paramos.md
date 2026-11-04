@@ -1,4 +1,4 @@
-# Onde paramos (2026-11-03, fim do dia)
+# Onde paramos (atualizado em 2026-11-04)
 
 Nota de passagem para o próximo agente ou sessão. Leia junto com `plano.md`, `decisoes.md` e `validacao-maringa.md`.
 
@@ -28,9 +28,9 @@ Bot de Telegram (@GuiaDoMercadoBot) para lista de compras com faixa de preço (e
 
 ## O que está rodando nesta máquina
 
-- **Coleta nacional** (desacoplada, `setsid`): um worker por rede, script `/tmp/gm/coleta-nacional.sh`, logs em `/tmp/gm/coleta-<rede>.log`. No fim do dia: 128 tarefas concluídas, 514 na fila, 0 falhas, ~50 mil preços, 94 regiões com rede confirmada. Termina sozinha; `/tmp/gm/coleta-fim.txt` aparece no fim. Se a máquina reiniciar, as tarefas voltam para a fila depois de 3 h; relançar com o mesmo script.
-- **Bot** (desacoplado): `cd bot && npm start`, log em `/tmp/gm/bot.log`. Só pode haver uma instância.
-- **Banco de desenvolvimento**: `tools/dev-db.sh` (Docker `gm-pg-dev`, porta 54329) tem os **preços reais**; nunca rodar testes de integração nele.
+- **Coleta nacional refeita** (4/11, desacoplada com `setsid`) depois da troca da busca (D32) e das regras (D33): todas as 653 tarefas voltaram para a fila. Script `~/gm-run/coleta-nacional.sh`, logs em `~/gm-run/coleta-<rede>.log`; `~/gm-run/coleta-fim.txt` aparece no fim (depois do `recalcular`). Fica fora de `/tmp` porque o `/tmp` some quando a máquina reinicia. Se a máquina reiniciar: `docker start gm-pg-dev` e relançar o script (tarefas presas em "executando" voltam para a fila depois de 3 h).
+- **Bot** (desacoplado): `cd bot && npm start`, log em `~/gm-run/bot.log`. Só pode haver uma instância. Não volta sozinho depois de reiniciar a máquina.
+- **Banco de desenvolvimento**: `tools/dev-db.sh` (Docker `gm-pg-dev`, porta 54329) tem os **preços reais**; nunca rodar testes de integração nele. Backup antes do recasamento de 4/11: `~/gm-backups/antes-recasar-2026-11-04.dump`.
 
 ## Como testar
 
