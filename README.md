@@ -39,3 +39,7 @@ tools/test-integracao.sh               # coletor e bot contra um Postgres descar
 Para criar e rodar o bot: [`docs/criar-bot-telegram.md`](docs/criar-bot-telegram.md).
 
 Para regerar a geografia a partir do IBGE: `python3 -I tools/gen_geo_seed.py`.
+
+## Licença
+
+[MIT](LICENSE).

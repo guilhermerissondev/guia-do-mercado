@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Guia do Mercado: lista de compras pronta em uma mensagem, para dividir com quem vai ao mercado</title>
+    <meta
+      name="description"
+      content="Mande a lista no Telegram e receba tudo montado com o preço dos mercados da sua região. Divida com quem vai às compras e acompanhe o que já foi para o carrinho. Grátis e sem cadastro."
+    />
+    <meta name="theme-color" content="#235789" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="nav secao" id="topo">
+      <a class="logo" href="#topo" aria-label="Guia do Mercado, início">
+        <svg class="marca" viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <clipPath id="marca-recorte"><rect width="64" height="64" rx="14" /></clipPath>
+          </defs>
+          <rect class="marca__fundo" width="64" height="64" rx="14" />
+          <g clip-path="url(#marca-recorte)">
+          <g transform="translate(9.6 10.6) scale(.7)">
+          <g class="marca__tudo">
+            <g class="marca__carrinho">
+              <g class="marca__itens" stroke="#161925" stroke-width="2.5" stroke-linejoin="round">
+                <g class="marca__cedula">
+                  <g transform="rotate(12 48 21)">
+                    <rect x="35.5" y="12" width="25" height="16" rx="2" fill="#235789" />
+                    <circle cx="48" cy="19.5" r="3.6" fill="none" stroke="#FDFFFC" stroke-width="2" />
+                    <path d="M39.5 16v0M56.5 16v0" stroke="#FDFFFC" stroke-width="2.6" stroke-linecap="round" />
+                  </g>
+                </g>
+                <g class="marca__bloco">
+                  <g transform="rotate(-8 23 19)">
+                    <rect x="12" y="5" width="22" height="28" rx="2.5" fill="#FDFFFC" />
+                    <path d="M16.5 12.5h12M16.5 17.5h12M16.5 22.5h7" fill="none" stroke-linecap="round" stroke-width="2.2" />
+                  </g>
+                </g>
+                <g class="marca__lapis">
+                  <g transform="rotate(38 31 17)">
+                    <rect x="28" y="9" width="6" height="21" fill="#F1D302" />
+                    <path d="M28 9l3-6.5 3 6.5z" fill="#FDFFFC" />
+                    <path d="M30.1 4.4l.9-1.9.9 1.9z" fill="#161925" stroke-width="1.2" />
+                  </g>
+                </g>
+              </g>
+              <path d="M3 13h6.5l3.6 16" fill="none" stroke="#161925" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M11 29h50l-5.5 19H16.5z" fill="#161925" stroke="#161925" stroke-width="4" stroke-linejoin="round" />
+              <path d="M24 34v9M32 34v9M40 34v9" stroke="#FDFFFC" stroke-width="2.6" stroke-linecap="round" opacity=".9" />
+              <path d="M16.5 48l1.5 5h35" fill="none" stroke="#161925" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <g class="marca__moeda">
+                <circle cx="51" cy="38" r="7.5" fill="#F1D302" stroke="#161925" stroke-width="2.5" />
+                <path d="M53.4 34.9c-.6-.8-1.5-1.2-2.6-1.2-1.5 0-2.6.8-2.6 2 0 2.7 5.4 1.6 5.4 4.4 0 1.2-1.2 2.1-2.8 2.1-1.2 0-2.2-.5-2.8-1.3M50.9 32.4v11.2" fill="none" stroke="#161925" stroke-width="1.8" stroke-linecap="round" />
+              </g>
+            </g>
+            <g class="marca__roda"><circle cx="22" cy="58" r="4" fill="#161925" /><path d="M22 55.6v1.4" stroke="#F1D302" stroke-width="1.6" stroke-linecap="round" /></g>
+            <g class="marca__roda"><circle cx="49" cy="58" r="4" fill="#161925" /><path d="M49 55.6v1.4" stroke="#F1D302" stroke-width="1.6" stroke-linecap="round" /></g>
+          </g>
+          </g>
+          </g>
+        </svg>
+        <span class="logo__nome">Guia do Mercado</span>
+      </a>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 8h16M4 16h16" stroke="#FDFFFC" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <nav class="nav__links" id="menu">
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#compras-a-dois">Compras a dois</a>
+        <a href="#precos">Preços</a>
+        <a href="#duvidas">Dúvidas</a>
+        <a class="botao botao--pequeno" href="https://t.me/GuiaDoMercadoBot">Montar minha lista</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero secao">
+        <div class="hero__texto">
+          <p class="rotulo">Grátis no Telegram · sem cadastro</p>
+          <h1 class="titulo">Lista de compras pronta em uma mensagem.</h1>
+          <p class="hero__lead">
+            Escreva do seu jeito, como “2 leite, arroz 5kg, café”, e receba a lista montada com o preço dos mercados da
+            sua região. Depois mande para quem vai às compras: vocês dois usam a mesma lista.
+          </p>
+          <div class="hero__cta">
+            <a class="botao" href="https://t.me/GuiaDoMercadoBot">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M21.5 4.5 2.9 11.7c-.9.4-.9 1.6 0 1.9l4.6 1.5 1.8 5.6c.2.7 1.1.9 1.6.4l2.6-2.5 4.9 3.6c.6.4 1.4.1 1.6-.6L22.9 5.9c.2-.9-.6-1.7-1.4-1.4Z"
+                  fill="currentColor"
+                />
+                <path d="m9.3 15.1 8.6-7.6" fill="none" style="stroke: var(--botao-fundo)" stroke-width="1.4" stroke-linecap="round" />
+              </svg>
+              Montar minha lista grátis
+            </a>
+            <p class="nota">Abre direto no Telegram. Sem cadastro e sem baixar app.</p>
+          </div>
+        </div>
+
+        <!-- Resposta real do bot para esta mensagem em Maringá (preços da coleta de 4/11/2026) -->
+        <figure class="chat" aria-label="Exemplo de conversa com o bot">
+          <div class="chat__topo">
+            <span class="chat__avatar" aria-hidden="true"><img src="logo.svg" alt="" width="26" height="26" /></span>
+            <div>
+              <div class="chat__nome">Guia do Mercado</div>
+              <div class="chat__sub" data-status>bot</div>
+            </div>
+          </div>
+          <div class="balao balao--eu">2 leite, arroz 5kg, café, tomate 1kg</div>
+          <div class="balao balao--digitando" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="resposta">
+            <div class="balao balao--bot">
+              <p>🛒 <b>Lista de compras</b> — 4 itens<br /><b>Total estimado: <span data-total>R$ 77,55</span></b></p>
+              <p data-digitar>
+                Toque em <b>E</b> (econômico), <b>T</b> (típico) ou <b>P</b> (premium) em cada item; o total muda na
+                hora.<br />➕ adiciona · 🔄 troca o item · 🗑 remove (↩️ desfaz)
+              </p>
+            </div>
+            <div class="teclado">
+              <div class="teclado__linha" aria-hidden="true"><span class="tecla">➕ Adicionar item</span></div>
+              <div class="teclado__linha" aria-hidden="true">
+                <span class="tecla tecla--item">Leite integral 1 L ×2 🔄</span><span class="tecla tecla--lixo">🗑</span>
+              </div>
+              <div class="teclado__linha teclado__faixas" role="group" aria-label="Leite integral 1 L ×2">
+                <button class="tecla" type="button" data-valor="9.58" aria-pressed="false">E 9,58</button>
+                <button class="tecla tecla--escolhida" type="button" data-valor="10.58" aria-pressed="true">T 10,58</button>
+                <button class="tecla" type="button" data-valor="15.78" aria-pressed="false">P 15,78</button>
+              </div>
+              <div class="teclado__linha" aria-hidden="true">
+                <span class="tecla tecla--item">Arroz branco tipo 1 5 kg 🔄</span><span class="tecla tecla--lixo">🗑</span>
+              </div>
+              <div class="teclado__linha teclado__faixas" role="group" aria-label="Arroz branco tipo 1 5 kg">
+                <button class="tecla" type="button" data-valor="18.92" aria-pressed="false">E 18,92</button>
+                <button class="tecla tecla--escolhida" type="button" data-valor="24.99" aria-pressed="true">T 24,99</button>
+                <button class="tecla" type="button" data-valor="34.18" aria-pressed="false">P 34,18</button>
+              </div>
+              <div class="teclado__linha" aria-hidden="true">
+                <span class="tecla tecla--item">Café torrado e moído 500 g 🔄</span><span class="tecla tecla--lixo">🗑</span>
+              </div>
+              <div class="teclado__linha teclado__faixas" role="group" aria-label="Café torrado e moído 500 g">
+                <button class="tecla" type="button" data-valor="19.05" aria-pressed="false">E 19,05</button>
+                <button class="tecla tecla--escolhida" type="button" data-valor="23.99" aria-pressed="true">T 23,99</button>
+                <button class="tecla" type="button" data-valor="34.53" aria-pressed="false">P 34,53</button>
+              </div>
+              <div class="teclado__linha" aria-hidden="true">
+                <span class="tecla tecla--item">Tomate (kg) 1 kg 🔄</span><span class="tecla tecla--lixo">🗑</span>
+              </div>
+              <div class="teclado__linha teclado__faixas" role="group" aria-label="Tomate (kg) 1 kg">
+                <button class="tecla" type="button" data-valor="13.07" aria-pressed="false">E 13,07</button>
+                <button class="tecla tecla--escolhida" type="button" data-valor="17.99" aria-pressed="true">T 17,99</button>
+                <button class="tecla" type="button" data-valor="21.49" aria-pressed="false">P 21,49</button>
+              </div>
+              <div class="teclado__linha" aria-hidden="true">
+                <span class="tecla">✅ Pronto</span><span class="tecla">🛍️ Estou no mercado</span>
+              </div>
+              <div class="teclado__linha" aria-hidden="true"><span class="tecla">👥 Compartilhar</span></div>
+            </div>
+          </div>
+          <div class="etiqueta" aria-hidden="true">
+            <span class="etiqueta__rotulo">Total estimado</span>
+            <span class="etiqueta__valor" data-total>R$ 77,55</span>
+          </div>
+        </figure>
+      </section>
+
+      <section class="contraste secao" aria-labelledby="contraste-titulo">
+        <div class="contraste__topo">
+          <p class="rotulo">Por que usar</p>
+          <h2 class="titulo" id="contraste-titulo">Fazer compras não precisa dar trabalho.</h2>
+        </div>
+        <div class="contraste__colunas">
+          <div class="contraste__lado contraste__lado--antes">
+            <h3>Sem o Guia do Mercado</h3>
+            <ul>
+              <li>A lista no papel fica esquecida na geladeira.</li>
+              <li>No corredor, a pergunta no WhatsApp: “já pegou o café?”.</li>
+              <li>Um esquece o arroz, o outro compra dois.</li>
+              <li>Quanto deu, só no caixa.</li>
+            </ul>
+          </div>
+          <div class="contraste__lado contraste__lado--depois">
+            <h3>Com o Guia do Mercado</h3>
+            <ul>
+              <li>A lista fica pronta numa mensagem, no celular de quem vai comprar.</li>
+              <li>Quem está no mercado marca o que pegou, e quem ficou em casa acompanha.</li>
+              <li>Uma lista só para a casa toda, sem item repetido nem esquecido.</li>
+              <li>Você sabe quanto vai gastar antes de sair de casa.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="como secao" id="como-funciona">
+        <div class="como__topo">
+          <h2 class="titulo">Três passos. Nenhum cadastro.</h2>
+          <p class="como__intro">
+            Não tem app para instalar nem nada novo para aprender: é uma conversa no Telegram, que você já usa.
+          </p>
+        </div>
+        <ol class="passos">
+          <li class="passo">
+            <span class="passo__numero" aria-hidden="true">01</span>
+            <div class="passo__corpo">
+              <h3>Mande a lista</h3>
+              <p>Do jeito que você escreveria num bilhete. Errou o nome? Ele pergunta “você quis dizer…?” e corrige.</p>
+            </div>
+          </li>
+          <li class="passo">
+            <span class="passo__numero" aria-hidden="true">02</span>
+            <div class="passo__corpo">
+              <h3>Escolha quanto quer gastar</h3>
+              <p>
+                Cada item vem com o preço econômico, típico e premium da sua região. Um toque troca, e o total muda na
+                hora.
+              </p>
+            </div>
+          </li>
+          <li class="passo">
+            <span class="passo__numero" aria-hidden="true">03</span>
+            <div class="passo__corpo">
+              <h3>Divida e vá às compras</h3>
+              <p>
+                Mande o link da lista para quem vai ao mercado. Lá, é só marcar o que pegou e corrigir o preço da
+                gôndola, se for diferente.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="dupla secao" id="compras-a-dois">
+        <div class="dupla__texto">
+          <p class="rotulo">Lista compartilhada</p>
+          <h2 class="titulo">Um monta a lista em casa. O outro <em>marca no corredor.</em></h2>
+          <p>
+            Toque em Compartilhar e mande o link. Quem abrir entra na mesma lista: os dois adicionam, removem e marcam
+            itens, e o total vale para os dois.
+          </p>
+          <ul class="vantagens">
+            <li>Sem ligação perguntando o que falta: está tudo na lista.</li>
+            <li>De casa, toque em Atualizar e veja o que já foi para o carrinho e a previsão do total.</li>
+            <li>Quando a compra termina, quem divide a lista recebe o valor final do carrinho.</li>
+          </ul>
+          <a class="botao botao--claro" href="https://t.me/GuiaDoMercadoBot">Criar uma lista para dividir</a>
+        </div>
+        <!-- Modo mercado como o bot mostra (mesmos itens e preços do hero) -->
+        <div class="mercado" aria-label="Exemplo de lista compartilhada no modo mercado" role="img">
+          <div class="aviso">👥 Ana entrou na sua lista de compras.</div>
+          <div class="carrinho">
+            <div class="carrinho__topo">
+              <span class="carrinho__conta">🛍️ Lista de compras · <span data-marcados>2</span> de 4 no carrinho</span>
+            </div>
+            <dl class="carrinho__contas">
+              <div><dt>No carrinho</dt><dd data-carrinho>R$ 35,57</dd></div>
+              <div><dt>Falta pegar</dt><dd data-falta>R$ 41,98</dd></div>
+              <div class="carrinho__previsao"><dt>Previsão final</dt><dd>R$ 77,55</dd></div>
+            </dl>
+            <div class="linha" data-preco="10.58">
+              <span class="linha__check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="#161925" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+              <span class="linha__nome">Leite integral 1 L ×2</span>
+              <span class="linha__preco">10,58</span>
+              <span class="linha__editar" aria-hidden="true">✏️</span>
+            </div>
+            <div class="linha" data-preco="24.99">
+              <span class="linha__check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="#161925" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+              <span class="linha__nome"><span class="so-desktop">Arroz branco tipo 1 5 kg</span><span class="so-mobile">Arroz branco 5 kg</span></span>
+              <span class="linha__preco">24,99</span>
+              <span class="linha__editar" aria-hidden="true">✏️</span>
+            </div>
+            <div class="linha linha--aberta" data-preco="23.99">
+              <span class="linha__check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="#161925" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+              <span class="linha__nome"><span class="so-desktop">Café torrado e moído 500 g</span><span class="so-mobile">Café torrado 500 g</span></span>
+              <span class="linha__preco">23,99</span>
+              <span class="linha__editar" aria-hidden="true">✏️</span>
+            </div>
+            <div class="linha linha--aberta" data-preco="17.99">
+              <span class="linha__check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="#161925" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+              <span class="linha__nome">Tomate (kg) 1 kg</span>
+              <span class="linha__preco">17,99</span>
+              <span class="linha__editar" aria-hidden="true">✏️</span>
+            </div>
+            <div class="carrinho__acoes" aria-hidden="true">
+              <span>🔄 Atualizar</span><span>🧾 Finalizar compra</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="regiao secao" id="precos">
+        <div class="regiao__texto">
+          <p class="rotulo">Preços da sua região</p>
+          <h2 class="titulo">Saiba quanto vai gastar antes de sair de casa.</h2>
+          <p>
+            O preço de Maringá não é o de Manaus. Toda semana o Guia do Mercado consulta as lojas online das redes de
+            supermercado e calcula a faixa de preço de cada item para a sua região. Quem corrige um preço no mercado
+            ajuda a deixar a estimativa ainda mais certa.
+          </p>
+        </div>
+        <ul class="numeros">
+          <li class="numero">
+            <span class="numero__valor">508</span><span class="numero__rotulo">regiões do Brasil com preço</span>
+          </li>
+          <li class="numero">
+            <span class="numero__valor">20</span><span class="numero__rotulo">redes de supermercado</span>
+          </li>
+          <li class="numero">
+            <span class="numero__valor">94</span><span class="numero__rotulo">itens da compra do dia a dia</span>
+          </li>
+          <li class="numero">
+            <span class="numero__valor">Dom.</span><span class="numero__rotulo">preços atualizados toda semana</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="privacidade secao" id="privacidade">
+        <h2 class="titulo">Sua lista é sua.</h2>
+        <ul class="garantias">
+          <li class="garantia">
+            <h3>Sem cadastro</h3>
+            <p>Não pedimos telefone, e-mail nem CPF. Você usa pelo Telegram que já tem.</p>
+          </li>
+          <li class="garantia">
+            <h3>Só o necessário</h3>
+            <p>Guardamos seu primeiro nome do Telegram, sua cidade, suas listas e os preços que você corrige.</p>
+          </li>
+          <li class="garantia">
+            <h3>Apague quando quiser</h3>
+            <p>O comando <code>/apagar_meus_dados</code> remove tudo na hora, em respeito à LGPD.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="duvidas secao" id="duvidas">
+        <h2 class="titulo">Perguntas frequentes</h2>
+        <div class="perguntas">
+          <details>
+            <summary>Quanto custa?</summary>
+            <p>Nada. O Guia do Mercado é grátis.</p>
+          </details>
+          <details>
+            <summary>Preciso instalar alguma coisa?</summary>
+            <p>Não. Ele funciona dentro do Telegram. Se você já tem Telegram no celular, é só abrir o link e mandar a lista.</p>
+          </details>
+          <details>
+            <summary>Como a outra pessoa entra na minha lista?</summary>
+            <p>
+              Na lista, toque em 👥 Compartilhar e mande o link. Quem abrir entra na mesma lista e pode adicionar,
+              remover e marcar itens. Você recebe um aviso quando a pessoa entra.
+            </p>
+          </details>
+          <details>
+            <summary>Quem ficou em casa consegue ver o que já foi comprado?</summary>
+            <p>
+              Sim. No modo mercado, toque em 🔄 Atualizar para ver o que já foi para o carrinho, quanto falta pegar e a
+              previsão do total. Quando a compra é finalizada, quem divide a lista recebe o valor final.
+            </p>
+          </details>
+          <details>
+            <summary>De onde vêm os preços?</summary>
+            <p>
+              Das lojas online de redes de supermercado, consultadas todo domingo para a sua região. É uma referência:
+              o valor no caixa pode variar, e você corrige na hora pelo ✏️.
+            </p>
+          </details>
+          <details>
+            <summary>E se eu escrever errado?</summary>
+            <p>Ele pergunta “você quis dizer…?” e você confirma com um toque. Se o item não estiver no catálogo, entra do jeito que você escreveu e você informa o preço, se quiser.</p>
+          </details>
+          <details>
+            <summary>O que acontece com os meus dados?</summary>
+            <p>
+              Guardamos só o necessário para a lista funcionar e você apaga tudo com <code>/apagar_meus_dados</code>.
+              Os detalhes estão na <a href="privacidade.html">política de privacidade</a>.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section class="final secao">
+        <h2 class="titulo">Sua próxima compra começa com uma mensagem.</h2>
+        <div class="final__acao">
+          <a class="botao botao--grande" href="https://t.me/GuiaDoMercadoBot">
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M21.5 4.5 2.9 11.7c-.9.4-.9 1.6 0 1.9l4.6 1.5 1.8 5.6c.2.7 1.1.9 1.6.4l2.6-2.5 4.9 3.6c.6.4 1.4.1 1.6-.6L22.9 5.9c.2-.9-.6-1.7-1.4-1.4Z"
+                  fill="currentColor"
+                />
+                <path d="m9.3 15.1 8.6-7.6" fill="none" style="stroke: var(--botao-fundo)" stroke-width="1.4" stroke-linecap="round" />
+              </svg>
+            Montar minha lista grátis
+          </a>
+          <p class="nota">t.me/GuiaDoMercadoBot · grátis</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape secao">
+      <p>Guia do Mercado · preços de referência das lojas online; o valor no caixa pode variar.</p>
+      <nav class="rodape__links" aria-label="Links do rodapé">
+        <a href="privacidade.html">Política de privacidade</a>
+        <a href="https://t.me/GuiaDoMercadoBot">Contato</a>
+      </nav>
+    </footer>
+
+    <script src="chat.js" defer></script>
+    <script src="mercado.js" defer></script>
+    <script>
+      const nav = document.querySelector(".nav");
+      const menu = nav.querySelector(".nav__menu");
+      menu.addEventListener("click", () => {
+        const aberta = nav.classList.toggle("nav--aberta");
+        menu.setAttribute("aria-expanded", String(aberta));
+        menu.setAttribute("aria-label", aberta ? "Fechar menu" : "Abrir menu");
+      });
+      nav.querySelectorAll(".nav__links a").forEach((a) =>
+        a.addEventListener("click", () => {
+          nav.classList.remove("nav--aberta");
+          menu.setAttribute("aria-expanded", "false");
+        }),
+      );
+    </script>
+  </body>
+</html>
