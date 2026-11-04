@@ -154,13 +154,13 @@
     pontos.classList.remove("chegou");
     status.textContent = "bot";
     balao.classList.add("chegou");
+    etiqueta.classList.add("chegou");
     await esperar(250);
     await digitar(pedacos);
     for (const l of linhas) {
       l.classList.add("chegou");
       await esperar(70);
     }
-    etiqueta.classList.add("chegou");
     await esperar(600);
     demonstrar();
   }
