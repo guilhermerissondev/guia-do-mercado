@@ -68,8 +68,11 @@ export function sugerir(texto: string, catalogo: ItemCatalogo[], limite = 4): Re
 }
 
 /** Quantidade final: para granel, o tamanho digitado vira kg ("tomate 500g" -> 0,5). */
+/** Maior peso aceito para item a granel ("arroz 99999kg" é erro de digitação). */
+export const KG_MAX = 100;
+
 export function quantidadeFinal(item: ItemCatalogo, quantidade: number, medida: Medida | null): number {
-  if (item.granel && medida && medida.unidade === "g") return Math.round((quantidade * medida.valor) / 10) / 100;
+  if (item.granel && medida && medida.unidade === "g") return Math.min(KG_MAX, Math.round((quantidade * medida.valor) / 10) / 100);
   return quantidade;
 }
 

@@ -7,15 +7,22 @@ import { Bot, type Context, InlineKeyboard } from "grammy";
 import type { UserFromGetMe } from "grammy/types";
 
 import {
-  brl, esc, ITENS_POR_PAGINA, linkDaLista, tecladoAlternativas, tecladoCompartilhar, tecladoMercado, tecladoResumo, tecladoRevisao,
+  brl, esc, ITENS_POR_PAGINA, linkDaLista, nomeCurto, tecladoAlternativas, tecladoCompartilhar, tecladoMercado, tecladoResumo, tecladoRevisao,
   textoMercado, textoResumo, textoRevisao, totais, type ItemLista,
 } from "./formato.ts";
+import { Limitador, LIMITE_PADRAO, type Limite } from "./limite.ts";
 import { alternativas, classificar } from "./montagem.ts";
 import type { NovoItem, Repo, Usuario } from "./repo.ts";
 import { quantidadeFinal, sugerir, type ItemCatalogo } from "./sugestao.ts";
 import { lerLista, lerValor, normalizar } from "./texto.ts";
 
 const MD = { parse_mode: "MarkdownV2" as const };
+
+/** Itens por mensagem e por lista: acima disso não é lista de compras, e cada item custa consultas. */
+export const MAX_ITENS_MENSAGEM = 50;
+export const MAX_ITENS_LISTA = 200;
+
+type Adicao = "ok" | "vazio" | "muitos" | "cheia";
 
 export const AJUDA = [
   "*Como usar*",
@@ -37,10 +44,22 @@ export const AJUDA = [
 
 export interface Opcoes {
   botInfo?: UserFromGetMe; // nos testes, evita a chamada getMe
+  limite?: Limite | false;  // false desliga (testes que mandam muitas atualizações seguidas)
 }
 
 export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
   const bot = new Bot(token, opcoes.botInfo ? { botInfo: opcoes.botInfo } : {});
+
+  // Ritmo por usuário, antes de qualquer acesso ao banco
+  const limitador = opcoes.limite === false ? null : new Limitador(opcoes.limite ?? LIMITE_PADRAO);
+  bot.use(async (ctx, next) => {
+    const id = ctx.from?.id;
+    if (!limitador || id === undefined || limitador.permitir(id)) return next();
+    if (!limitador.avisar(id)) return;
+    const aviso = "Muitas mensagens seguidas. Espere um minuto e tente de novo.";
+    if (ctx.callbackQuery) await ctx.answerCallbackQuery({ text: aviso }).catch(() => undefined);
+    else if (ctx.chat) await ctx.reply(aviso).catch(() => undefined);
+  });
 
   // Idempotência: o Telegram pode reenviar a mesma atualização
   bot.use(async (ctx, next) => {
@@ -63,14 +82,30 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
     return { tipo: "catalogo", texto, quantidade: c.quantidade, item: c.item, incerto: c.tipo === "incerto", faixa };
   }
 
-  async function adicionar(u: Usuario, mensagem: string): Promise<boolean> {
+  async function adicionar(u: Usuario, mensagem: string): Promise<Adicao> {
     const entradas = lerLista(mensagem);
-    if (entradas.length === 0) return false;
+    if (entradas.length === 0) return "vazio";
+    if (entradas.length > MAX_ITENS_MENSAGEM) return "muitos";
     const lista = await repo.listaAberta(u.telegramId);
+    if ((await repo.contarItens(lista.id)) + entradas.length > MAX_ITENS_LISTA) return "cheia";
     const catalogo = await repo.catalogo();
-    let ordem = await repo.proximaOrdem(lista.id);
-    for (const e of entradas) await repo.inserirItem(lista.id, ordem++, await preparar(u, e.texto, e.quantidade, catalogo));
-    return true;
+    const novos: NovoItem[] = [];
+    for (const e of entradas) novos.push(await preparar(u, e.texto, e.quantidade, catalogo));
+    // Tudo ou nada: um erro no meio não deixa metade da mensagem na lista
+    await repo.transacao(async (tx) => {
+      let ordem = await tx.proximaOrdem(lista.id);
+      for (const n of novos) await tx.inserirItem(lista.id, ordem++, n);
+    });
+    return "ok";
+  }
+
+  async function avisarAdicao(ctx: Context, r: Exclude<Adicao, "ok">): Promise<void> {
+    const texto = {
+      vazio: "Me mande os itens da lista, por exemplo: 2 leite, arroz 5kg, café",
+      muitos: `Mande até ${MAX_ITENS_MENSAGEM} itens por mensagem.`,
+      cheia: `A lista chegou ao limite de ${MAX_ITENS_LISTA} itens. Remova alguns ou comece outra com /nova.`,
+    }[r];
+    await ctx.reply(texto);
   }
 
   /** Pergunta a próxima correção pendente ou mostra a lista para ajuste. */
@@ -159,9 +194,9 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
       return;
     }
     if (r.donoId !== uid(ctx)) {
-      await ctx.reply(`👥 Você entrou na lista de ${r.donoNome ?? "quem te convidou"}. O que um de vocês fizer, o outro vê.`);
+      await ctx.reply(`👥 Você entrou na lista de ${nomeCurto(r.donoNome, "quem te convidou")}. O que um de vocês fizer, o outro vê.`);
       await bot.api
-        .sendMessage(r.donoId, `👥 ${ctx.from?.first_name ?? "Alguém"} entrou na sua lista de compras.`)
+        .sendMessage(r.donoId, `👥 ${nomeCurto(ctx.from?.first_name, "Alguém")} entrou na sua lista de compras.`)
         .catch(() => undefined); // o dono pode ter bloqueado o bot: não impede a entrada
     }
     await mostrarRevisao(ctx, 0, false);
@@ -197,6 +232,7 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
     await repo.usuario(uid(ctx));
     const pendente = (await repo.estado(uid(ctx)))?.texto ?? null;
     const r = await repo.definirMunicipio(uid(ctx), Number(ctx.match[1]));
+    if (!r) return; // município inexistente: só um botão forjado chega aqui
     await repo.limparEstado(uid(ctx));
     await ctx.editMessageText(`📍 Cidade: ${r.nome}-${r.uf}`);
     if (!r.temPrecos) {
@@ -205,7 +241,11 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
           "Até lá, uso preços do estado ou do Brasil quando houver, ou você me diz quanto costuma pagar.",
       );
     }
-    if (pendente && (await adicionar(await repo.usuario(uid(ctx)), pendente))) return continuar(ctx);
+    if (pendente) {
+      const a = await adicionar(await repo.usuario(uid(ctx)), pendente);
+      if (a === "ok") return continuar(ctx);
+      if (a !== "vazio") await avisarAdicao(ctx, a);
+    }
     await ctx.reply(AJUDA, MD);
   });
 
@@ -342,7 +382,7 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
     await repo.finalizarLista(uid(ctx));
     for (const id of outros) {
       await bot.api
-        .sendMessage(id, `🧾 ${ctx.from?.first_name ?? "Alguém"} finalizou a compra da lista que vocês dividem: ${brl(t.carrinho)} no carrinho.`)
+        .sendMessage(id, `🧾 ${nomeCurto(ctx.from?.first_name, "Alguém")} finalizou a compra da lista que vocês dividem: ${brl(t.carrinho)} no carrinho.`)
         .catch(() => undefined);
     }
     const corrigidos = await repo.aprenderComCompra(lista.id);
@@ -406,10 +446,8 @@ export function criarBot(token: string, repo: Repo, opcoes: Opcoes = {}): Bot {
       return pedirCidade(ctx, texto);
     }
 
-    if (!(await adicionar(u, texto))) {
-      await ctx.reply("Me mande os itens da lista, por exemplo: 2 leite, arroz 5kg, café");
-      return;
-    }
+    const a = await adicionar(u, texto);
+    if (a !== "ok") return avisarAdicao(ctx, a);
     await continuar(ctx);
   });
 

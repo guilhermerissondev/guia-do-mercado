@@ -2,6 +2,9 @@
 #   sudo cp deploy/guia-do-mercado-bot.service /etc/systemd/system/
 #   sudo systemctl enable --now guia-do-mercado-bot
 # Variáveis em /etc/guia-do-mercado/bot.env: TELEGRAM_BOT_TOKEN e DATABASE_URL
+# DATABASE_URL usa o papel restrito do bot (D35), nunca o dono do banco:
+#   psql -c "alter role gm_bot login password '<senha forte>'"
+#   DATABASE_URL=postgresql://gm_bot:<senha>@localhost:5432/postgres
 [Unit]
 Description=Guia do Mercado - bot do Telegram
 After=network-online.target

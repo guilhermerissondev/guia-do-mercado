@@ -6,6 +6,8 @@ import { criarBot } from "../src/bot.ts";
 import { conectar, Repo, type Sql } from "../src/repo.ts";
 
 const URL_DB = process.env.DATABASE_URL;
+// O bot conecta com o papel dele (gm_bot) quando houver; o preparo dos dados usa DATABASE_URL
+const URL_BOT = process.env.DATABASE_URL_BOT ?? URL_DB;
 const ANA = 990_000_011;
 const BETO = 990_000_012;
 const INTRUSO = 990_000_013;
@@ -15,6 +17,7 @@ interface Chamada { metodo: string; payload: any }
 
 describe.skipIf(!URL_DB)("lista compartilhada", () => {
   let sql: Sql;
+  let sqlBot: Sql;
   let bot: ReturnType<typeof criarBot>;
   let chamadas: Chamada[] = [];
   let updateId = 3_000_000 + Math.floor(Math.random() * 1_000_000);
@@ -62,10 +65,12 @@ describe.skipIf(!URL_DB)("lista compartilhada", () => {
 
   beforeAll(async () => {
     sql = conectar(URL_DB);
+    sqlBot = conectar(URL_BOT);
     for (const id of [ANA, BETO, INTRUSO]) await sql`select apagar_usuario(${id})`;
     await sql`insert into usuario (telegram_id, nome, municipio_ibge) values
       (${ANA}, 'Ana', ${MARINGA}), (${BETO}, 'Beto', ${MARINGA}), (${INTRUSO}, 'Intruso', ${MARINGA})`;
-    bot = criarBot("123:teste", new Repo(sql), {
+    bot = criarBot("123:teste", new Repo(sqlBot), {
+      limite: false,
       botInfo: { id: 1, is_bot: true, first_name: "Guia", username: "GuiaDoMercadoBot", can_join_groups: false,
                  can_read_all_group_messages: false, supports_inline_queries: false } as any,
     });
@@ -79,6 +84,7 @@ describe.skipIf(!URL_DB)("lista compartilhada", () => {
   afterAll(async () => {
     for (const id of [ANA, BETO, INTRUSO]) await sql`select apagar_usuario(${id})`;
     await sql.end();
+    await sqlBot.end();
   });
 
   let link = "";

@@ -3,10 +3,12 @@
 
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import { criarBot } from "../src/bot.ts";
+import { AJUDA, criarBot, MAX_ITENS_MENSAGEM } from "../src/bot.ts";
 import { conectar, Repo, type Sql } from "../src/repo.ts";
 
 const URL_DB = process.env.DATABASE_URL;
+// O bot conecta com o papel dele (gm_bot) quando houver; o preparo dos dados usa DATABASE_URL
+const URL_BOT = process.env.DATABASE_URL_BOT ?? URL_DB;
 const USUARIO = 990_000_001;
 const BRASILIA = 5300108; // fora do piloto de propósito
 
@@ -14,6 +16,7 @@ interface Chamada { metodo: string; payload: any }
 
 describe.skipIf(!URL_DB)("conversa com o bot", () => {
   let sql: Sql;
+  let sqlBot: Sql;
   let regiao: number;
   let chamadas: Chamada[] = [];
   let updateId = 1_000_000 + Math.floor(Math.random() * 1_000_000);
@@ -58,6 +61,7 @@ describe.skipIf(!URL_DB)("conversa com o bot", () => {
 
   beforeAll(async () => {
     sql = conectar(URL_DB);
+    sqlBot = conectar(URL_BOT);
     await sql`select apagar_usuario(${USUARIO})`;
     const [r] = await sql`select regiao_imediata_id from municipio where id = ${BRASILIA}`;
     regiao = Number(r!.regiao_imediata_id);
@@ -68,7 +72,8 @@ describe.skipIf(!URL_DB)("conversa com o bot", () => {
       ('arroz-branco-5kg', 'imediata', ${regiao}, 19.20, 25.00, 30.70, 9, 3, 40),
       ('peito-frango-kg', 'imediata', ${regiao}, 11.00, 11.50, 12.70, 4, 2, 10)`;
 
-    bot = criarBot("123:teste", new Repo(sql), {
+    bot = criarBot("123:teste", new Repo(sqlBot), {
+      limite: false,
       botInfo: { id: 1, is_bot: true, first_name: "Guia", username: "guia_teste_bot", can_join_groups: false,
                  can_read_all_group_messages: false, supports_inline_queries: false } as any,
     });
@@ -83,6 +88,7 @@ describe.skipIf(!URL_DB)("conversa com o bot", () => {
     await sql`select apagar_usuario(${USUARIO})`;
     await sql`delete from estat_preco where nivel = 'imediata' and codigo_geo = ${regiao}`;
     await sql.end();
+    await sqlBot.end();
   });
 
   it("lista mandada antes da cidade é guardada e montada depois do cadastro", async () => {
@@ -212,6 +218,47 @@ describe.skipIf(!URL_DB)("conversa com o bot", () => {
     expect(depois!.marcado).toBe(false);
     expect(depois!.perfil).toBeNull();
     await sql`select apagar_usuario(990000002)`;
+  });
+
+  it("recusa mensagem com itens demais sem gravar nada", async () => {
+    const antes = Object.keys(await itens()).length;
+    const r = await enviar(Array.from({ length: MAX_ITENS_MENSAGEM + 1 }, (_, n) => `item ${n}`).join(", "));
+    expect(textos(r)[0]).toContain(`Mande até ${MAX_ITENS_MENSAGEM} itens`);
+    expect(Object.keys(await itens()).length).toBe(antes);
+  });
+
+  it("quantidade absurda vira o máximo, sem erro", async () => {
+    const r = await enviar("999999999999 sabonete, arroz 99999kg");
+    expect(textos(r).length).toBeGreaterThan(0);
+    const i = await itens();
+    expect(Number(i["sabonete"].quantidade)).toBe(99);
+  });
+
+  it("botão de cidade forjado com município inexistente é ignorado", async () => {
+    const [antes] = await sql`select municipio_ibge from usuario where telegram_id = ${USUARIO}`;
+    await tocar("c:99999999");
+    const [depois] = await sql`select municipio_ibge from usuario where telegram_id = ${USUARIO}`;
+    expect(depois!.municipio_ibge).toBe(antes!.municipio_ibge);
+  });
+
+  it("limita o ritmo por usuário e avisa uma vez", async () => {
+    const enviados: string[] = [];
+    const lento = criarBot("123:teste", new Repo(sqlBot), {
+      limite: { max: 2, janelaMs: 60_000 },
+      botInfo: { id: 1, is_bot: true, first_name: "Guia", username: "guia_teste_bot", can_join_groups: false,
+                 can_read_all_group_messages: false, supports_inline_queries: false } as any,
+    });
+    lento.api.config.use(async (_prev, _metodo, payload) => {
+      enviados.push((payload as any).text ?? "");
+      return { ok: true, result: { message_id: messageId++, date: 0, chat, text: "" } as any };
+    });
+    for (let n = 0; n < 4; n++) {
+      await lento.handleUpdate({
+        update_id: updateId++,
+        message: { message_id: messageId++, date: 0, chat, from, text: "/ajuda", entities: [{ type: "bot_command", offset: 0, length: 6 }] },
+      } as any);
+    }
+    expect(enviados).toEqual([AJUDA, AJUDA, "Muitas mensagens seguidas. Espere um minuto e tente de novo."]);
   });
 
   it("apaga os dados do usuário", async () => {

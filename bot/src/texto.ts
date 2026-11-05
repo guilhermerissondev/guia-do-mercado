@@ -42,6 +42,9 @@ const NUMERAIS: Record<string, number> = {
   duzia: 12, "meia duzia": 6,
 };
 
+/** Maior quantidade aceita por item: acima disso é erro de digitação (e estouraria a coluna). */
+export const QTD_MAX = 99;
+
 export interface Entrada {
   texto: string;      // como o usuário escreveu, sem a quantidade
   quantidade: number;
@@ -76,7 +79,7 @@ function lerEntrada(parte: string): Entrada {
     quantidade = NUMERAIS[normalizar(porExtenso[1]!)] ?? 1;
     texto = porExtenso[2]!;
   }
-  return { texto: texto.trim(), quantidade: quantidade > 0 ? quantidade : 1 };
+  return { texto: texto.trim(), quantidade: quantidade > 0 ? Math.min(quantidade, QTD_MAX) : 1 };
 }
 
 /** Valor em reais digitado pelo usuário ("6,20", "R$ 6.2", "12"). */

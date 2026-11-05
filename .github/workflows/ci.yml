@@ -88,6 +88,7 @@ jobs:
       PGUSER: postgres
       PGPASSWORD: pw
       DATABASE_URL: postgresql://postgres:pw@localhost:5432/postgres
+      DATABASE_URL_BOT: postgresql://gm_bot:pw@localhost:5432/postgres
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -98,6 +99,7 @@ jobs:
           for f in supabase/migrations/*.sql supabase/seed/*.sql; do
             psql -v ON_ERROR_STOP=1 -q -f "$f"
           done
+          psql -qc "alter role gm_bot login password 'pw'"
       - working-directory: bot
         run: npm ci
       - working-directory: bot

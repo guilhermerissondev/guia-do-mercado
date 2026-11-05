@@ -49,12 +49,23 @@ export class Repo {
 
   constructor(readonly sql: Sql) {}
 
+  /** Roda `fn` numa transação: ou grava tudo, ou nada. */
+  async transacao<T>(fn: (repo: Repo) => Promise<T>): Promise<T> {
+    return (await this.sql.begin((tx) => fn(new Repo(tx as unknown as Sql)))) as T;
+  }
+
   // ---------------------------------------------------------------- idempotência
 
   /** true se a atualização é nova; false se o Telegram reenviou. */
   async registrarUpdate(updateId: number): Promise<boolean> {
     const r = await this.sql`insert into telegram_update (update_id) values (${updateId}) on conflict do nothing returning 1`;
     return r.length === 1;
+  }
+
+  /** O Telegram só reenvia atualizações recentes; as antigas são apagadas. */
+  async limparUpdates(): Promise<number> {
+    const [r] = await this.sql`select limpar_updates() as n`;
+    return Number(r!.n);
   }
 
   // ---------------------------------------------------------------- usuário e cidade
@@ -72,15 +83,19 @@ export class Repo {
     return r.map((m) => ({ id: Number(m.municipio_ibge), nome: m.municipio, uf: m.uf }));
   }
 
-  /** Define a cidade e ativa a coleta da região. Devolve o nome e se a região já tem preços. */
-  async definirMunicipio(telegramId: number, municipio: number): Promise<{ nome: string; uf: string; temPrecos: boolean }> {
-    await this.sql`update usuario set municipio_ibge = ${municipio}, atualizado_em = now() where telegram_id = ${telegramId}`;
-    await this.sql`select ativar_regiao(${municipio})`;
+  /**
+   * Define a cidade e ativa a coleta da região. Devolve o nome e se a região já tem preços, ou null
+   * se o município não existe (botão forjado).
+   */
+  async definirMunicipio(telegramId: number, municipio: number): Promise<{ nome: string; uf: string; temPrecos: boolean } | null> {
     const [g] = await this.sql`
       select g.municipio, g.uf,
              exists (select 1 from estat_preco e where e.nivel = 'imediata' and e.codigo_geo = g.regiao_imediata) as tem
         from geo g where g.municipio_ibge = ${municipio}`;
-    return { nome: g!.municipio, uf: g!.uf, temPrecos: g!.tem };
+    if (!g) return null;
+    await this.sql`update usuario set municipio_ibge = ${municipio}, atualizado_em = now() where telegram_id = ${telegramId}`;
+    await this.sql`select ativar_regiao(${municipio})`;
+    return { nome: g.municipio, uf: g.uf, temPrecos: g.tem };
   }
 
   // ---------------------------------------------------------------- estado da conversa
@@ -206,6 +221,12 @@ export class Repo {
       select dono_id as id from lista where id = ${listaId}
       union select telegram_id from lista_membro where lista_id = ${listaId}`;
     return r.map((x) => Number(x.id)).filter((id) => id !== exceto);
+  }
+
+  /** Itens na lista, contando os que aguardam correção e sem os removidos. */
+  async contarItens(listaId: number): Promise<number> {
+    const [r] = await this.sql`select count(*)::int as n from lista_item where lista_id = ${listaId} and removido_em is null`;
+    return Number(r!.n);
   }
 
   async proximaOrdem(listaId: number): Promise<number> {

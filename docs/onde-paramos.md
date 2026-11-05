@@ -31,6 +31,10 @@ Bot de Telegram (@GuiaDoMercadoBot) para lista de compras com faixa de preço (e
    - Política de privacidade: o bot também guarda o **primeiro nome do Telegram** (`usuario.nome`), e a política diz isso. "Contato" aponta para o próprio bot até haver um canal (e-mail) definido. Revisar com a consulta jurídica (P6) antes de abrir ao público.
 3. Pendências abertas em `decisoes.md`: P13 (441 regiões só com Atacadão; caminho é adaptador novo), P14 (adaptador VTEX FastStore, ex.: Amigão em Maringá), VPS no Brasil para produção (P5), consulta jurídica antes de abrir ao público (P6).
 
+## Segurança (5/11)
+
+Revisão das entradas do usuário (D34–D36, migração `20261105000000_seguranca.sql`). Prompt injection não se aplica enquanto não houver LLM (P9); quando houver, a saída dele deve ser só um `item_canonico_id` conferido no código. SQL já era todo parametrizado e as ações sobre itens passam por `pode_editar`. Mudou: teto de peso por usuário no aprendizado, papel `gm_bot` (o `bot/.env` local já usa), limites de ritmo e de itens, transação ao adicionar, botão de cidade forjado ignorado, nomes de terceiros encurtados, limpeza de `telegram_update`. O Postgres de dev e o de integração agora só escutam em 127.0.0.1 (o container `gm-pg-dev` foi recriado com o mesmo volume; backup em `~/gm-backups/antes-seguranca-2026-11-05.dump`).
+
 ## O que está rodando nesta máquina
 
 - **Coleta nacional refeita e concluída** (4/11, 07h15–14h30) com a busca dupla (D32) e as regras novas (D33): 651 de 653 tarefas; 2 do Atacadão (regiões 350037 e 410001) pararam em 503 e ficam para o domingo, com os preços de 3/11 valendo. 316 mil preços, **508 regiões com faixa** (antes 137), Atacadão com 79 itens por região (antes 67), Maringá com 87 de 94 itens. Script `~/gm-run/coleta-nacional.sh`, logs em `~/gm-run/`. Se a máquina reiniciar: `docker start gm-pg-dev`.
@@ -40,8 +44,8 @@ Bot de Telegram (@GuiaDoMercadoBot) para lista de compras com faixa de preço (e
 ## Como testar
 
 ```bash
-tools/test-db.sh            # SQL (6 suítes)
-tools/test-integracao.sh    # coletor (97) e bot (65) num banco descartável
+tools/test-db.sh            # SQL (7 suítes)
+tools/test-integracao.sh    # coletor (139) e bot (72, o bot como gm_bot) num banco descartável
 ```
 
 Último commit do dia: ver `git log`.

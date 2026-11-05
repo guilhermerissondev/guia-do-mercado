@@ -1,10 +1,11 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-import { brl, ITENS_POR_PAGINA, tecladoRevisao, textoResumo, totais, type ItemLista } from "../src/formato.ts";
+import { brl, ITENS_POR_PAGINA, nomeCurto, tecladoRevisao, textoResumo, totais, type ItemLista } from "../src/formato.ts";
+import { Limitador } from "../src/limite.ts";
 import { alternativas, classificar } from "../src/montagem.ts";
 import { corrigir, distancia, quantidadeFinal, sugerir, type ItemCatalogo } from "../src/sugestao.ts";
-import { lerLista, lerValor, normalizar } from "../src/texto.ts";
+import { lerLista, lerValor, normalizar, QTD_MAX } from "../src/texto.ts";
 
 const catalogo: ItemCatalogo[] = JSON.parse(
   readFileSync(new URL("./fixtures/catalogo.json", import.meta.url), "utf-8"),
@@ -235,5 +236,27 @@ describe("teclado de revisão", () => {
     const ultima = botoes(tecladoRevisao(muitos, 2, () => true));
     const ids = ultima.map((b) => (b as { callback_data?: string }).callback_data).filter((d) => d?.startsWith("d:"));
     expect(ids.length).toBe(40 - 2 * ITENS_POR_PAGINA);
+  });
+});
+
+describe("limites", () => {
+  it("quantidade digitada tem teto", () => {
+    expect(lerLista("999999999999 leite")).toEqual([{ texto: "leite", quantidade: QTD_MAX }]);
+  });
+
+  it("limitador libera depois da janela e avisa uma vez por janela", () => {
+    let t = 0;
+    const l = new Limitador({ max: 2, janelaMs: 1000 }, () => t);
+    expect([l.permitir(1), l.permitir(1), l.permitir(1)]).toEqual([true, true, false]);
+    expect(l.permitir(2)).toBe(true); // outro usuário não é afetado
+    expect([l.avisar(1), l.avisar(1)]).toEqual([true, false]);
+    t = 1001;
+    expect(l.permitir(1)).toBe(true);
+    expect(l.avisar(1)).toBe(true);
+  });
+
+  it("nome de outra pessoa sai curto", () => {
+    expect(nomeCurto("x".repeat(64), "Alguém")).toHaveLength(32);
+    expect(nomeCurto("  ", "Alguém")).toBe("Alguém");
   });
 });

@@ -208,6 +208,12 @@ export function tecladoMercado(itens: ItemLista[]): InlineKeyboard {
 }
 
 /** Escapa texto para MarkdownV2 do Telegram. */
+/** Nome do Telegram de outra pessoa, curto: quem escolhe o nome não decide o tamanho da mensagem. */
+export function nomeCurto(nome: string | null | undefined, padrao: string): string {
+  const n = (nome ?? "").replace(/\s+/g, " ").trim();
+  return n ? encurtar(n, 32) : padrao;
+}
+
 export function esc(t: string): string {
   return t.replace(/[_*[\]()~`>#+\-=|{}.!\\]/g, "\\$&");
 }

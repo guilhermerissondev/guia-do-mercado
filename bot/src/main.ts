@@ -21,7 +21,13 @@ for (const nivel of ["log", "warn", "error"] as const) {
 }
 
 const sql = conectar();
-const bot = criarBot(token, new Repo(sql));
+const repo = new Repo(sql);
+const bot = criarBot(token, repo);
+
+// Atualizações antigas do Telegram não voltam: apaga a cada hora
+const limpar = () => repo.limparUpdates().catch((e) => console.warn("não consegui limpar telegram_update:", e));
+void limpar();
+const limpeza = setInterval(limpar, 3_600_000);
 
 const COMANDOS = [
   { command: "lista", description: "Ver e ajustar a lista" },
@@ -44,6 +50,7 @@ async function registrarComandos(tentativa = 1): Promise<void> {
 }
 
 const parar = async () => {
+  clearInterval(limpeza);
   await bot.stop();
   await sql.end();
 };

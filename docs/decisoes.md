@@ -36,6 +36,9 @@
 | D31 | `/nova` de quem só participa de uma lista compartilhada apenas sai dela; só o dono fecha a lista | Evita que um participante encerre a compra dos outros |
 | D32 | O coletor busca cada item duas vezes nas lojas VTEX: pelo nome do catálogo e por uma busca curta ("café 500g", derivada das regras ou definida em `busca`) | A busca exige quase todas as palavras; no Atacadão o nome completo achou 542 produtos válidos e a curta 704 (74 → 86 itens cobertos) |
 | D33 | Item básico do catálogo exclui segmentos especiais (arbório, massa importada, café gourmet/especial, leite tipo A/A2, farinha 00, vegano, ração); eles não entram nem no premium | Nas regiões com uma rede só, essas variantes puxavam o típico: penne a R$ 10–15, arroz 1 kg a R$ 15–21 |
+| D34 | No aprendizado (M5), cada usuário soma no máximo peso 3 por categoria na janela de 90 dias; quem passa disso tem os pesos reduzidos na mesma proporção | Sem o teto, uma lista com centenas de itens corrigidos de uma pessoa só dominava o fator da região |
+| D35 | O bot conecta com o papel `gm_bot`: lê tudo e escreve só nas tabelas da conversa (usuário, listas, ajustes, fator, `regiao_coleta`); o coletor segue com o dono do banco | Uma falha futura no bot não alcança preços nem catálogo. Tabela nova que o bot escreva precisa de `grant` na migração |
+| D36 | Limites do bot: 60 atualizações por minuto por usuário (em memória), 50 itens por mensagem, 200 por lista, quantidade até 99 e granel até 100 kg; a mensagem entra inteira ou não entra (transação); `telegram_update` guarda só 2 dias | Protege o banco de abuso e de erro de digitação sem atrapalhar o uso no mercado |
 | D16 | Produto da rede guardado em `produto_rede` (com EAN opcional), não em uma tabela única por EAN | OSuper (Condor) não informa EAN |
 
 ## Pendentes
