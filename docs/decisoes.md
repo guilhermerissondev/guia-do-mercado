@@ -39,6 +39,7 @@
 | D34 | No aprendizado (M5), cada usuário soma no máximo peso 3 por categoria na janela de 90 dias; quem passa disso tem os pesos reduzidos na mesma proporção | Sem o teto, uma lista com centenas de itens corrigidos de uma pessoa só dominava o fator da região |
 | D35 | O bot conecta com o papel `gm_bot`: lê tudo e escreve só nas tabelas da conversa (usuário, listas, ajustes, fator, `regiao_coleta`); o coletor segue com o dono do banco | Uma falha futura no bot não alcança preços nem catálogo. Tabela nova que o bot escreva precisa de `grant` na migração |
 | D36 | Limites do bot: 60 atualizações por minuto por usuário (em memória), 50 itens por mensagem, 200 por lista, quantidade até 99 e granel até 100 kg; a mensagem entra inteira ou não entra (transação); `telegram_update` guarda só 2 dias | Protege o banco de abuso e de erro de digitação sem atrapalhar o uso no mercado |
+| D37 | Produção numa VPS Oracle em São Paulo (VM.Standard.E2.1.Micro, 1 GB, Oracle Linux 9): Postgres 16 nativo só em localhost (banco `guia`), bot como serviço systemd com o usuário `gm`, coleta no cron do `gm` | Sem Docker para caber em 1 GB; com swap de 2 GB e sem kdump nem `dnf-makecache.timer`, que sozinhos esgotavam a memória |
 | D16 | Produto da rede guardado em `produto_rede` (com EAN opcional), não em uma tabela única por EAN | OSuper (Condor) não informa EAN |
 
 ## Pendentes
@@ -49,7 +50,7 @@
 | P2 | Teste de IP brasileiro vs nuvem estrangeira | M3, ao montar a VPS |
 | P3 | Criar o bot no @BotFather (nome, usuário, token): ver `criar-bot-telegram.md` | Agora (checkpoint M4) |
 | P4 | Projeto Supabase criado | Antes de aplicar migrações em produção |
-| P5 | VPS no Brasil | A partir da M3 |
+| ~~P5~~ | ~~VPS no Brasil~~: resolvido (D37) | ✓ |
 | P6 | Consulta jurídica sobre coleta em sites de terceiros | Antes de abrir ao público |
 | ~~P8~~ | ~~Granel na VTEX~~: resolvido na M3, `Price` já é por kg (simulação de carrinho) | ✓ |
 | P9 | Passo de LLM para casamentos ambíguos (hoje zero na amostra; entra quando aparecer volume) | M3 ou depois |

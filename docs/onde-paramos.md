@@ -1,4 +1,4 @@
-# Onde paramos (atualizado em 2026-11-04)
+# Onde paramos (atualizado em 2026-11-07)
 
 Nota de passagem para o próximo agente ou sessão. Leia junto com `plano.md`, `decisoes.md` e `validacao-maringa.md`.
 
@@ -38,8 +38,17 @@ Revisão das entradas do usuário (D34–D36, migração `20261105000000_seguran
 ## O que está rodando nesta máquina
 
 - **Coleta nacional refeita e concluída** (4/11, 07h15–14h30) com a busca dupla (D32) e as regras novas (D33): 651 de 653 tarefas; 2 do Atacadão (regiões 350037 e 410001) pararam em 503 e ficam para o domingo, com os preços de 3/11 valendo. 316 mil preços, **508 regiões com faixa** (antes 137), Atacadão com 79 itens por região (antes 67), Maringá com 87 de 94 itens. Script `~/gm-run/coleta-nacional.sh`, logs em `~/gm-run/`. O container `gm-pg-dev` volta sozinho (`--restart unless-stopped`, 7/11).
-- **Bot** (7/11): serviço do usuário `guia-do-mercado-bot` (`~/.config/systemd/user/`, linger ligado), volta sozinho depois de reiniciar a máquina. Log em `~/gm-run/bot.log`. Comandos: `systemctl --user status|restart|stop guia-do-mercado-bot`. Só pode haver uma instância: não rodar `npm start` com o serviço ligado. Precisa de `--network-family-autoselection-attempt-timeout=3000` (rede de casa sem IPv6 e lenta para o Telegram; sem isso dá ETIMEDOUT).
+- **Bot**: saiu desta máquina em 7/11 e roda na VPS (ver abaixo). O serviço do usuário `guia-do-mercado-bot` daqui ficou desligado (`systemctl --user disable`); não religar com o da VPS ligado, o Telegram só aceita uma instância.
 - **Banco de desenvolvimento**: `tools/dev-db.sh` (Docker `gm-pg-dev`, porta 54329) tem os **preços reais**; nunca rodar testes de integração nele. Backup antes do recasamento de 4/11: `~/gm-backups/antes-recasar-2026-11-04.dump`.
+
+## Produção na VPS (7/11, D37)
+
+- Oracle Cloud São Paulo, usuário `opc` por chave SSH (IP e chave fora do repositório público). Oracle Linux 9.8, x86_64, 945 MB de RAM, swap de 2 GB.
+- **Bot**: `sudo systemctl status|restart guia-do-mercado-bot`, log em `sudo journalctl -u guia-do-mercado-bot`. Código em `/opt/guia-do-mercado` (dono `gm`), segredos em `/etc/guia-do-mercado/{bot,coleta}.env` (640 root:gm).
+- **Banco**: Postgres 16 nativo, banco `guia`, só localhost. Bot entra como `gm_bot`, coletor como `postgres` (senhas só nos `.env` da VPS). Carregado em 7/11 do dump do dev (`~/gm-backups/para-vps-2026-11-07.dump`): a partir daqui **o banco da VPS é o oficial**; o dev desta máquina deixa de receber usuários e preços novos.
+- **Coleta**: cron do usuário `gm`, domingo 12h (Brasília), log em `/var/log/guia-do-mercado-coleta.log`. Primeira coleta na VPS: 8/11; acompanhar a memória.
+- **Atualizar o código**: ainda sem push automático. Da sua máquina: `git bundle create /tmp/gm.bundle master`, copiar para a VPS e `sudo -u gm git -C /opt/guia-do-mercado pull /tmp/gm.bundle master`, depois `npm ci` no bot se mudarem dependências e `sudo systemctl restart guia-do-mercado-bot`. Com os commits no GitHub, basta `git pull`.
+- Cuidados com 1 GB: o kernel UEK reservava 448 MB para o kdump (`crashkernel`), removido com `grubby`; o `dnf-makecache.timer` (555 MB) foi desligado. Ao usar `dnf`, limitar aos repositórios `ol9_baseos_latest` e `ol9_appstream`. O Orca remoto conectado na VPS ocupa uns 320 MB.
 
 ## Como testar
 
