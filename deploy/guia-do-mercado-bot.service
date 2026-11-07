@@ -4,12 +4,14 @@
 # Variáveis em /etc/guia-do-mercado/bot.env: TELEGRAM_BOT_TOKEN e DATABASE_URL
 # DATABASE_URL usa o papel restrito do bot (D35), nunca o dono do banco:
 #   psql -c "alter role gm_bot login password '<senha forte>'"
-#   DATABASE_URL=postgresql://gm_bot:<senha>@localhost:5432/postgres
+#   DATABASE_URL=postgresql://gm_bot:<senha>@localhost:5432/guia
 [Unit]
 Description=Guia do Mercado - bot do Telegram
-After=network-online.target
+After=network-online.target postgresql.service
+Wants=network-online.target
 
 [Service]
+User=gm
 WorkingDirectory=/opt/guia-do-mercado/bot
 EnvironmentFile=/etc/guia-do-mercado/bot.env
 # O Node 22 espera só 250 ms por endereço ao tentar IPv6 e IPv4; em rede lenta
