@@ -19,6 +19,13 @@ for (const nivel of ["log", "warn", "error"] as const) {
   const original = console[nivel].bind(console);
   console[nivel] = (...args: unknown[]) => original(...args.map(mascarar));
 }
+// Sem isto o Node imprime a pilha crua (com a URL e o token) ao morrer por erro não tratado
+for (const evento of ["uncaughtException", "unhandledRejection"] as const) {
+  process.on(evento, (e) => {
+    console.error(`erro não tratado (${evento}):`, e);
+    process.exit(1);
+  });
+}
 
 const sql = conectar();
 const repo = new Repo(sql);
@@ -51,7 +58,8 @@ async function registrarComandos(tentativa = 1): Promise<void> {
 
 const parar = async () => {
   clearInterval(limpeza);
-  await bot.stop();
+  // Sem rede o stop falha; não importa, o processo vai sair de qualquer jeito
+  await bot.stop().catch((e) => console.warn("bot.stop falhou:", e));
   await sql.end();
 };
 process.once("SIGINT", parar);

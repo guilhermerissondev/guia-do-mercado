@@ -5,8 +5,8 @@
   "type": "module",
   "description": "Bot do Telegram do Guia do Mercado",
   "scripts": {
-    "dev": "node --env-file-if-exists=.env --import tsx --watch src/main.ts",
-    "start": "node --env-file-if-exists=.env --import tsx src/main.ts",
+    "dev": "node --network-family-autoselection-attempt-timeout=3000 --env-file-if-exists=.env --import tsx --watch src/main.ts",
+    "start": "node --network-family-autoselection-attempt-timeout=3000 --env-file-if-exists=.env --import tsx src/main.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

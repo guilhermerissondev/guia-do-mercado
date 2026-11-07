@@ -37,8 +37,8 @@ Revisão das entradas do usuário (D34–D36, migração `20261105000000_seguran
 
 ## O que está rodando nesta máquina
 
-- **Coleta nacional refeita e concluída** (4/11, 07h15–14h30) com a busca dupla (D32) e as regras novas (D33): 651 de 653 tarefas; 2 do Atacadão (regiões 350037 e 410001) pararam em 503 e ficam para o domingo, com os preços de 3/11 valendo. 316 mil preços, **508 regiões com faixa** (antes 137), Atacadão com 79 itens por região (antes 67), Maringá com 87 de 94 itens. Script `~/gm-run/coleta-nacional.sh`, logs em `~/gm-run/`. Se a máquina reiniciar: `docker start gm-pg-dev`.
-- **Bot** (desacoplado): `cd bot && npm start`, log em `~/gm-run/bot.log`. Só pode haver uma instância. Não volta sozinho depois de reiniciar a máquina.
+- **Coleta nacional refeita e concluída** (4/11, 07h15–14h30) com a busca dupla (D32) e as regras novas (D33): 651 de 653 tarefas; 2 do Atacadão (regiões 350037 e 410001) pararam em 503 e ficam para o domingo, com os preços de 3/11 valendo. 316 mil preços, **508 regiões com faixa** (antes 137), Atacadão com 79 itens por região (antes 67), Maringá com 87 de 94 itens. Script `~/gm-run/coleta-nacional.sh`, logs em `~/gm-run/`. O container `gm-pg-dev` volta sozinho (`--restart unless-stopped`, 7/11).
+- **Bot** (7/11): serviço do usuário `guia-do-mercado-bot` (`~/.config/systemd/user/`, linger ligado), volta sozinho depois de reiniciar a máquina. Log em `~/gm-run/bot.log`. Comandos: `systemctl --user status|restart|stop guia-do-mercado-bot`. Só pode haver uma instância: não rodar `npm start` com o serviço ligado. Precisa de `--network-family-autoselection-attempt-timeout=3000` (rede de casa sem IPv6 e lenta para o Telegram; sem isso dá ETIMEDOUT).
 - **Banco de desenvolvimento**: `tools/dev-db.sh` (Docker `gm-pg-dev`, porta 54329) tem os **preços reais**; nunca rodar testes de integração nele. Backup antes do recasamento de 4/11: `~/gm-backups/antes-recasar-2026-11-04.dump`.
 
 ## Como testar

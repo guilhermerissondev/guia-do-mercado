@@ -12,7 +12,9 @@ After=network-online.target
 [Service]
 WorkingDirectory=/opt/guia-do-mercado/bot
 EnvironmentFile=/etc/guia-do-mercado/bot.env
-ExecStart=/usr/bin/node --import tsx src/main.ts
+# O Node 22 espera só 250 ms por endereço ao tentar IPv6 e IPv4; em rede lenta
+# ou sem IPv6 isso estoura (ETIMEDOUT). 3 s resolve.
+ExecStart=/usr/bin/node --network-family-autoselection-attempt-timeout=3000 --import tsx src/main.ts
 Restart=always
 RestartSec=5
 
